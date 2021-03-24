@@ -51,7 +51,6 @@ class MainActivity : AppCompatActivity() {
 
         btn2.setOnClickListener {
             sum = count+count1
-        }
-
+        }//sadasdasdasdsd
     }
 }
