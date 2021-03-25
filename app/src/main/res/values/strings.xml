@@ -2,4 +2,5 @@
     <string name="app_name">My Application</string>
     <string name="click_me">Click Me</string>
     <string name="click_me_too">click me too</string>
+    <string name="result">Result</string>
 </resources>
