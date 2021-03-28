@@ -3,6 +3,8 @@ package com.example.myapplication
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.widget.Button
+import android.widget.EditText
+import android.widget.ImageButton
 import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
 
@@ -30,6 +32,8 @@ class MainActivity : AppCompatActivity() {
 //        field = value
 //        tvCount2.text = field.toString()
 //    }
+    private lateinit var tvText: EditText
+    private lateinit var tvButton: ImageButton
 
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -38,6 +42,15 @@ class MainActivity : AppCompatActivity() {
         val recyclerView: RecyclerView = findViewById(R.id.recyclerView)
         val viewModel = MainViewModel()
         recyclerView.adapter = NotesRecyclerViewAdapter(viewModel.notes)
+        tvText = findViewById(R.id.textView1)
+        tvButton = findViewById(R.id.button1)
+        tvButton.setOnClickListener {
+            if (tvText.text.toString() != ""){
+                viewModel.addNotes(Note(tvText.text.toString()))
+            }
+
+        }
+
 
 
 //        tvCount = findViewById(R.id.tvCount)
