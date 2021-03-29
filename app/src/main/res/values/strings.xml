@@ -3,4 +3,6 @@
     <string name="click_me">Click Me</string>
     <string name="click_me_too">click me too</string>
     <string name="result">Result</string>
+    <string name="enter_note">Enter note</string>
+    <string name="could_you_enter_note_please">Could You enter note, please</string>
 </resources>
