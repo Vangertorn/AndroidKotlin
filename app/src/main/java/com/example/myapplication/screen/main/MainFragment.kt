@@ -16,9 +16,8 @@ class MainFragment: Fragment() {
         savedInstanceState: Bundle?
     ): View? {
         viewBinding = FragmentMainBinding.bind(
-            LayoutInflater.from(context).inflate(R.layout.fragment_add_note, container, false)
+            LayoutInflater.from(context).inflate(R.layout.fragment_main, container, false)
         )
-        viewBinding.button1.setOnClickListener { this }
         return viewBinding.root
     }
 

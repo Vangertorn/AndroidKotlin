@@ -8,7 +8,7 @@ import android.view.ViewGroup
 import com.example.myapplication.R
 import com.example.myapplication.databinding.FragmentAddNoteBinding
 
-class addNote : Fragment(), View.OnClickListener {
+class addNote : Fragment() {
 
     private lateinit var viewBinding: FragmentAddNoteBinding
 
@@ -16,7 +16,7 @@ class addNote : Fragment(), View.OnClickListener {
         inflater: LayoutInflater,
         container: ViewGroup?,
         savedInstanceState: Bundle?
-    ): View? {
+    ): View {
         viewBinding = FragmentAddNoteBinding.bind(
             LayoutInflater.from(context).inflate(R.layout.fragment_add_note, container, false)
         )
@@ -24,21 +24,9 @@ class addNote : Fragment(), View.OnClickListener {
         return viewBinding.root
     }
 
-    fun translateIdToIndex(id: Int): Int {
-        var index = -1
-        when (id) {
-            viewBinding.button1.id -> index = 1
-        }
-        return index
-    }
-
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
 
 
-    }
-
-    override fun onClick(v: View?) {
-        val buttonIndex = translateIdToIndex(v!!.id)
     }
 
 }

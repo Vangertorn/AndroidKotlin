@@ -14,7 +14,8 @@
     <fragment
         android:id="@+id/startFragment"
         android:name="com.example.myapplication.screen.startfragment.StartFragment"
-        android:label="StartFragment">
+        android:label="StartFragment"
+        tools:layout="@layout/fragment_start">
         <action
             android:id="@+id/action_startFragment_to_mainFragment"
             app:destination="@id/mainFragment" />
@@ -22,7 +23,8 @@
     <fragment
         android:id="@+id/mainFragment"
         android:name="com.example.myapplication.screen.main.MainFragment"
-        android:label="MainFragment">
+        android:label="MainFragment"
+        tools:layout="@layout/fragment_main">
         <action
             android:id="@+id/action_mainFragment_to_addNote"
             app:destination="@id/addNote" />

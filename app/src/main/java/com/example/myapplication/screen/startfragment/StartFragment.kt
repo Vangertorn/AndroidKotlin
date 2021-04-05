@@ -25,6 +25,7 @@ class StartFragment: Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-//       viewBinding.root.postDelayed({findNavController().navigateSafe(StartFragmentDirections.toM)})
+//       viewBinding.root.postDelayed({findNavController().navigateSafe(StartFragmentD)})
     }
+
 }
