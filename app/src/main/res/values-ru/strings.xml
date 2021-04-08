@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">Мое приложение</string>
+    <string name="click_me">Нажми сида</string>
+    <string name="click_me_too">Нажми и сюда</string>
+    <string name="result">Результат</string>
+    <string name="enter_note">Введите заметку</string>
+    <string name="could_you_enter_note_please">Пожалуйста, введите текст заметки</string>
+    <string name="hello_blank_fragment">Hello blank fragment</string>
+    <string name="welcome">Здравствуйте</string>
+    <string name="ok">Хорошо</string>
+</resources>

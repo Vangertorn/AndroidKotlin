@@ -6,19 +6,15 @@
     app:startDestination="@+id/startFragment">
 
     <fragment
-        android:id="@+id/addNote"
-        android:name="com.example.myapplication.screen.addNote"
-        android:label="fragment_add_note"
-        tools:layout="@layout/fragment_add_note" />
-
-    <fragment
         android:id="@+id/startFragment"
         android:name="com.example.myapplication.screen.startfragment.StartFragment"
         android:label="StartFragment"
         tools:layout="@layout/fragment_start">
         <action
             android:id="@+id/action_startFragment_to_mainFragment"
-            app:destination="@id/mainFragment" />
+            app:destination="@id/mainFragment"
+            app:popUpTo="@id/nav_graph"
+            app:popUpToInclusive="true"/>
     </fragment>
     <fragment
         android:id="@+id/mainFragment"
@@ -26,7 +22,12 @@
         android:label="MainFragment"
         tools:layout="@layout/fragment_main">
         <action
-            android:id="@+id/action_mainFragment_to_addNote"
-            app:destination="@id/addNote" />
+            android:id="@+id/action_mainFragment_to_addNewNoteFragment"
+            app:destination="@id/addNewNoteFragment" />
     </fragment>
+    <fragment
+        android:id="@+id/addNewNoteFragment"
+        android:name="com.example.myapplication.screen.add_new_note.AddNewNoteFragment"
+        android:label="AddNewNoteFragment"
+        tools:layout="@layout/fragment_add_new_note"/>
 </navigation>

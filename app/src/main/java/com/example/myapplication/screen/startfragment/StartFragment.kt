@@ -8,10 +8,9 @@ import androidx.fragment.app.Fragment
 import androidx.navigation.fragment.findNavController
 import com.example.myapplication.R
 import com.example.myapplication.databinding.FragmentStartBinding
-import com.example.myapplication.screen.main.MainFragment
 import com.example.myapplication.support.navigateSafe
 
-class StartFragment: Fragment() {
+class StartFragment : Fragment() {
     private lateinit var viewBinding: FragmentStartBinding
 
     override fun onCreateView(
@@ -19,13 +18,18 @@ class StartFragment: Fragment() {
         container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-        viewBinding = FragmentStartBinding.bind(LayoutInflater.from(context).inflate(R.layout.fragment_start,container,false))
+        viewBinding = FragmentStartBinding.bind(
+            LayoutInflater.from(context).inflate(R.layout.fragment_start, container, false)
+        )
         return viewBinding.root
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-//       viewBinding.root.postDelayed({findNavController().navigateSafe(StartFragmentD)})
+        viewBinding.root.postDelayed(
+            { findNavController().navigateSafe(StartFragmentDirections.actionStartFragmentToMainFragment()) },
+            1000
+        )
     }
 
 }
