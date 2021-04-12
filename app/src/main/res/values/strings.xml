@@ -5,4 +5,9 @@
     <string name="result">Result</string>
     <string name="enter_note">Enter note</string>
     <string name="could_you_enter_note_please">Could You enter note, please</string>
+    <string name="hello_blank_fragment">Hello blank fragment</string>
+    <string name="welcome">Welcome</string>
+    <string name="ok">OK</string>
+    <string name="add_note">Add Note</string>
+    <string name="confirm">Confirm</string>
 </resources>
