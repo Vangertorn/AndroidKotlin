@@ -13,6 +13,8 @@
         <action
             android:id="@+id/action_startFragment_to_mainFragment"
             app:destination="@id/mainFragment"
+            app:enterAnim="@android:anim/fade_in"
+            app:exitAnim="@android:anim/fade_out"
             app:popUpTo="@id/nav_graph"
             app:popUpToInclusive="true"/>
     </fragment>
@@ -22,12 +24,17 @@
         android:label="MainFragment"
         tools:layout="@layout/fragment_main">
         <action
-            android:id="@+id/action_mainFragment_to_addNewNoteFragment"
-            app:destination="@id/addNewNoteFragment" />
+            android:id="@+id/toNoteDetails"
+            app:destination="@id/noteDetailsFragment" />
     </fragment>
     <fragment
-        android:id="@+id/addNewNoteFragment"
-        android:name="com.example.myapplication.screen.add_new_note.AddNewNoteFragment"
-        android:label="AddNewNoteFragment"
-        tools:layout="@layout/fragment_add_new_note"/>
+        android:id="@+id/noteDetailsFragment"
+        android:name="com.example.myapplication.screen.note_details.NoteDetailsFragment"
+        android:label="NoteDetailsFragment"
+        tools:layout="@layout/fragment_note_details">
+        <argument
+            android:name="note"
+            app:argType="com.example.myapplication.screen.main.Note"
+            app:nullable="true"/>
+    </fragment>
 </navigation>

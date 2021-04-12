@@ -3,47 +3,73 @@ package com.example.myapplication.screen.main
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.ImageView
+import androidx.recyclerview.widget.ListAdapter
 import android.widget.TextView
-import androidx.navigation.fragment.NavHostFragment.findNavController
-import androidx.navigation.fragment.findNavController
+import androidx.recyclerview.widget.DiffUtil
 
 import androidx.recyclerview.widget.RecyclerView
 import com.example.myapplication.R
-import com.example.myapplication.support.navigateSafe
 
 class NotesRecyclerViewAdapter(
-    private val items: List<Note>,
-    private val itemClick: (Int) -> Unit
-) : RecyclerView.Adapter<NoteViewHolder>() {
-    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): NoteViewHolder {
-        val view =
-            LayoutInflater.from(parent.context).inflate(R.layout.note_list_item, parent, false)
-        return NoteViewHolder(view, itemClick)
-    }
+    private val onClick: (Note) -> Unit,
+    private val onDelete: (Int) -> Unit
+) : ListAdapter<Note, NotesRecyclerViewAdapter.NoteViewHolder>(NoteAdapterDiffCallBack()) {
+
+    override fun onCreateViewHolder(
+        parent: ViewGroup,
+        viewType: Int
+    ) = NoteViewHolder(
+        LayoutInflater.from(parent.context).inflate(R.layout.note_list_item, parent, false),
+        ::onItemClick,
+        onDelete
+    )
 
     override fun onBindViewHolder(holder: NoteViewHolder, position: Int) {
-        holder.bind(items[position])
+       holder.bind(getItem(position))
     }
 
-    override fun getItemCount(): Int = items.size
+    private fun onItemClick(position: Int) {
+        onClick(getItem(position))
+    }
 
-}
+    inner class NoteViewHolder(
+        itemView: View,
+        private val itemClick: (Int) -> Unit,
+        private val itemDelete: (Int) -> Unit
+    ) : RecyclerView.ViewHolder(itemView) {
+        private val tvTitle = itemView.findViewById<TextView>(R.id.tvTitle)
+        private val tvDate = itemView.findViewById<TextView>(R.id.tvDate)
+        private val ivDelete = itemView.findViewById<ImageView>(R.id.ivRemove)
 
-class NoteViewHolder(
-    itemView: View,
-    private val itemClick: (Int) -> Unit
-) : RecyclerView.ViewHolder(itemView) {
-    private val tvTitle = itemView.findViewById<TextView>(R.id.tvTitle)
-    private val tvDate = itemView.findViewById<TextView>(R.id.tvDate)
-    fun bind(item: Note) {
-        tvTitle.text = item.title
-        tvDate.text = item.date
-        itemView.setOnClickListener {
-            itemClick(adapterPosition)
+        init {
+            itemView.setOnClickListener {
+                itemClick(adapterPosition)
+            }
+            ivDelete.setOnClickListener {
+                itemDelete(adapterPosition)
+            }
         }
 
+        fun bind(item: Note) {
+            tvTitle.text = item.title
+            tvDate.text = item.date
+
+        }
+    }
+}
+
+class NoteAdapterDiffCallBack : DiffUtil.ItemCallback<Note>() {
+    override fun areItemsTheSame(oldItem: Note, newItem: Note): Boolean {
+        return oldItem.id == newItem.id
     }
 
+    override fun areContentsTheSame(oldItem: Note, newItem: Note): Boolean {
+        return oldItem.date == newItem.date && oldItem.title == newItem.title
+    }
 
 }
+
+
+
 
