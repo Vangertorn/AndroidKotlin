@@ -10,12 +10,12 @@ import android.widget.DatePicker
 import android.widget.Toast
 import androidx.annotation.RequiresApi
 import androidx.fragment.app.Fragment
-import androidx.fragment.app.setFragmentResult
 import androidx.navigation.fragment.findNavController
 import androidx.navigation.fragment.navArgs
 import com.example.myapplication.R
 import com.example.myapplication.databinding.FragmentNoteDetailsBinding
-import com.example.myapplication.screen.main.Note
+import com.example.myapplication.models.Note
+import org.koin.android.viewmodel.ext.android.viewModel
 
 import java.text.SimpleDateFormat
 import java.util.*
@@ -25,6 +25,7 @@ class NoteDetailsFragment : Fragment() {
 
     private val dateFormatter = SimpleDateFormat("dd.MM.yyyy", Locale.getDefault())
     private val args: NoteDetailsFragmentArgs by navArgs()
+    private val viewModel: NoteDetailsViewModel by viewModel()
 
 
     override fun onCreateView(
@@ -45,13 +46,22 @@ class NoteDetailsFragment : Fragment() {
 
         viewBinding.confirm.setOnClickListener {
             if (viewBinding.textNote.text.isNotBlank()) {
-                setFragmentResult(NOTE_RESULT, Bundle().apply {
-                    putParcelable(NOTE, Note(
-                        if(args.note==null)-1 else args.note!!.id,
-                        viewBinding.textNote.text.toString(),
-                        dateFormatter.format(viewBinding.tvDate.getSelectedDate())
-                    ))
-                })
+                args.note?.let {
+                    viewModel.updateNote(
+                        Note(
+                            id = it.id,
+                            title = viewBinding.textNote.text.toString(),
+                            date = dateFormatter.format(viewBinding.tvDate.getSelectedDate())
+                        )
+                    )
+                } ?: kotlin.run {
+                    viewModel.addNewNote(
+                        Note(
+                            title = viewBinding.textNote.text.toString(),
+                            date = dateFormatter.format(viewBinding.tvDate.getSelectedDate())
+                        )
+                    )
+                }
                 findNavController().popBackStack()
 
             } else {
@@ -61,8 +71,7 @@ class NoteDetailsFragment : Fragment() {
 
         }
 
-        args.note?.let {
-            note ->
+        args.note?.let { note ->
             viewBinding.textNote.setText(note.title)
             viewBinding.tvDate.setSelectionDate(note.date)
         }
@@ -80,16 +89,17 @@ class NoteDetailsFragment : Fragment() {
         calendar.set(Calendar.MILLISECOND, 0)
         return calendar.time
     }
+
     @RequiresApi(Build.VERSION_CODES.N)
-    private fun DatePicker.setSelectionDate(date: String?){
+    private fun DatePicker.setSelectionDate(date: String?) {
         date?.let {
-            dateFormatter.parse(it)?.let {date ->
-            val calendar = Calendar.getInstance(Locale.getDefault())
-            calendar.time = date
-            val year = calendar.get(Calendar.YEAR)
-            val month = calendar.get(Calendar.MONTH)
-            val day = calendar.get(Calendar.DAY_OF_MONTH)
-            this.updateDate(year,month,day)
+            dateFormatter.parse(it)?.let { date ->
+                val calendar = Calendar.getInstance(Locale.getDefault())
+                calendar.time = date
+                val year = calendar.get(Calendar.YEAR)
+                val month = calendar.get(Calendar.MONTH)
+                val day = calendar.get(Calendar.DAY_OF_MONTH)
+                this.updateDate(year, month, day)
             }
         }
     }

@@ -10,10 +10,11 @@ import androidx.recyclerview.widget.DiffUtil
 
 import androidx.recyclerview.widget.RecyclerView
 import com.example.myapplication.R
+import com.example.myapplication.models.Note
 
 class NotesRecyclerViewAdapter(
     private val onClick: (Note) -> Unit,
-    private val onDelete: (Int) -> Unit
+    private val onDelete: (Note) -> Unit
 ) : ListAdapter<Note, NotesRecyclerViewAdapter.NoteViewHolder>(NoteAdapterDiffCallBack()) {
 
     override fun onCreateViewHolder(
@@ -22,7 +23,7 @@ class NotesRecyclerViewAdapter(
     ) = NoteViewHolder(
         LayoutInflater.from(parent.context).inflate(R.layout.note_list_item, parent, false),
         ::onItemClick,
-        onDelete
+        ::onItemDelete
     )
 
     override fun onBindViewHolder(holder: NoteViewHolder, position: Int) {
@@ -31,6 +32,9 @@ class NotesRecyclerViewAdapter(
 
     private fun onItemClick(position: Int) {
         onClick(getItem(position))
+    }
+    private fun onItemDelete(position: Int){
+        onDelete(getItem(position))
     }
 
     inner class NoteViewHolder(

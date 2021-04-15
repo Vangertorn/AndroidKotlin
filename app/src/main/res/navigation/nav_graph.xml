@@ -34,7 +34,8 @@
         tools:layout="@layout/fragment_note_details">
         <argument
             android:name="note"
-            app:argType="com.example.myapplication.screen.main.Note"
-            app:nullable="true"/>
+            app:argType="com.example.myapplication.models.Note"
+            app:nullable="true"
+            android:defaultValue="@null" />
     </fragment>
 </navigation>

@@ -17,7 +17,7 @@ class StartFragment : Fragment() {
         inflater: LayoutInflater,
         container: ViewGroup?,
         savedInstanceState: Bundle?
-    ): View? {
+    ): View {
         viewBinding = FragmentStartBinding.bind(
             LayoutInflater.from(context).inflate(R.layout.fragment_start, container, false)
         )
