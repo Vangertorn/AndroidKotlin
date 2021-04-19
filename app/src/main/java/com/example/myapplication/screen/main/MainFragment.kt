@@ -1,4 +1,4 @@
-package com.example.myapplication.screen.main
+ package com.example.myapplication.screen.main
 
 
 import android.os.Bundle
@@ -40,10 +40,12 @@ class MainFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         viewBinding.recyclerView.adapter = adapter
-        viewModel.listLiveData.observe(this.viewLifecycleOwner) {
+        viewModel.notesLiveData.observe(this.viewLifecycleOwner) {
             adapter.submitList(it)
         }
-        viewModel.invalidateList()
+        viewBinding.recyclerView.postDelayed({
+            viewBinding.recyclerView.scrollToPosition(0)
+        }, 600)
 
 
         viewBinding.btnAdd.setOnClickListener {
