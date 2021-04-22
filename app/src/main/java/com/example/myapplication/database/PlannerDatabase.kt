@@ -14,7 +14,7 @@ import com.example.myapplication.models.User
         Note::class,
         User::class
     ],
-    version = 2,
+    version = 1,
     exportSchema = false
 )
 

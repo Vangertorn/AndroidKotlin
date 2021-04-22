@@ -3,6 +3,10 @@ package com.example.myapplication
 import android.app.Application
 import com.example.myapplication.database.DatabaseConstructor
 import com.example.myapplication.database.PlannerDatabase
+import com.example.myapplication.datastore.AppSettings
+import com.example.myapplication.repository.NotesRepository
+import com.example.myapplication.repository.UsersRepository
+import com.example.myapplication.screen.enter_fragment.EnterViewModel
 import com.example.myapplication.screen.main.MainViewModel
 import com.example.myapplication.screen.note_details.NoteDetailsViewModel
 import org.koin.android.ext.koin.androidContext
@@ -15,17 +19,24 @@ class PlannerApp : Application() {
         super.onCreate()
         startKoin {
             androidContext(this@PlannerApp)
-            modules(listOf(viewModels, barnModels))
+            modules(listOf(viewModel, barnModel, repositoryModel))
         }
     }
 
-    private val viewModels = module {
-        viewModel { MainViewModel(get()) }
+    private val viewModel = module {
+        viewModel { MainViewModel(get(), get()) }
         viewModel { NoteDetailsViewModel(get()) }
+        viewModel { EnterViewModel(get()) }
     }
 
-    private val barnModels = module {
+    private val barnModel = module {
         single { DatabaseConstructor.create(get()) }
         factory { get<PlannerDatabase>().notesDao() }
+        factory { get<PlannerDatabase>().usersDao() }
+        single { AppSettings(get()) }
+    }
+    private val repositoryModel = module {
+        factory { UsersRepository(get(), get()) }
+        factory { NotesRepository(get(), get()) }
     }
 }

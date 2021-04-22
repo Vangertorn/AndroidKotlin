@@ -51,7 +51,8 @@ class NoteDetailsFragment : Fragment() {
                         Note(
                             id = it.id,
                             title = viewBinding.textNote.text.toString(),
-                            date = dateFormatter.format(viewBinding.tvDate.getSelectedDate())
+                            date = dateFormatter.format(viewBinding.tvDate.getSelectedDate()),
+                            userId = it.userId
                         )
                     )
                 } ?: kotlin.run {

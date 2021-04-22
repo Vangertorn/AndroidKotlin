@@ -1,4 +1,4 @@
- package com.example.myapplication.screen.main
+package com.example.myapplication.screen.main
 
 
 import android.os.Bundle
@@ -18,8 +18,8 @@ class MainFragment : Fragment() {
     private val viewModel: MainViewModel by viewModel()
     private val adapter = NotesRecyclerViewAdapter(
         onClick = { note ->
-        findNavController().navigateSafe(MainFragmentDirections.toNoteDetails(note))
-    },
+            findNavController().navigateSafe(MainFragmentDirections.toNoteDetails(note))
+        },
         onDelete = {
             viewModel.deleteNote(it)
         })
@@ -46,6 +46,12 @@ class MainFragment : Fragment() {
         viewBinding.recyclerView.postDelayed({
             viewBinding.recyclerView.scrollToPosition(0)
         }, 600)
+
+        viewBinding.ivLogout.setOnClickListener {
+            viewModel.logout()
+            findNavController().navigateSafe(MainFragmentDirections.actionMainFragmentToEnterFragment())
+
+        }
 
 
         viewBinding.btnAdd.setOnClickListener {
