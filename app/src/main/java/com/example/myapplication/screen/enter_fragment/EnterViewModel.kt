@@ -12,13 +12,42 @@ class EnterViewModel(private val userRepository: UsersRepository) : CoroutineVie
     val autoCompleteUserNamesLiveData = userRepository.allUserName.asLiveData()
     val logGedIn: LiveData<Boolean> = userRepository.checkUserLoggedIn().asLiveData()
     val errorLiveData = MutableLiveData<String>()
-    fun login(user: String) {
+
+    fun login(userName: String, password: String) {
         launch {
             try {
-                if (user.isNotBlank()) {
-                    userRepository.login(user)
+                if (userName.isNotBlank() && password.isNotBlank()) {
+                    userRepository.login(userName, password)
                 } else {
-                    errorLiveData.postValue("Enter user name")
+                    errorLiveData.postValue("Enter user name and password")
+                }
+            } catch (e: Exception) {
+                errorLiveData.postValue(e.message)
+            }
+        }
+    }
+
+    fun createNewUser(userName: String, password: String) {
+        launch {
+            try {
+                if (userName.isNotBlank() && password.isNotBlank()) {
+                    userRepository.createNewUser(userName, password)
+                } else {
+                    errorLiveData.postValue("Enter user name and password")
+                }
+            } catch (e: Exception) {
+                errorLiveData.postValue(e.message)
+            }
+        }
+    }
+
+    fun deleteUser(userName: String, password: String) {
+        launch {
+            try {
+                if (userName.isNotBlank() && password.isNotBlank()) {
+                    userRepository.deleteUser(userName, password)
+                } else {
+                    errorLiveData.postValue("Enter user name and password")
                 }
             } catch (e: Exception) {
                 errorLiveData.postValue(e.message)

@@ -15,6 +15,12 @@ abstract class UsersDao {
     @Delete
     abstract fun deleteUser(user: User)
 
+    @Query("SELECT * FROM table_users WHERE name==:userName and password==:password")
+    abstract fun getUser(userName: String, password: String): User
+
+    @Query("SELECT password FROM table_users WHERE name==:userName")
+    abstract fun getUserPassword(userName: String): String
+
     @Query("SELECT COUNT(*) FROM table_users WHERE name==:userName")
     abstract fun getUserCount(userName: String): Int
 

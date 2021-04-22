@@ -42,7 +42,22 @@ class EnterFragment : Fragment() {
             }
         }
         viewBinding.btnEnter.setOnClickListener {
-            viewModel.login(viewBinding.editUserName.text.toString())
+            viewModel.login(
+                viewBinding.editUserName.text.toString(),
+                viewBinding.editPassword.text.toString()
+            )
+        }
+        viewBinding.btnRegisterNewUser.setOnClickListener {
+            viewModel.createNewUser(
+                viewBinding.editUserName.text.toString(),
+                viewBinding.editPassword.text.toString()
+            )
+        }
+        viewBinding.btnDeleteUser.setOnClickListener {
+            viewModel.deleteUser(
+                viewBinding.editUserName.text.toString(),
+                viewBinding.editPassword.text.toString()
+            )
         }
         viewModel.autoCompleteUserNamesLiveData.observe(this.viewLifecycleOwner) { userNames ->
             val arrayAdapter: ArrayAdapter<String> = ArrayAdapter<String>(
