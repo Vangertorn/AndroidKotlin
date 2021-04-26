@@ -106,7 +106,6 @@ class NoteDetailsFragment : Fragment() {
     }
 
     companion object {
-        const val NOTE_RESULT = "NOTE_RESULT"
         const val NOTE = "NOTE"
     }
 

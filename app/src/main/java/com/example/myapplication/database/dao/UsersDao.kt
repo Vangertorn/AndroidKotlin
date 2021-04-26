@@ -14,6 +14,8 @@ abstract class UsersDao {
 
     @Delete
     abstract fun deleteUser(user: User)
+    @Query("SELECT * FROM table_users WHERE id == :userId")
+    abstract fun getById(userId: Long): Flow<User>
 
     @Query("SELECT * FROM table_users WHERE name==:userName and password==:password")
     abstract fun getUser(userName: String, password: String): User

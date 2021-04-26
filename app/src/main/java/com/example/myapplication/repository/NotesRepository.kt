@@ -16,6 +16,20 @@ class NotesRepository(private val notesDao: NotesDao, private val appSettings: A
             .flatMapLatest { userId ->
                 notesDao.getALLNotesFlowByUserId(userId)
             }
+    suspend fun getCurrentUserNote(): List<Note>{
+        return notesDao.getAllNotesByUserId(appSettings.userId())
+    }
+
+    suspend fun setAllNotesSyncWithCloud(){
+        withContext(Dispatchers.IO){
+            notesDao.setAllNotesSyncWithCloud()
+        }
+    }
+    suspend fun insertNotes(notes: List<Note>){
+        withContext(Dispatchers.IO){
+            notesDao.insertNotes(notes)
+        }
+    }
 
     suspend fun saveNote(note: Note) {
         withContext(Dispatchers.IO) {

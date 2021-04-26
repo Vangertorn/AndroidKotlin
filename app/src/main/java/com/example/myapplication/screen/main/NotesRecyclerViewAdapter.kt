@@ -6,6 +6,7 @@ import android.view.ViewGroup
 import android.widget.ImageView
 import androidx.recyclerview.widget.ListAdapter
 import android.widget.TextView
+import androidx.core.view.isVisible
 import androidx.recyclerview.widget.DiffUtil
 
 import androidx.recyclerview.widget.RecyclerView
@@ -45,6 +46,7 @@ class NotesRecyclerViewAdapter(
         private val tvTitle = itemView.findViewById<TextView>(R.id.tvTitle)
         private val tvDate = itemView.findViewById<TextView>(R.id.tvDate)
         private val ivDelete = itemView.findViewById<ImageView>(R.id.ivRemove)
+        private val ivCloud = itemView.findViewById<ImageView>(R.id.ivCloudIndicate)
 
         init {
             itemView.setOnClickListener {
@@ -58,6 +60,7 @@ class NotesRecyclerViewAdapter(
         fun bind(item: Note) {
             tvTitle.text = item.title
             tvDate.text = item.date
+            ivCloud.isVisible = item.cloud
 
         }
     }
@@ -69,7 +72,7 @@ class NoteAdapterDiffCallBack : DiffUtil.ItemCallback<Note>() {
     }
 
     override fun areContentsTheSame(oldItem: Note, newItem: Note): Boolean {
-        return oldItem.date == newItem.date && oldItem.title == newItem.title
+        return oldItem.date == newItem.date && oldItem.title == newItem.title &&oldItem.cloud == newItem.cloud
     }
 
 }

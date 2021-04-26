@@ -1,9 +1,11 @@
 package com.example.myapplication
 
 import android.app.Application
+import com.example.myapplication.cloud.CloudInterface
 import com.example.myapplication.database.DatabaseConstructor
 import com.example.myapplication.database.PlannerDatabase
 import com.example.myapplication.datastore.AppSettings
+import com.example.myapplication.repository.CloudRepository
 import com.example.myapplication.repository.NotesRepository
 import com.example.myapplication.repository.UsersRepository
 import com.example.myapplication.screen.enter_fragment.EnterViewModel
@@ -19,12 +21,12 @@ class PlannerApp : Application() {
         super.onCreate()
         startKoin {
             androidContext(this@PlannerApp)
-            modules(listOf(viewModel, barnModel, repositoryModel))
+            modules(listOf(viewModel, barnModel, repositoryModel, cloudModel))
         }
     }
 
     private val viewModel = module {
-        viewModel { MainViewModel(get(), get()) }
+        viewModel { MainViewModel(get(), get(), get()) }
         viewModel { NoteDetailsViewModel(get()) }
         viewModel { EnterViewModel(get()) }
     }
@@ -36,7 +38,12 @@ class PlannerApp : Application() {
         single { AppSettings(get()) }
     }
     private val repositoryModel = module {
-        factory { UsersRepository(get(), get()) }
+        factory { UsersRepository(get(), get(), get()) }
         factory { NotesRepository(get(), get()) }
+        factory { CloudRepository(get(), get(), get()) }
     }
+    private val cloudModel = module {
+        factory { CloudInterface.get() }
+    }
+
 }

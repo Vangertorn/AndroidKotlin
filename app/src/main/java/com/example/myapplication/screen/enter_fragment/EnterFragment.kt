@@ -10,6 +10,7 @@ import androidx.fragment.app.Fragment
 import androidx.navigation.fragment.findNavController
 import com.example.myapplication.R
 import com.example.myapplication.databinding.FragmentEnterBinding
+import com.example.myapplication.repository.LoginResult
 import com.example.myapplication.support.navigateSafe
 import org.koin.android.viewmodel.ext.android.viewModel
 
@@ -31,9 +32,51 @@ class EnterFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        viewModel.errorLiveData.observe(this.viewLifecycleOwner) { errorText ->
-            Toast.makeText(requireContext(), errorText, Toast.LENGTH_SHORT).show()
+        viewModel.loginResultLiveData.observe(this.viewLifecycleOwner) { loginResult ->
+            when (loginResult) {
+                LoginResult.USER_NOT_EXIST -> Toast.makeText(
+                    requireContext(),
+                    loginResult.name,
+                    Toast.LENGTH_SHORT
+                ).show()
+                LoginResult.WRONG_PASSWORD -> Toast.makeText(
+                    requireContext(),
+                    loginResult.name,
+                    Toast.LENGTH_SHORT
+                ).show()
+                LoginResult.NONE -> Unit
+                LoginResult.EMPTY_FIELDS -> Toast.makeText(
+                    requireContext(),
+                    loginResult.name,
+                    Toast.LENGTH_SHORT
+                ).show()
+                LoginResult.DELETE_COMPLETED -> {
+                    Toast.makeText(
+                        requireContext(),
+                        loginResult.name,
+                        Toast.LENGTH_SHORT
+                    ).show()
+                    viewBinding.editPassword.text.clear()
+                    viewBinding.editUserName.text.clear()
+                }
+                LoginResult.LOGIN_COMPLETED_SUCCESSFULLY -> Toast.makeText(
+                    requireContext(),
+                    loginResult.name,
+                    Toast.LENGTH_SHORT
+                ).show()
+                LoginResult.USER_CREATED_SUCCESSFUL -> Toast.makeText(
+                    requireContext(),
+                    loginResult.name,
+                    Toast.LENGTH_SHORT
+                ).show()
+                LoginResult.USER_ALREADY_EXISTS -> Toast.makeText(
+                    requireContext(),
+                    loginResult.name,
+                    Toast.LENGTH_SHORT
+                ).show()
+            }
         }
+
         viewModel.logGedIn.observe(this.viewLifecycleOwner) { loggedIn ->
             if (loggedIn) {
                 findNavController().navigateSafe(EnterFragmentDirections.actionEnterFragmentToMainFragment())
