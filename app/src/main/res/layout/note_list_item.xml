@@ -36,12 +36,20 @@
             android:layout_height="wrap_content"
             android:layout_margin="8dp"
             android:fontFamily="sans-serif"
-            android:textSize="12sp"
+            android:textSize="14sp"
             android:textStyle="bold"
             android:textColor="@color/white"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             tools:text="Something date" />
+        <ImageView
+            android:layout_width="24dp"
+            android:layout_height="24dp"
+            android:id="@+id/ivCloudIndicate"
+            android:src="@drawable/ic_cloud"
+            app:layout_constraintEnd_toStartOf="@+id/tvDate"
+            app:layout_constraintBottom_toBottomOf="@+id/tvDate"
+            android:layout_marginEnd="10dp"/>
 
         <ImageView
             android:id="@+id/ivRemove"

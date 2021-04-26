@@ -2,17 +2,18 @@ package com.example.myapplication.screen.note_details
 
 import com.example.myapplication.database.dao.NotesDao
 import com.example.myapplication.models.Note
+import com.example.myapplication.repository.NotesRepository
 import com.example.myapplication.support.CoroutineViewModel
 import kotlinx.coroutines.launch
 
-class NoteDetailsViewModel(private val notesDao: NotesDao) : CoroutineViewModel() {
+class NoteDetailsViewModel(private val notesRepository: NotesRepository) : CoroutineViewModel() {
 
     fun addNewNote(note: Note) {
-        launch { notesDao.insertNote(note) }
+        launch { notesRepository.saveNote(note) }
     }
 
     fun updateNote(note: Note) {
-        launch { notesDao.updateNote(note) }
+        launch { notesRepository.updateNote(note) }
     }
 
 }

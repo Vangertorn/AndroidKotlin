@@ -1,4 +1,4 @@
-package com.example.myapplication.screen.startfragment
+package com.example.myapplication.screen.start_fragment
 
 import com.example.myapplication.support.CoroutineViewModel
 

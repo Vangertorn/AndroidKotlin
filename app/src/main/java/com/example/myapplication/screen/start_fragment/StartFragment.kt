@@ -1,4 +1,4 @@
-package com.example.myapplication.screen.startfragment
+package com.example.myapplication.screen.start_fragment
 
 import android.os.Bundle
 import android.view.LayoutInflater
@@ -27,7 +27,7 @@ class StartFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         viewBinding.root.postDelayed(
-            { findNavController().navigateSafe(StartFragmentDirections.actionStartFragmentToMainFragment()) },
+            { findNavController().navigateSafe(StartFragmentDirections.actionStartFragmentToEnterFragment()) },
             1000
         )
     }

@@ -51,7 +51,8 @@ class NoteDetailsFragment : Fragment() {
                         Note(
                             id = it.id,
                             title = viewBinding.textNote.text.toString(),
-                            date = dateFormatter.format(viewBinding.tvDate.getSelectedDate())
+                            date = dateFormatter.format(viewBinding.tvDate.getSelectedDate()),
+                            userId = it.userId
                         )
                     )
                 } ?: kotlin.run {
@@ -105,7 +106,6 @@ class NoteDetailsFragment : Fragment() {
     }
 
     companion object {
-        const val NOTE_RESULT = "NOTE_RESULT"
         const val NOTE = "NOTE"
     }
 
