@@ -7,6 +7,7 @@ import com.example.myapplication.database.dao.UsersDao
 import com.example.myapplication.datastore.AppSettings
 import com.example.myapplication.models.User
 import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.flatMapLatest
 import kotlinx.coroutines.flow.flowOn
@@ -98,9 +99,11 @@ class UsersRepository(
         }
     }
 
+    @ExperimentalCoroutinesApi
     fun getCurrentUserFlow(): Flow<User> = appSettings.userIdFlow().flatMapLatest {
         usersDao.getById(it)
     }
+
 
     @SuppressLint("HardwareIds")
     val phoneId: String =

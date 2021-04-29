@@ -14,6 +14,7 @@ abstract class UsersDao {
 
     @Delete
     abstract fun deleteUser(user: User)
+
     @Query("SELECT * FROM table_users WHERE id == :userId")
     abstract fun getById(userId: Long): Flow<User>
 
