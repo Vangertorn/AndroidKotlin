@@ -11,7 +11,6 @@ abstract class NotesDao {
     @Insert
     abstract fun insertNote(note: Note): Long
 
-    @Insert(onConflict = OnConflictStrategy.REPLACE)
     abstract fun insertNotes(notes: List<Note>)
 
     @Update

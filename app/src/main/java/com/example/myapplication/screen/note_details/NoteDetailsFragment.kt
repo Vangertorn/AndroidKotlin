@@ -63,7 +63,7 @@ class NoteDetailsFragment : Fragment() {
                         )
                     )
                 }
-                findNavController().popBackStack()
+                findNavController().popBackStack(R.id.mainFragment,false)
 
             } else {
                 Toast.makeText(requireContext(), "Could You enter note, please", Toast.LENGTH_LONG)

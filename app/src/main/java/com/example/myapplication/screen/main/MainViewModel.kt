@@ -21,6 +21,9 @@ class MainViewModel(
     private val notesRepository: NotesRepository,
     private val usersRepository: UsersRepository
 ) : CoroutineViewModel() {
+    init {
+        userName()
+    }
 
     val progressLiveDate = MutableLiveData<Boolean>()
 
@@ -49,7 +52,8 @@ class MainViewModel(
     }
 
     fun userName() = launch {
-        userNameLiveDate.postValue(usersRepository.getCurrentUserFlow().first().name)
+        if (usersRepository.getCurrentUserFlow().first().name != null)
+            userNameLiveDate.postValue(usersRepository.getCurrentUserFlow().first().name)
     }
 
 

@@ -61,13 +61,11 @@ class MainFragment : Fragment() {
         viewBinding.ivCloud.setOnClickListener {
             showCloudDialog()
         }
-        viewModel.userName()
+
         viewModel.userNameLiveDate.observe(this.viewLifecycleOwner) {
             val name = viewBinding.userName
             name.text = it
         }
-
-
 
         viewModel.progressLiveDate.observe(this.viewLifecycleOwner) {
             if (it.not()) {

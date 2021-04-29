@@ -28,13 +28,14 @@ class NotesRecyclerViewAdapter(
     )
 
     override fun onBindViewHolder(holder: NoteViewHolder, position: Int) {
-       holder.bind(getItem(position))
+        holder.bind(getItem(position))
     }
 
     private fun onItemClick(position: Int) {
         onClick(getItem(position))
     }
-    private fun onItemDelete(position: Int){
+
+    private fun onItemDelete(position: Int) {
         onDelete(getItem(position))
     }
 
@@ -72,7 +73,7 @@ class NoteAdapterDiffCallBack : DiffUtil.ItemCallback<Note>() {
     }
 
     override fun areContentsTheSame(oldItem: Note, newItem: Note): Boolean {
-        return oldItem.date == newItem.date && oldItem.title == newItem.title &&oldItem.cloud == newItem.cloud
+        return oldItem.date == newItem.date && oldItem.title == newItem.title && oldItem.cloud == newItem.cloud
     }
 
 }
