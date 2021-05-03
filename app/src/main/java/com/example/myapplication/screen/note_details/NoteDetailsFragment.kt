@@ -52,18 +52,19 @@ class NoteDetailsFragment : Fragment() {
                             id = it.id,
                             title = viewBinding.textNote.text.toString(),
                             date = dateFormatter.format(viewBinding.tvDate.getSelectedDate()),
-                            userId = it.userId
+                            userName = it.userName
                         )
                     )
                 } ?: kotlin.run {
                     viewModel.addNewNote(
                         Note(
                             title = viewBinding.textNote.text.toString(),
-                            date = dateFormatter.format(viewBinding.tvDate.getSelectedDate())
+                            date = dateFormatter.format(viewBinding.tvDate.getSelectedDate()),
+                            userName = ""
                         )
                     )
                 }
-                findNavController().popBackStack(R.id.mainFragment,false)
+                findNavController().popBackStack(R.id.mainFragment, false)
 
             } else {
                 Toast.makeText(requireContext(), "Could You enter note, please", Toast.LENGTH_LONG)

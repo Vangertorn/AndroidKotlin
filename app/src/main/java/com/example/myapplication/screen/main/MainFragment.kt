@@ -13,12 +13,15 @@ import com.example.myapplication.R
 import com.example.myapplication.databinding.FragmentMainBinding
 import com.example.myapplication.support.navigateSafe
 import com.google.android.material.dialog.MaterialAlertDialogBuilder
+import kotlinx.coroutines.ExperimentalCoroutinesApi
 import org.koin.androidx.viewmodel.ext.android.viewModel
 
 
 class MainFragment : Fragment() {
     private lateinit var viewBinding: FragmentMainBinding
+    @ExperimentalCoroutinesApi
     private val viewModel: MainViewModel by viewModel()
+    @ExperimentalCoroutinesApi
     private val adapter = NotesRecyclerViewAdapter(
         onClick = { note ->
             findNavController().navigateSafe(MainFragmentDirections.toNoteDetails(note))
@@ -40,6 +43,7 @@ class MainFragment : Fragment() {
 
     }
 
+    @ExperimentalCoroutinesApi
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         viewBinding.recyclerView.adapter = adapter
@@ -50,16 +54,15 @@ class MainFragment : Fragment() {
             viewBinding.recyclerView.scrollToPosition(0)
         }, 600)
 
-        viewBinding.ivLogout.setOnClickListener {
-            viewModel.logout()
-            findNavController().navigateSafe(MainFragmentDirections.actionMainFragmentToEnterFragment())
-        }
 
         viewBinding.btnAdd.setOnClickListener {
             findNavController().navigateSafe(MainFragmentDirections.toNoteDetails())
         }
         viewBinding.ivCloud.setOnClickListener {
             showCloudDialog()
+        }
+        viewBinding.ivSettings.setOnClickListener {
+            findNavController().navigateSafe(MainFragmentDirections.actionMainFragmentToSettingFragment())
         }
 
         viewModel.userNameLiveDate.observe(this.viewLifecycleOwner) {
@@ -79,6 +82,7 @@ class MainFragment : Fragment() {
         }
     }
 
+    @ExperimentalCoroutinesApi
     private fun showCloudDialog() {
         MaterialAlertDialogBuilder(requireContext())
             .setTitle("Cloud storage")

@@ -16,6 +16,7 @@ import kotlinx.coroutines.flow.flowOn
 import kotlinx.coroutines.flow.map
 
 
+@ExperimentalCoroutinesApi
 class MainViewModel(
     private val cloudRepository: CloudRepository,
     private val notesRepository: NotesRepository,
@@ -29,6 +30,7 @@ class MainViewModel(
 
     val userNameLiveDate = MutableLiveData<String>()
 
+    @ExperimentalCoroutinesApi
     val notesLiveData = notesRepository.currentUserNotesFlow.asLiveData()
 
     fun deleteNote(note: Note) {
@@ -37,24 +39,21 @@ class MainViewModel(
         }
     }
 
-    fun logout() {
-        launch {
-            usersRepository.logout()
-        }
-    }
-
+    @ExperimentalCoroutinesApi
     fun exportNotes() = launch {
         progressLiveDate.postValue(cloudRepository.exportNotes())
     }
 
+    @ExperimentalCoroutinesApi
     fun importNotes() = launch {
         progressLiveDate.postValue(cloudRepository.importNotes())
     }
 
+    @ExperimentalCoroutinesApi
     fun userName() = launch {
-        if (usersRepository.getCurrentUserFlow().first().name != null)
-            userNameLiveDate.postValue(usersRepository.getCurrentUserFlow().first().name)
+        usersRepository.getCurrentUserFlow().first()?.name?.let { userNameLiveDate.postValue(it) }
     }
+
 
 
 }

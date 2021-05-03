@@ -4,29 +4,31 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent">
 
-    <androidx.appcompat.widget.Toolbar
-        android:id="@+id/toolbarEnterUser"
-        android:layout_width="match_parent"
-        android:layout_height="40dp"
-        android:background="@color/purple_200"
-        app:layout_constraintEnd_toEndOf="parent"
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Sign In"
+        android:textSize="26sp"
+        android:textColor="@color/black"
+        android:textStyle="bold"
         app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:title="Enter in application"
-        app:titleTextColor="@color/white" />
+        app:layout_constraintBottom_toTopOf="@+id/editUserName" />
 
 
     <AutoCompleteTextView
         android:id="@+id/editUserName"
         android:layout_width="match_parent"
         android:layout_height="50dp"
-        android:layout_margin="10dp"
-        android:layout_marginStart="10dp"
+        android:padding="10dp"
         android:hint="Enter Your USERNAME, please"
         android:lines="1"
-        android:paddingStart="8dp"
         android:textSize="16sp"
-        app:layout_constraintTop_toBottomOf="@id/toolbarEnterUser" />
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
 
     <com.google.android.material.textfield.TextInputLayout
         android:id="@+id/editPassword1"
@@ -34,7 +36,6 @@
         android:layout_height="wrap_content"
         app:boxBackgroundColor="@color/white"
         app:layout_constraintTop_toBottomOf="@id/editUserName"
-
         app:passwordToggleEnabled="true">
 
         <EditText
@@ -46,35 +47,29 @@
             android:textSize="16sp" />
     </com.google.android.material.textfield.TextInputLayout>
 
-    <Button
+    <androidx.appcompat.widget.AppCompatButton
         android:id="@+id/btnRegisterNewUser"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_margin="10dp"
-        android:text="New User"
+        android:text="Sing Up ->"
         android:textAllCaps="false"
-        app:layout_constraintStart_toEndOf="@+id/btnEnter"
-        app:layout_constraintTop_toBottomOf="@+id/editPassword1" />
+        android:background="@drawable/button_background"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintBottom_toBottomOf="parent"/>
 
-    <Button
-        android:id="@+id/btnEnter"
+    <androidx.appcompat.widget.AppCompatButton
+        android:id="@+id/btnLogin"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_margin="10dp"
-        android:text="Enter"
+        android:text="Login"
+        android:background="@drawable/button_background"
         android:textAllCaps="false"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/editPassword1" />
-
-    <Button
-        android:id="@+id/btnDeleteUser"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_margin="10dp"
-        android:text="Delete User"
-        android:textAllCaps="false"
-        app:layout_constraintStart_toEndOf="@+id/btnRegisterNewUser"
-        app:layout_constraintTop_toBottomOf="@+id/editPassword1" />
+        app:layout_constraintTop_toBottomOf="@+id/editPassword1"
+        app:layout_constraintEnd_toEndOf="parent"/>
 
 
 </androidx.constraintlayout.widget.ConstraintLayout>

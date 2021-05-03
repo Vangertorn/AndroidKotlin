@@ -8,9 +8,13 @@ import com.example.myapplication.datastore.AppSettings
 import com.example.myapplication.repository.CloudRepository
 import com.example.myapplication.repository.NotesRepository
 import com.example.myapplication.repository.UsersRepository
-import com.example.myapplication.screen.enter_fragment.EnterViewModel
+import com.example.myapplication.screen.enter.LoginViewModel
 import com.example.myapplication.screen.main.MainViewModel
 import com.example.myapplication.screen.note_details.NoteDetailsViewModel
+import com.example.myapplication.screen.setting.SettingViewModel
+import com.example.myapplication.screen.sign_up.SingUpViewModel
+import com.example.myapplication.screen.start.StartViewModel
+import kotlinx.coroutines.ExperimentalCoroutinesApi
 import org.koin.android.ext.koin.androidContext
 import org.koin.core.context.startKoin
 import org.koin.dsl.module
@@ -25,10 +29,14 @@ class PlannerApp : Application() {
         }
     }
 
+    @ExperimentalCoroutinesApi
     private val viewModel = module {
         viewModel { MainViewModel(get(), get(), get()) }
         viewModel { NoteDetailsViewModel(get()) }
-        viewModel { EnterViewModel(get()) }
+        viewModel { LoginViewModel(get()) }
+        viewModel { StartViewModel(get()) }
+        viewModel { SettingViewModel(get()) }
+        viewModel { SingUpViewModel(get()) }
     }
 
     private val barnModel = module {
@@ -39,7 +47,7 @@ class PlannerApp : Application() {
     }
     private val repositoryModel = module {
         factory { UsersRepository(get(), get(), get()) }
-        factory { NotesRepository(get(), get()) }
+        factory { NotesRepository(get(), get(), get()) }
         factory { CloudRepository(get(), get(), get()) }
     }
     private val cloudModel = module {
