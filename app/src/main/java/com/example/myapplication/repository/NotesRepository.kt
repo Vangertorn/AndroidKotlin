@@ -15,7 +15,8 @@ import kotlinx.coroutines.withContext
 class NotesRepository(
     private val notesDao: NotesDao,
     private val appSettings: AppSettings,
-    private val usersDao: UsersDao
+    private val usersDao: UsersDao,
+    private val notificationRepository: NotificationRepository
 ) {
 
     @ExperimentalCoroutinesApi
@@ -45,6 +46,9 @@ class NotesRepository(
 
     suspend fun saveNote(note: Note) {
         withContext(Dispatchers.IO) {
+            if (note.date !== null) {
+                notificationRepository.setNotification(note)
+            }
             notesDao.insertNote(
                 Note(
                     title = note.title,
@@ -57,12 +61,23 @@ class NotesRepository(
 
     suspend fun updateNote(note: Note) {
         withContext(Dispatchers.IO) {
+            val oldNote = notesDao.getNoteById(note.id)
+            if (oldNote.date !== null) {
+                notificationRepository.unsetNotification(oldNote)
+            }
+
             notesDao.updateNote(note)
+            if (note.date !== null) {
+                notificationRepository.setNotification(note)
+            }
         }
     }
 
     suspend fun deleteNote(note: Note) {
         withContext(Dispatchers.IO) {
+            if (note.date !== null) {
+                notificationRepository.unsetNotification(note)
+            }
             notesDao.deleteNote(note)
         }
     }

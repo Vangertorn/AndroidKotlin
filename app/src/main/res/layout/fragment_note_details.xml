@@ -17,6 +17,7 @@
         app:title="Work with note"
         app:titleTextColor="@color/white" />
 
+
     <DatePicker
         android:id="@+id/tvDate"
         android:layout_width="0dp"
@@ -25,12 +26,34 @@
         android:elevation="4dp"
         android:hint="DD.MM.YYYY"
         android:padding="20dp"
+        android:visibility="invisible"
         app:layout_constraintBottom_toTopOf="@id/confirm"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@id/textNote"
         app:layout_editor_absoluteX="100dp"
         app:layout_editor_absoluteY="150dp" />
+
+    <com.github.florent37.singledateandtimepicker.SingleDateAndTimePicker
+        android:id="@+id/tvTime"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:layout_margin="30dp"
+        app:layout_constraintBottom_toTopOf="@id/confirm"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/textNote"
+        app:picker_curved="true"
+        app:picker_curvedMaxAngle="45"
+        app:picker_cyclic="true"
+        app:picker_dayCount="62"
+        app:picker_displayYears="true"
+        app:picker_itemSpacing="6dp"
+        app:picker_mustBeOnFuture="false"
+        app:picker_selectorColor="@android:color/transparent"
+        app:picker_stepSizeHours="1"
+        app:picker_stepSizeMinutes="5"
+        app:picker_visibleItemCount="7" />
 
 
     <Button

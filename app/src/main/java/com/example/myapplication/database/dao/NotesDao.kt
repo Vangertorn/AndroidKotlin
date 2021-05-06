@@ -20,6 +20,9 @@ abstract class NotesDao {
     @Delete
     abstract fun deleteNote(note: Note)
 
+    @Query("SELECT * FROM table_notes WHERE id==:noteId LIMIT 1")
+    abstract fun getNoteById(noteId: Long): Note
+
     @Query("DELETE FROM table_notes")
     abstract fun clearTableNotes()
 

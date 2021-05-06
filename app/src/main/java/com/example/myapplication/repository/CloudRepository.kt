@@ -15,14 +15,13 @@ class CloudRepository(
 ) {
     @ExperimentalCoroutinesApi
     suspend fun exportNotes(): Boolean {
-        val user = usersRepository.getCurrentUserFlow().first()
+        val user = usersRepository.getCurrentUserFlow().first()!!
         val notes = notesRepository.getCurrentUserNote()
         val cloudUser = CloudUser(
-            userName = user!!.name
+            userName = user.name
         )
         val cloudNote = notes.map {
             CloudNote(
-                id = it.id,
                 title = it.title,
                 date = it.date
             )
@@ -34,14 +33,13 @@ class CloudRepository(
         return exportResult
     }
     suspend fun exportEmptyNotes(): Boolean {
-        val user = usersRepository.getCurrentUserFlow().first()
+        val user = usersRepository.getCurrentUserFlow().first()!!
         val notes = listOf<Note>()
         val cloudUser = CloudUser(
-            userName = user!!.name
+            userName = user.name
         )
         val cloudNote = notes.map {
             CloudNote(
-                id = it.id,
                 title = it.title,
                 date = it.date
             )
@@ -54,8 +52,8 @@ class CloudRepository(
 
     @ExperimentalCoroutinesApi
     suspend fun importNotes(): Boolean {
-        val user = usersRepository.getCurrentUserFlow().first()
-        val response = cloudInterface.importNotes(user!!.name, usersRepository.phoneId)
+        val user = usersRepository.getCurrentUserFlow().first()!!
+        val response = cloudInterface.importNotes(user.name, usersRepository.phoneId)
         val cloudNotes = response.body() ?: emptyList()
         val notes =
             cloudNotes.map {

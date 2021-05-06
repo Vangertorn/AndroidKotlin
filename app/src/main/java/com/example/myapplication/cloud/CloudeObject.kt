@@ -3,8 +3,7 @@ package com.example.myapplication.cloud
 import com.google.gson.annotations.SerializedName
 
 class CloudNote(
-    @SerializedName("id")
-    val id: Long = -1,
+
     @SerializedName("title")
     val title: String,
     @SerializedName("date")
