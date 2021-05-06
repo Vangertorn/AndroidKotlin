@@ -33,6 +33,24 @@ class CloudRepository(
         if (exportResult) notesRepository.setAllNotesSyncWithCloud()
         return exportResult
     }
+    suspend fun exportEmptyNotes(): Boolean {
+        val user = usersRepository.getCurrentUserFlow().first()
+        val notes = listOf<Note>()
+        val cloudUser = CloudUser(
+            userName = user!!.name
+        )
+        val cloudNote = notes.map {
+            CloudNote(
+                id = it.id,
+                title = it.title,
+                date = it.date
+            )
+        }
+        val exportRequestBody =
+            ExportNotesRequestBody(cloudUser, usersRepository.phoneId, cloudNote)
+        return cloudInterface.exportNotes(exportRequestBody).isSuccessful
+    }
+
 
     @ExperimentalCoroutinesApi
     suspend fun importNotes(): Boolean {

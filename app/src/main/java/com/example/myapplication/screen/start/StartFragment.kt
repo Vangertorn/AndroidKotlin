@@ -41,7 +41,7 @@ class StartFragment : Fragment() {
                 )
             } else {
                 viewBinding.startName.text = "Somebody"
-                viewBinding.root.postDelayed(
+                viewBinding.root?.postDelayed(
                     { findNavController().navigateSafe(StartFragmentDirections.actionStartFragmentToLoginFragment()) },
                     1000
                 )

@@ -22,13 +22,21 @@
         android:layout_width="match_parent"
         android:layout_height="50dp"
         android:padding="10dp"
-        android:hint="Enter Your USERNAME, please"
+        android:hint="Enter Your Username, please"
         android:lines="1"
         android:textSize="16sp"
+        android:completionThreshold="1"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        app:layout_constraintTop_toTopOf="parent"
+        android:theme="@style/Autocomplete"
+        android:imeOptions="actionNext"
+        android:inputType="text"
+
+        />
+
+
 
     <com.google.android.material.textfield.TextInputLayout
         android:id="@+id/editPassword1"

@@ -20,10 +20,13 @@
         android:id="@+id/editUserName_sign_up"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:hint="Enter Your USERNAME, please"
+        android:hint="Enter Your Username, please"
+        android:imeOptions="actionNext"
+        android:inputType="text"
         android:lines="1"
         android:padding="10dp"
         android:textSize="16sp"
+        android:theme="@style/Autocomplete"
         app:layout_constraintBottom_toTopOf="@+id/TextInputLayout_sing_up"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent" />
@@ -67,16 +70,17 @@
             android:inputType="textPassword"
             android:textSize="16sp" />
     </com.google.android.material.textfield.TextInputLayout>
+
     <androidx.appcompat.widget.AppCompatButton
         android:id="@+id/btnRegisterNewUser_sign_up"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_margin="10dp"
+        android:background="@drawable/button_background"
         android:text="Sing Up"
         android:textAllCaps="false"
-        android:background="@drawable/button_background"
-        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintBottom_toBottomOf="parent"/>
+        app:layout_constraintStart_toStartOf="parent" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

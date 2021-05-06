@@ -4,7 +4,6 @@ import android.content.Context
 import androidx.datastore.core.DataStore
 import androidx.datastore.preferences.core.Preferences
 import androidx.datastore.preferences.core.edit
-import androidx.datastore.preferences.core.longPreferencesKey
 import androidx.datastore.preferences.core.stringPreferencesKey
 import androidx.datastore.preferences.preferencesDataStore
 import com.example.myapplication.BuildConfig
@@ -18,12 +17,12 @@ private val Context.dataStore: DataStore<Preferences> by preferencesDataStore("$
 class AppSettings(context: Context) {
     private val dataStore = context.dataStore
 
-    fun userNameFlow(): Flow<String> = dataStore.data.map { preferences ->
-        preferences[stringPreferencesKey(USER_KEY)] ?: ""
+    fun userNameFlow(): Flow<String?> = dataStore.data.map { preferences ->
+        preferences[stringPreferencesKey(USER_KEY)]
 
     }
 
-    suspend fun userName():String = userNameFlow().first()
+    suspend fun userName():String? = userNameFlow().first()
 
     suspend fun setUserName(userName: String) {
         dataStore.edit { preferences ->
@@ -33,6 +32,5 @@ class AppSettings(context: Context) {
 
     companion object {
         private const val USER_KEY = "USER_KEY"
-//        private const val USER_PASSWORD = "USER_PASSWORD"
     }
 }

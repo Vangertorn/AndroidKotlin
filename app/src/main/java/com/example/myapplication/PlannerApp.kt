@@ -35,7 +35,7 @@ class PlannerApp : Application() {
         viewModel { NoteDetailsViewModel(get()) }
         viewModel { LoginViewModel(get()) }
         viewModel { StartViewModel(get()) }
-        viewModel { SettingViewModel(get()) }
+        viewModel { SettingViewModel(get(),get()) }
         viewModel { SingUpViewModel(get()) }
     }
 

@@ -22,13 +22,10 @@ class MainViewModel(
     private val notesRepository: NotesRepository,
     private val usersRepository: UsersRepository
 ) : CoroutineViewModel() {
-    init {
-        userName()
-    }
 
     val progressLiveDate = MutableLiveData<Boolean>()
 
-    val userNameLiveDate = MutableLiveData<String>()
+    val userNameLiveDate = usersRepository.userName.map { it ?: "" }.asLiveData()
 
     @ExperimentalCoroutinesApi
     val notesLiveData = notesRepository.currentUserNotesFlow.asLiveData()
@@ -48,14 +45,6 @@ class MainViewModel(
     fun importNotes() = launch {
         progressLiveDate.postValue(cloudRepository.importNotes())
     }
-
-    @ExperimentalCoroutinesApi
-    fun userName() = launch {
-        usersRepository.getCurrentUserFlow().first()?.name?.let { userNameLiveDate.postValue(it) }
-    }
-
-
-
 }
 
 

@@ -8,10 +8,8 @@ import com.example.myapplication.datastore.AppSettings
 import com.example.myapplication.models.User
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.ExperimentalCoroutinesApi
-import kotlinx.coroutines.flow.Flow
-import kotlinx.coroutines.flow.flatMapLatest
-import kotlinx.coroutines.flow.flowOn
-import kotlinx.coroutines.flow.map
+import kotlinx.coroutines.flow.*
+import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
 
 enum class LoginResult {
@@ -32,6 +30,7 @@ class UsersRepository(
 ) {
 
     val allUserName = usersDao.getAllUsersName()
+    val userName = appSettings.userNameFlow()
 
     suspend fun login(userName: String, password: String): LoginResult {
         return withContext(Dispatchers.IO) {
@@ -64,7 +63,7 @@ class UsersRepository(
     suspend fun deleteUser() {
         withContext(Dispatchers.IO) {
 
-            usersDao.deleteUser(usersDao.getUser(appSettings.userName()))
+            usersDao.deleteUser(usersDao.getUser(appSettings.userName()!!))
             logout()
         }
     }
@@ -82,7 +81,8 @@ class UsersRepository(
     }
 
     fun checkUserLoggedIn(): Flow<Boolean> {
-        return appSettings.userNameFlow().map { it.isNotEmpty() }.flowOn(Dispatchers.IO)
+        return appSettings.userNameFlow().map { it ?: "" }.map { it.isNotEmpty() }
+            .flowOn(Dispatchers.IO)
     }
 
     suspend fun logout() {
@@ -91,9 +91,10 @@ class UsersRepository(
         }
     }
 
+
     @ExperimentalCoroutinesApi
     fun getCurrentUserFlow(): Flow<User?> = appSettings.userNameFlow().flatMapLatest {
-        usersDao.getByNameFlow(it)
+        usersDao.getByNameFlow(it ?: "")
     }
 
 

@@ -4,6 +4,8 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.Toast
+import androidx.core.view.isVisible
 import androidx.fragment.app.Fragment
 import androidx.navigation.fragment.findNavController
 import com.example.myapplication.R
@@ -45,7 +47,26 @@ class SettingFragment : Fragment() {
         viewBinding.btnDeleteUser.setOnClickListener {
             showDeleteDialog()
         }
+        viewModel.progressLiveDate.observe(this.viewLifecycleOwner) {
+            if (it) {
+                Toast.makeText(
+                    requireContext(),
+                    "User deleted successfully",
+                    Toast.LENGTH_LONG
+                ).show()
+                viewBinding.indicatorProgress.isVisible = false
+                findNavController().navigateSafe(SettingFragmentDirections.actionSettingFragmentToStartFragment())
+            } else {
+                Toast.makeText(
+                    requireContext(),
+                    "User wasn't  deleted, try again",
+                    Toast.LENGTH_LONG
+                ).show()
+                viewBinding.indicatorProgress.isVisible = false
+            }
+        }
     }
+
 
     private fun showDeleteDialog() {
         MaterialAlertDialogBuilder(requireContext())
@@ -53,8 +74,8 @@ class SettingFragment : Fragment() {
             .setMessage("Are you sure? All user data will be removed from device!")
             .setPositiveButton("Yes") { dialog, _ ->
                 viewModel.deleteUser()
+                viewBinding.indicatorProgress.isVisible = true
                 dialog.cancel()
-                findNavController().navigateSafe(SettingFragmentDirections.actionSettingFragmentToStartFragment())
             }.setNegativeButton("No") { dialog, _ ->
                 dialog.cancel()
             }.show()
