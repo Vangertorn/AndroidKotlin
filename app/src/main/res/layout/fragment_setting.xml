@@ -14,7 +14,7 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
         app:navigationIcon="@drawable/ic_bac"
-        app:title="Setting"
+        app:title="@string/Setting"
         app:titleTextColor="@color/white" />
 
     <androidx.appcompat.widget.AppCompatButton
@@ -28,7 +28,7 @@
         android:drawablePadding="10dp"
         android:gravity="start|center_vertical"
         android:padding="10dp"
-        android:text="Log Out"
+        android:text="@string/log_out"
         android:textAllCaps="false"
         android:textColor="@color/text_button_color"
         android:textStyle="bold|italic"
@@ -51,7 +51,7 @@
         android:textStyle="bold|italic"
         app:layout_constraintTop_toBottomOf="@id/btnLogOut"
         tools:layout_editor_absoluteX="6dp"
-        tools:text="Delete this user" />
+        tools:text="@string/Delete_this_user" />
 
     <com.google.android.material.progressindicator.LinearProgressIndicator
         android:id="@+id/indicatorProgress"

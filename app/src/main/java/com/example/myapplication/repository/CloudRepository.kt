@@ -32,21 +32,28 @@ class CloudRepository(
         if (exportResult) notesRepository.setAllNotesSyncWithCloud()
         return exportResult
     }
+
+    @ExperimentalCoroutinesApi
     suspend fun exportEmptyNotes(): Boolean {
-        val user = usersRepository.getCurrentUserFlow().first()!!
-        val notes = listOf<Note>()
-        val cloudUser = CloudUser(
-            userName = user.name
-        )
-        val cloudNote = notes.map {
-            CloudNote(
-                title = it.title,
-                date = it.date
+        try {
+            val user = usersRepository.getCurrentUserFlow().first()
+            val notes = listOf<Note>()
+            val cloudUser = CloudUser(
+                userName = user!!.name
             )
+            val cloudNote = notes.map {
+                CloudNote(
+                    title = it.title,
+                    date = it.date
+                )
+            }
+            val exportRequestBody =
+                ExportNotesRequestBody(cloudUser, usersRepository.phoneId, cloudNote)
+            return cloudInterface.exportNotes(exportRequestBody).isSuccessful
+        } catch (e: Exception) {
+            e.printStackTrace()
+            return false
         }
-        val exportRequestBody =
-            ExportNotesRequestBody(cloudUser, usersRepository.phoneId, cloudNote)
-        return cloudInterface.exportNotes(exportRequestBody).isSuccessful
     }
 
 

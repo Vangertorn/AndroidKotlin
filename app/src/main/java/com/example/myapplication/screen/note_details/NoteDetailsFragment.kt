@@ -71,7 +71,7 @@ class NoteDetailsFragment : Fragment() {
                 findNavController().popBackStack(R.id.mainFragment, false)
 
             } else {
-                Toast.makeText(requireContext(), "Could You enter note, please", Toast.LENGTH_LONG)
+                Toast.makeText(requireContext(), getString(R.string.could_you_enter_note_please), Toast.LENGTH_LONG)
                     .show()
             }
 
@@ -87,34 +87,6 @@ class NoteDetailsFragment : Fragment() {
             noteDate = date
         }
     }
-//    @RequiresApi(Build.VERSION_CODES.N)
-//    private fun DatePicker.getSelectedDate(): Date {
-//        val calendar = Calendar.getInstance(Locale.getDefault())
-//        calendar.set(Calendar.YEAR, this.year)
-//        calendar.set(Calendar.MONTH, this.month)
-//        calendar.set(Calendar.DAY_OF_MONTH, this.dayOfMonth)
-//        calendar.set(Calendar.HOUR, 0)
-//        calendar.set(Calendar.MINUTE, 0)
-//        calendar.set(Calendar.SECOND, 0)
-//        calendar.set(Calendar.MILLISECOND, 0)
-//        return calendar.time
-//    }
-//
-//    @RequiresApi(Build.VERSION_CODES.N)
-//    private fun DatePicker.setSelectionDate(date: String?) {
-//        date?.let {
-//            dateFormatter.parse(it)?.let { date ->
-//                val calendar = Calendar.getInstance(Locale.getDefault())
-//                calendar.time = date
-//                val year = calendar.get(Calendar.YEAR)
-//                val month = calendar.get(Calendar.MONTH)
-//                val day = calendar.get(Calendar.DAY_OF_MONTH)
-//                val hour = calendar.get(Calendar.HOUR_OF_DAY)
-//                val minute = calendar.get(Calendar.MINUTE)
-//                this.updateDate(year, month, day)
-//            }
-//        }
-//    }
 
     companion object {
         const val NOTE = "NOTE"

@@ -42,23 +42,23 @@ class SingUpFragment: Fragment() {
             when (loginResult) {
                 LoginResult.PASSWORDS_DO_NOT_MATCH -> Toast.makeText(
                     requireContext(),
-                    loginResult.name,
+                    loginResult.toast,
                     Toast.LENGTH_SHORT
                 ).show()
                 LoginResult.NONE -> Unit
                 LoginResult.EMPTY_FIELDS -> Toast.makeText(
                     requireContext(),
-                    loginResult.name,
+                    loginResult.toast,
                     Toast.LENGTH_SHORT
                 ).show()
                 LoginResult.USER_CREATED_SUCCESSFUL -> Toast.makeText(
                     requireContext(),
-                    loginResult.name,
+                    loginResult.toast,
                     Toast.LENGTH_SHORT
                 ).show()
                 LoginResult.USER_ALREADY_EXISTS -> Toast.makeText(
                     requireContext(),
-                    loginResult.name,
+                    loginResult.toast,
                     Toast.LENGTH_SHORT
                 ).show()
             }

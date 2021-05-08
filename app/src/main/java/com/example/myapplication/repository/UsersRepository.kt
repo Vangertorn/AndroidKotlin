@@ -3,6 +3,7 @@ package com.example.myapplication.repository
 import android.annotation.SuppressLint
 import android.content.Context
 import android.provider.Settings
+import com.example.myapplication.R
 import com.example.myapplication.database.dao.UsersDao
 import com.example.myapplication.datastore.AppSettings
 import com.example.myapplication.models.User
@@ -12,15 +13,16 @@ import kotlinx.coroutines.flow.*
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
 
-enum class LoginResult {
-    USER_NOT_EXIST,
-    WRONG_PASSWORD,
-    NONE,
-    EMPTY_FIELDS,
-    LOGIN_COMPLETED_SUCCESSFULLY,
-    USER_ALREADY_EXISTS,
-    USER_CREATED_SUCCESSFUL,
-    PASSWORDS_DO_NOT_MATCH
+enum class LoginResult(val toast: Int) {
+
+    USER_NOT_EXIST(R.string.User_not_exist),
+    WRONG_PASSWORD(R.string.Wrong_password),
+    NONE(0),
+    EMPTY_FIELDS(R.string.Empty_fields),
+    LOGIN_COMPLETED_SUCCESSFULLY(R.string.Login_completed_successfully),
+    USER_ALREADY_EXISTS(R.string.User_already_exists),
+    USER_CREATED_SUCCESSFUL(R.string.User_created_successful),
+    PASSWORDS_DO_NOT_MATCH(R.string.Passwords_do_not_match);
 }
 
 class UsersRepository(
@@ -63,7 +65,7 @@ class UsersRepository(
     suspend fun deleteUser() {
         withContext(Dispatchers.IO) {
 
-            usersDao.deleteUser(usersDao.getUser(appSettings.userName()!!))
+            usersDao.deleteUser(usersDao.getUser(appSettings.userName()))
             logout()
         }
     }
@@ -81,7 +83,7 @@ class UsersRepository(
     }
 
     fun checkUserLoggedIn(): Flow<Boolean> {
-        return appSettings.userNameFlow().map { it ?: "" }.map { it.isNotEmpty() }
+        return appSettings.userNameFlow().map { it}.map { it.isNotEmpty() }
             .flowOn(Dispatchers.IO)
     }
 
@@ -94,7 +96,7 @@ class UsersRepository(
 
     @ExperimentalCoroutinesApi
     fun getCurrentUserFlow(): Flow<User?> = appSettings.userNameFlow().flatMapLatest {
-        usersDao.getByNameFlow(it ?: "")
+        usersDao.getByNameFlow(it)
     }
 
 

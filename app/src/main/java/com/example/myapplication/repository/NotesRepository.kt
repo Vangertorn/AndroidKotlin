@@ -23,11 +23,11 @@ class NotesRepository(
     val currentUserNotesFlow: Flow<List<Note>> =
         appSettings.userNameFlow()
             .flatMapLatest { userName ->
-                usersDao.getUserInfoFlow(userName!!).map { it?.notes ?: emptyList() }
+                usersDao.getUserInfoFlow(userName).map { it?.notes ?: emptyList() }
             }
 
     suspend fun getCurrentUserNote(): List<Note> {
-        return usersDao.getUserInfo(appSettings.userName()!!)?.notes ?: emptyList()
+        return usersDao.getUserInfo(appSettings.userName())?.notes ?: emptyList()
     }
 
     suspend fun setAllNotesSyncWithCloud() {
@@ -53,7 +53,7 @@ class NotesRepository(
                 Note(
                     title = note.title,
                     date = note.date,
-                    userName = appSettings.userName()!!
+                    userName = appSettings.userName()
                 )
             )
         }

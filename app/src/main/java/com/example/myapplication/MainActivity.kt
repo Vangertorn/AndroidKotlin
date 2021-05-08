@@ -43,7 +43,7 @@ class MainActivity : AppCompatActivity() {
                 return
             }
             this.doubleBackToExitPressedOnce = true
-            Toast.makeText(this, "Press \"back\" again to exit", Toast.LENGTH_SHORT).show()
+            Toast.makeText(this, getString(R.string.Press_back), Toast.LENGTH_SHORT).show()
             handler.postDelayed(Runnable { doubleBackToExitPressedOnce = false }, 2000)
         } else navController.popBackStack()
     }

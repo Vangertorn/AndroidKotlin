@@ -17,12 +17,12 @@ private val Context.dataStore: DataStore<Preferences> by preferencesDataStore("$
 class AppSettings(context: Context) {
     private val dataStore = context.dataStore
 
-    fun userNameFlow(): Flow<String?> = dataStore.data.map { preferences ->
-        preferences[stringPreferencesKey(USER_KEY)]
+    fun userNameFlow(): Flow<String> = dataStore.data.map { preferences ->
+        preferences[stringPreferencesKey(USER_KEY)] ?:""
 
     }
 
-    suspend fun userName():String? = userNameFlow().first()
+    suspend fun userName():String = userNameFlow().first()
 
     suspend fun setUserName(userName: String) {
         dataStore.edit { preferences ->

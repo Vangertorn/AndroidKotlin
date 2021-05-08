@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="utf-8"?>
+<TextView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@drawable/dialog_item_background"
+    android:drawablePadding="8dp"
+    android:drawableTint="@color/purple_500"
+    android:ellipsize="marquee"
+    android:gravity="center_vertical"
+    android:minHeight="?android:attr/listPreferredItemHeight"
+    android:paddingStart="15dp"
+    android:paddingEnd="15dp"
+    android:textColor="@color/black"
+    app:drawableStartCompat="@drawable/ic_user"
+    app:layout_constraintCircleRadius="20dp"
+    tools:text="gismo">
+
+</TextView>

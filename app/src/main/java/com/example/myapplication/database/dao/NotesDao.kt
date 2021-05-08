@@ -1,9 +1,7 @@
 package com.example.myapplication.database.dao
 
-import androidx.lifecycle.LiveData
 import androidx.room.*
 import com.example.myapplication.models.Note
-import kotlinx.coroutines.flow.Flow
 
 
 @Dao

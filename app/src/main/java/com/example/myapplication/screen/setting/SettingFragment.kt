@@ -1,5 +1,6 @@
 package com.example.myapplication.screen.setting
 
+import android.annotation.SuppressLint
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
@@ -12,6 +13,7 @@ import com.example.myapplication.R
 import com.example.myapplication.databinding.FragmentSettingBinding
 import com.example.myapplication.support.navigateSafe
 import com.google.android.material.dialog.MaterialAlertDialogBuilder
+import kotlinx.coroutines.runBlocking
 import org.koin.android.viewmodel.ext.android.viewModel
 
 class SettingFragment : Fragment() {
@@ -29,10 +31,13 @@ class SettingFragment : Fragment() {
         return viewBinding.root
     }
 
+
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         viewBinding.btnLogOut.setOnClickListener {
-            viewModel.logout()
+           runBlocking {
+               viewModel.logout()
+           }
             findNavController().navigateSafe(SettingFragmentDirections.actionSettingFragmentToStartFragment())
         }
         viewBinding.settingToolbar.setNavigationOnClickListener {
@@ -41,7 +46,7 @@ class SettingFragment : Fragment() {
 
         viewModel.userNameLiveDate.observe(this.viewLifecycleOwner) {
 
-            viewBinding.btnDeleteUser.text = "Delete user \"$it\""
+            viewBinding.btnDeleteUser.text = getString(R.string.Delete_this_user) +"\t"+"$it\""
         }
 
         viewBinding.btnDeleteUser.setOnClickListener {
@@ -51,7 +56,7 @@ class SettingFragment : Fragment() {
             if (it) {
                 Toast.makeText(
                     requireContext(),
-                    "User deleted successfully",
+                    getString(R.string.User_deleted_successfully),
                     Toast.LENGTH_LONG
                 ).show()
                 viewBinding.indicatorProgress.isVisible = false
@@ -59,7 +64,7 @@ class SettingFragment : Fragment() {
             } else {
                 Toast.makeText(
                     requireContext(),
-                    "User wasn't  deleted, try again",
+                    getString(R.string.User_not_delete),
                     Toast.LENGTH_LONG
                 ).show()
                 viewBinding.indicatorProgress.isVisible = false
@@ -70,13 +75,13 @@ class SettingFragment : Fragment() {
 
     private fun showDeleteDialog() {
         MaterialAlertDialogBuilder(requireContext())
-            .setTitle("Cloud storage")
-            .setMessage("Are you sure? All user data will be removed from device!")
-            .setPositiveButton("Yes") { dialog, _ ->
+            .setTitle(getString(R.string.Cloud_storage))
+            .setMessage(getString(R.string.Agree_at_delete))
+            .setPositiveButton(getString(R.string.Yes)) { dialog, _ ->
                 viewModel.deleteUser()
                 viewBinding.indicatorProgress.isVisible = true
                 dialog.cancel()
-            }.setNegativeButton("No") { dialog, _ ->
+            }.setNegativeButton(getString(R.string.No)) { dialog, _ ->
                 dialog.cancel()
             }.show()
 

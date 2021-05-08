@@ -14,7 +14,13 @@
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        app:layout_constraintTop_toTopOf="parent"
+        android:shadowDx="2"
+        android:shadowDy="2"
+        android:shadowRadius="5"
+        android:gravity="center"
+        android:shadowColor="@color/purple_500"
+        tools:text="Добро пожаловать"/>
 
     <TextView
         android:id="@+id/startName"

@@ -29,6 +29,6 @@ class NotificationReceiver : BroadcastReceiver() {
         mBuilder.setAutoCancel(true)
         val mNotificationManager =
             context.getSystemService(Context.NOTIFICATION_SERVICE) as NotificationManager
-        mNotificationManager.notify(1, mBuilder.build())
+        mNotificationManager.notify(0, mBuilder.build())
     }
 }

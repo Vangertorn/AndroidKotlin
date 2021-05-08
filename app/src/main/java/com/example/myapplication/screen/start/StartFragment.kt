@@ -40,12 +40,21 @@ class StartFragment : Fragment() {
                     1000
                 )
             } else {
-                viewBinding.startName.text = "Somebody"
-                viewBinding.root?.postDelayed(
+                viewBinding.root.postDelayed(
                     { findNavController().navigateSafe(StartFragmentDirections.actionStartFragmentToLoginFragment()) },
                     1000
                 )
             }
+        }
+    }
+
+    override fun onDestroy() {
+        super.onDestroy()
+        viewBinding.root.removeCallbacks {
+            findNavController().navigateSafe(StartFragmentDirections.actionStartFragmentToLoginFragment())
+        }
+        viewBinding.root.removeCallbacks {
+            findNavController().navigateSafe(StartFragmentDirections.actionStartFragmentToMainFragment())
         }
 
     }

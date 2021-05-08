@@ -74,7 +74,7 @@ class MainFragment : Fragment() {
             if (it.not()) {
                 Toast.makeText(
                     requireContext(),
-                    "Failed to perform cloud operation",
+                    getString(R.string.Failed_to_perform_cloud_operation),
                     Toast.LENGTH_LONG
                 ).show()
             }
@@ -85,13 +85,13 @@ class MainFragment : Fragment() {
     @ExperimentalCoroutinesApi
     private fun showCloudDialog() {
         MaterialAlertDialogBuilder(requireContext())
-            .setTitle("Cloud storage")
-            .setMessage("Please, pick cloud action")
-            .setPositiveButton("Import") { dialog, _ ->
+            .setTitle(getString(R.string.Cloud_storage))
+            .setMessage(getString(R.string.pick_cloud_action))
+            .setPositiveButton(getString(R.string.Import)) { dialog, _ ->
                 viewBinding.indicatorProgress.isVisible = true
                 viewModel.importNotes()
                 dialog.cancel()
-            }.setNegativeButton("Export") { dialog, _ ->
+            }.setNegativeButton(getString(R.string.Export)) { dialog, _ ->
                 viewBinding.indicatorProgress.isVisible = true
                 viewModel.exportNotes()
                 dialog.cancel()

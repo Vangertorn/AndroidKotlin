@@ -37,33 +37,33 @@ class LoginFragment : Fragment() {
             when (loginResult) {
                 LoginResult.USER_NOT_EXIST -> Toast.makeText(
                     requireContext(),
-                    loginResult.name,
+                    loginResult.toast,
                     Toast.LENGTH_SHORT
                 ).show()
                 LoginResult.WRONG_PASSWORD -> Toast.makeText(
                     requireContext(),
-                    loginResult.name,
+                    loginResult.toast,
                     Toast.LENGTH_SHORT
                 ).show()
                 LoginResult.NONE -> Unit
                 LoginResult.EMPTY_FIELDS -> Toast.makeText(
                     requireContext(),
-                    loginResult.name,
+                    loginResult.toast,
                     Toast.LENGTH_SHORT
                 ).show()
                 LoginResult.LOGIN_COMPLETED_SUCCESSFULLY -> Toast.makeText(
                     requireContext(),
-                    loginResult.name,
+                    loginResult.toast,
                     Toast.LENGTH_SHORT
                 ).show()
                 LoginResult.USER_CREATED_SUCCESSFUL -> Toast.makeText(
                     requireContext(),
-                    loginResult.name,
+                    loginResult.toast,
                     Toast.LENGTH_SHORT
                 ).show()
                 LoginResult.USER_ALREADY_EXISTS -> Toast.makeText(
                     requireContext(),
-                    loginResult.name,
+                    loginResult.toast,
                     Toast.LENGTH_SHORT
                 ).show()
             }
@@ -88,7 +88,7 @@ class LoginFragment : Fragment() {
         viewModel.autoCompleteUserNamesLiveData.observe(this.viewLifecycleOwner) { userNames ->
             val arrayAdapter: ArrayAdapter<String> = ArrayAdapter<String>(
                 requireContext(),
-                android.R.layout.select_dialog_multichoice,
+                R.layout.select_dialog_item,
                 userNames
             )
             viewBinding.editUserName.setAdapter(arrayAdapter)
