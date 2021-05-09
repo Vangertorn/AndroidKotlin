@@ -51,10 +51,7 @@ class NotesRepository(
 
     suspend fun saveNote(note: Note) {
         withContext(Dispatchers.IO) {
-            if (note.alarmEnabled) {
-                notificationRepository.setNotification(note)
-            }
-            notesDao.insertNote(
+            val id = notesDao.insertNote(
                 Note(
                     title = note.title,
                     date = note.date,
@@ -62,12 +59,15 @@ class NotesRepository(
                     alarmEnabled = note.alarmEnabled
                 )
             )
+            if (note.alarmEnabled) {
+                notificationRepository.setNotification(notesDao.getNoteById(id)!!)
+            }
         }
     }
 
     suspend fun updateNote(note: Note) {
         withContext(Dispatchers.IO) {
-            notesDao.getNoteById(note.id).let { oldNote ->
+            notesDao.getNoteById(note.id)?.let { oldNote ->
                 notificationRepository.unsetNotification(oldNote)
             }
             notesDao.updateNote(note)
@@ -83,6 +83,27 @@ class NotesRepository(
                 notificationRepository.unsetNotification(note)
             }
             notesDao.deleteNote(note)
+        }
+    }
+
+    suspend fun deleteNoteByID(noteId: Long) {
+        withContext(Dispatchers.IO) {
+            notesDao.getNoteById(noteId)?.let {
+                notificationRepository.unsetNotification(it)
+                notesDao.deleteNote(it)
+            }
+        }
+    }
+
+    suspend fun postponeNoteById(noteId: Long) {
+        withContext(Dispatchers.IO) {
+            notesDao.getNoteById(noteId)?.let {
+                notificationRepository.unsetNotification(it)
+                val postponeNote = notificationRepository.postponeNoteTimeByFiveMinutes(it)
+                notesDao.updateNote(postponeNote)
+                notificationRepository.setNotification(postponeNote)
+
+            }
         }
     }
 }

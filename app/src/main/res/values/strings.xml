@@ -39,4 +39,6 @@
     <string name="rename_username">Rename username</string>
     <string name="enter_new_username">Enter new username</string>
     <string name="rename">Rename</string>
+    <string name="hi">Hi</string>
+    <string name="remind_you">Remind you:</string>
 </resources>
