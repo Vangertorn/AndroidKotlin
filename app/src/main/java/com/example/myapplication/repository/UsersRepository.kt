@@ -70,6 +70,13 @@ class UsersRepository(
         }
     }
 
+    suspend fun renameUser(newName: String, oldName: String) {
+        withContext(Dispatchers.IO) {
+            usersDao.renameUser(newName,oldName)
+            appSettings.setUserName(newName)
+        }
+    }
+
     private suspend fun checkUserPassword(userName: String, password: String): Boolean {
         return withContext(Dispatchers.IO) {
             usersDao.getUserPassword(userName) == password
@@ -83,7 +90,7 @@ class UsersRepository(
     }
 
     fun checkUserLoggedIn(): Flow<Boolean> {
-        return appSettings.userNameFlow().map { it}.map { it.isNotEmpty() }
+        return appSettings.userNameFlow().map { it }.map { it.isNotEmpty() }
             .flowOn(Dispatchers.IO)
     }
 
@@ -95,7 +102,7 @@ class UsersRepository(
 
 
     @ExperimentalCoroutinesApi
-    fun getCurrentUserFlow(): Flow<User?> = appSettings.userNameFlow().flatMapLatest {
+    fun getCurrentUserFlow(): Flow<User> = appSettings.userNameFlow().flatMapLatest {
         usersDao.getByNameFlow(it)
     }
 

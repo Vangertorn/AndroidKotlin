@@ -35,4 +35,8 @@
     <string name="User_already_exists">User already exists</string>
     <string name="User_created_successful">User created successful</string>
     <string name="Passwords_do_not_match">Passwords do not match</string>
+    <string name="notify">Notify</string>
+    <string name="rename_username">Rename username</string>
+    <string name="enter_new_username">Enter new username</string>
+    <string name="rename">Rename</string>
 </resources>

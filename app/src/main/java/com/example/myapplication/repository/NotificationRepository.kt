@@ -15,7 +15,11 @@ class NotificationRepository(private val contex: Context, private val alarmManag
     fun setNotification(note: Note) {
         val alarmTimeAtUTC = dateFormatter.parse(note.date!!)
 
-        alarmManager.setExact(AlarmManager.RTC_WAKEUP, alarmTimeAtUTC!!.time, makeIntent(note))
+        alarmManager.setExactAndAllowWhileIdle(
+            AlarmManager.RTC_WAKEUP,
+            alarmTimeAtUTC!!.time,
+            makeIntent(note)
+        )
     }
 
     fun unsetNotification(note: Note) {
@@ -25,13 +29,14 @@ class NotificationRepository(private val contex: Context, private val alarmManag
 
     private fun makeIntent(note: Note): PendingIntent {
         val intent = Intent(contex, NotificationReceiver::class.java)
-        intent.action = "PLANNER_APP_NOTIFICATION"
+        intent.action = INTENT_ACTION
         intent.putExtra(PLANNER_APP_NOTIFICATION_TEXT, note.title)
         intent.putExtra(PLANNER_APP_NOTIFICATION_USER, note.userName)
         return PendingIntent.getBroadcast(contex, 0, intent, 0)
     }
 
     companion object {
+        const val INTENT_ACTION = "PLANNER_APP_NOTIFICATION"
         const val PLANNER_APP_NOTIFICATION_TEXT = "PLANNER_APP_NOTIFICATION_TEXT"
         const val PLANNER_APP_NOTIFICATION_USER = "PLANNER_APP_NOTIFICATION_USER"
     }

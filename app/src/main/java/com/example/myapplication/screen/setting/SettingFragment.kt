@@ -35,9 +35,9 @@ class SettingFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         viewBinding.btnLogOut.setOnClickListener {
-           runBlocking {
-               viewModel.logout()
-           }
+            runBlocking {
+                viewModel.logout()
+            }
             findNavController().navigateSafe(SettingFragmentDirections.actionSettingFragmentToStartFragment())
         }
         viewBinding.settingToolbar.setNavigationOnClickListener {
@@ -46,7 +46,17 @@ class SettingFragment : Fragment() {
 
         viewModel.userNameLiveDate.observe(this.viewLifecycleOwner) {
 
-            viewBinding.btnDeleteUser.text = getString(R.string.Delete_this_user) +"\t"+"$it\""
+            viewBinding.btnDeleteUser.text = getString(R.string.Delete_this_user) + "\t" + "$it\""
+            viewBinding.btnRenameUser.text = getString(R.string.rename_username) + "\t" + "$it\""
+        }
+        viewModel.userLiveDate.observe(this.viewLifecycleOwner) { user ->
+            viewBinding.btnRenameUser.setOnClickListener {
+                findNavController().navigateSafe(
+                    SettingFragmentDirections.actionSettingFragmentToRenameFragment(
+                        user
+                    )
+                )
+            }
         }
 
         viewBinding.btnDeleteUser.setOnClickListener {

@@ -34,6 +34,22 @@
         android:textStyle="bold|italic"
         app:layout_constraintTop_toBottomOf="@id/setting_toolbar"
         tools:layout_editor_absoluteX="6dp" />
+    <androidx.appcompat.widget.AppCompatButton
+        android:id="@+id/btnRenameUser"
+        style="@style/Widget.AppCompat.Button"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_margin="6dp"
+        android:background="@drawable/button_background"
+        android:drawablePadding="10dp"
+        android:gravity="start|center_vertical"
+        android:padding="10dp"
+        android:textAllCaps="false"
+        android:textColor="@color/text_button_color"
+        android:textStyle="bold|italic"
+        app:layout_constraintTop_toBottomOf="@id/btnLogOut"
+        tools:layout_editor_absoluteX="6dp"
+        tools:text="@string/rename_username" />
 
     <androidx.appcompat.widget.AppCompatButton
         android:id="@+id/btnDeleteUser"
@@ -49,7 +65,7 @@
         android:textAllCaps="false"
         android:textColor="@color/text_button_color"
         android:textStyle="bold|italic"
-        app:layout_constraintTop_toBottomOf="@id/btnLogOut"
+        app:layout_constraintTop_toBottomOf="@id/btnRenameUser"
         tools:layout_editor_absoluteX="6dp"
         tools:text="@string/Delete_this_user" />
 

@@ -14,6 +14,7 @@ import com.example.myapplication.repository.UsersRepository
 import com.example.myapplication.screen.enter.LoginViewModel
 import com.example.myapplication.screen.main.MainViewModel
 import com.example.myapplication.screen.note_details.NoteDetailsViewModel
+import com.example.myapplication.screen.rename.RenameViewModel
 import com.example.myapplication.screen.setting.SettingViewModel
 import com.example.myapplication.screen.sign_up.SingUpViewModel
 import com.example.myapplication.screen.start.StartViewModel
@@ -40,6 +41,7 @@ class PlannerApp : Application() {
         viewModel { StartViewModel(get()) }
         viewModel { SettingViewModel(get(), get()) }
         viewModel { SingUpViewModel(get()) }
+        viewModel { RenameViewModel(get()) }
     }
 
     private val barnModel = module {

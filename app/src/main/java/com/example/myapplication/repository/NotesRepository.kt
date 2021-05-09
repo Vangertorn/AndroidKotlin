@@ -41,19 +41,25 @@ class NotesRepository(
             val oldNotes = getCurrentUserNote()
             val result = (oldNotes + notes).distinctBy { it.date + it.title }
             notesDao.updateTableNotes(result)
+            notes.forEach {
+                if (it.alarmEnabled) {
+                    notificationRepository.setNotification(it)
+                }
+            }
         }
     }
 
     suspend fun saveNote(note: Note) {
         withContext(Dispatchers.IO) {
-            if (note.date !== null) {
+            if (note.alarmEnabled) {
                 notificationRepository.setNotification(note)
             }
             notesDao.insertNote(
                 Note(
                     title = note.title,
                     date = note.date,
-                    userName = appSettings.userName()
+                    userName = appSettings.userName(),
+                    alarmEnabled = note.alarmEnabled
                 )
             )
         }
@@ -61,13 +67,11 @@ class NotesRepository(
 
     suspend fun updateNote(note: Note) {
         withContext(Dispatchers.IO) {
-            val oldNote = notesDao.getNoteById(note.id)
-            if (oldNote.date !== null) {
+            notesDao.getNoteById(note.id).let { oldNote ->
                 notificationRepository.unsetNotification(oldNote)
             }
-
             notesDao.updateNote(note)
-            if (note.date !== null) {
+            if (note.alarmEnabled) {
                 notificationRepository.setNotification(note)
             }
         }
@@ -75,7 +79,7 @@ class NotesRepository(
 
     suspend fun deleteNote(note: Note) {
         withContext(Dispatchers.IO) {
-            if (note.date !== null) {
+            if (note.alarmEnabled) {
                 notificationRepository.unsetNotification(note)
             }
             notesDao.deleteNote(note)

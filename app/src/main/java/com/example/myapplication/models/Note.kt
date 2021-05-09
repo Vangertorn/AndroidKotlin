@@ -25,5 +25,6 @@ open class Note(
     val date: String? = null,
     @ColumnInfo(index = true, name = "userName")
     val userName: String,
-    val cloud: Boolean = false
+    val cloud: Boolean = false,
+    val alarmEnabled: Boolean = false
 ) : Parcelable

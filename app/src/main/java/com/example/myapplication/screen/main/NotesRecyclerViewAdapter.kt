@@ -48,6 +48,7 @@ class NotesRecyclerViewAdapter(
         private val tvDate = itemView.findViewById<TextView>(R.id.tvDate)
         private val ivDelete = itemView.findViewById<ImageView>(R.id.ivRemove)
         private val ivCloud = itemView.findViewById<ImageView>(R.id.ivCloudIndicate)
+        private val ivAlarm = itemView.findViewById<ImageView>(R.id.ivAlarm)
 
         init {
             itemView.setOnClickListener {
@@ -62,6 +63,7 @@ class NotesRecyclerViewAdapter(
             tvTitle.text = item.title
             tvDate.text = item.date
             ivCloud.isVisible = item.cloud
+            ivAlarm.isVisible = item.alarmEnabled
 
         }
     }
@@ -73,7 +75,7 @@ class NoteAdapterDiffCallBack : DiffUtil.ItemCallback<Note>() {
     }
 
     override fun areContentsTheSame(oldItem: Note, newItem: Note): Boolean {
-        return oldItem.date == newItem.date && oldItem.title == newItem.title && oldItem.cloud == newItem.cloud
+        return oldItem.date == newItem.date && oldItem.title == newItem.title && oldItem.cloud == newItem.cloud && oldItem.alarmEnabled == newItem.alarmEnabled
     }
 
 }

@@ -47,7 +47,9 @@ class NoteDetailsFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
 
-
+        viewBinding.toolbar.setNavigationOnClickListener {
+            findNavController().popBackStack()
+        }
         viewBinding.confirm.setOnClickListener {
             if (viewBinding.textNote.text.isNotBlank()) {
                 args.note?.let {
@@ -56,7 +58,8 @@ class NoteDetailsFragment : Fragment() {
                             id = it.id,
                             title = viewBinding.textNote.text.toString(),
                             date = dateFormatter.format(noteDate),
-                            userName = it.userName
+                            userName = it.userName,
+                            alarmEnabled = viewBinding.alarmSwitch.isChecked
                         )
                     )
                 } ?: kotlin.run {
@@ -64,32 +67,33 @@ class NoteDetailsFragment : Fragment() {
                         Note(
                             title = viewBinding.textNote.text.toString(),
                             date = dateFormatter.format(noteDate),
-                            userName = ""
+                            userName = "",
+                            alarmEnabled = viewBinding.alarmSwitch.isChecked
                         )
                     )
                 }
                 findNavController().popBackStack(R.id.mainFragment, false)
 
             } else {
-                Toast.makeText(requireContext(), getString(R.string.could_you_enter_note_please), Toast.LENGTH_LONG)
+                Toast.makeText(
+                    requireContext(),
+                    getString(R.string.could_you_enter_note_please),
+                    Toast.LENGTH_SHORT
+                )
                     .show()
             }
-
         }
 
         args.note?.let { note ->
+            viewBinding.alarmSwitch.isChecked = note.alarmEnabled
             viewBinding.textNote.setText(note.title)
             noteDate = dateFormatter.parse(note.date) ?: Date()
-            viewBinding.tvTime.selectDate(java.util.Calendar.getInstance().apply { this.time = noteDate })
+            viewBinding.tvTime.selectDate(
+                java.util.Calendar.getInstance().apply { this.time = noteDate })
         }
 
         viewBinding.tvTime.addOnDateChangedListener { displayed, date ->
             noteDate = date
         }
     }
-
-    companion object {
-        const val NOTE = "NOTE"
-    }
-
 }

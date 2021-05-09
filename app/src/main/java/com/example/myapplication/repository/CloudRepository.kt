@@ -15,7 +15,7 @@ class CloudRepository(
 ) {
     @ExperimentalCoroutinesApi
     suspend fun exportNotes(): Boolean {
-        val user = usersRepository.getCurrentUserFlow().first()!!
+        val user = usersRepository.getCurrentUserFlow().first()
         val notes = notesRepository.getCurrentUserNote()
         val cloudUser = CloudUser(
             userName = user.name
@@ -23,7 +23,8 @@ class CloudRepository(
         val cloudNote = notes.map {
             CloudNote(
                 title = it.title,
-                date = it.date
+                date = it.date,
+                alarmEnabled = it.alarmEnabled
             )
         }
         val exportRequestBody =
@@ -39,12 +40,13 @@ class CloudRepository(
             val user = usersRepository.getCurrentUserFlow().first()
             val notes = listOf<Note>()
             val cloudUser = CloudUser(
-                userName = user!!.name
+                userName = user.name
             )
             val cloudNote = notes.map {
                 CloudNote(
                     title = it.title,
-                    date = it.date
+                    date = it.date,
+                    alarmEnabled = it.alarmEnabled
                 )
             }
             val exportRequestBody =
@@ -59,7 +61,7 @@ class CloudRepository(
 
     @ExperimentalCoroutinesApi
     suspend fun importNotes(): Boolean {
-        val user = usersRepository.getCurrentUserFlow().first()!!
+        val user = usersRepository.getCurrentUserFlow().first()
         val response = cloudInterface.importNotes(user.name, usersRepository.phoneId)
         val cloudNotes = response.body() ?: emptyList()
         val notes =
@@ -68,7 +70,8 @@ class CloudRepository(
                     title = it.title,
                     date = it.date,
                     userName = user.name,
-                    cloud = true
+                    cloud = true,
+                    alarmEnabled = it.alarmEnabled
                 )
             }
         notesRepository.updateNotes(notes)
