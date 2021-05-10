@@ -41,4 +41,8 @@
     <string name="rename">Rename</string>
     <string name="hi">Hi</string>
     <string name="remind_you">Remind you:</string>
+    <string name="delete">Delete</string>
+    <string name="postpone">Postpone</string>
+    <string name="user_rename_successful">User rename successful</string>
+    <string name="back">Back</string>
 </resources>

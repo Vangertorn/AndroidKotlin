@@ -20,10 +20,10 @@ class NotesRepository(
 ) {
 
     @ExperimentalCoroutinesApi
-    val currentUserNotesFlow: Flow<List<Note>> =
+    val currentUserNotesFlow: Flow<MutableList<Note>> =
         appSettings.userNameFlow()
             .flatMapLatest { userName ->
-                usersDao.getUserInfoFlow(userName).map { it?.notes ?: emptyList() }
+                usersDao.getUserInfoFlow(userName).map { it?.notes ?: mutableListOf() }
             }
 
     suspend fun getCurrentUserNote(): List<Note> {

@@ -1,12 +1,9 @@
 package com.example.myapplication.screen.note_details
-
-import android.icu.util.Calendar
 import android.os.Build
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.DatePicker
 import android.widget.Toast
 import androidx.annotation.RequiresApi
 import androidx.fragment.app.Fragment
@@ -15,12 +12,11 @@ import androidx.navigation.fragment.navArgs
 import com.example.myapplication.R
 import com.example.myapplication.databinding.FragmentNoteDetailsBinding
 import com.example.myapplication.models.Note
-import com.github.florent37.singledateandtimepicker.SingleDateAndTimePicker
-import com.github.florent37.singledateandtimepicker.dialog.SingleDateAndTimePickerDialog
+import com.example.myapplication.support.hideKeyboard
 import org.koin.android.viewmodel.ext.android.viewModel
-
 import java.text.SimpleDateFormat
 import java.util.*
+
 
 class NoteDetailsFragment : Fragment() {
     private lateinit var viewBinding: FragmentNoteDetailsBinding
@@ -72,6 +68,7 @@ class NoteDetailsFragment : Fragment() {
                         )
                     )
                 }
+                hideKeyboard()
                 findNavController().popBackStack(R.id.mainFragment, false)
 
             } else {
@@ -96,4 +93,5 @@ class NoteDetailsFragment : Fragment() {
             noteDate = date
         }
     }
+
 }

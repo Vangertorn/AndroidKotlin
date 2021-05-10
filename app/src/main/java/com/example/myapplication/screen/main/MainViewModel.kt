@@ -8,6 +8,7 @@ import com.example.myapplication.repository.NotesRepository
 import com.example.myapplication.repository.UsersRepository
 import com.example.myapplication.support.CoroutineViewModel
 import kotlinx.coroutines.*
+import java.text.FieldPosition
 
 
 @ExperimentalCoroutinesApi
@@ -28,6 +29,26 @@ class MainViewModel(
         launch {
             notesRepository.deleteNote(note)
         }
+    }
+
+    fun getNoteFromPosition(position: Int): Note? {
+        return notesLiveData.value?.get(position)
+    }
+
+    fun deleteNoteFromPosition(position: Int) {
+        launch {
+            val note = notesLiveData.value?.get(position)
+            notesLiveData.value?.removeAt(position)
+//            note?.let { notesRepository.deleteNote(it) }
+        }
+    }
+
+    fun recoverNoteFromPosition(position: Int, note: Note): Boolean {
+        launch {
+            notesLiveData.value?.add(position, note)
+//            notesRepository.saveNote(note)
+        }
+        return false
     }
 
     @ExperimentalCoroutinesApi

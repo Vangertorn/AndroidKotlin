@@ -22,7 +22,8 @@ enum class LoginResult(val toast: Int) {
     LOGIN_COMPLETED_SUCCESSFULLY(R.string.Login_completed_successfully),
     USER_ALREADY_EXISTS(R.string.User_already_exists),
     USER_CREATED_SUCCESSFUL(R.string.User_created_successful),
-    PASSWORDS_DO_NOT_MATCH(R.string.Passwords_do_not_match);
+    PASSWORDS_DO_NOT_MATCH(R.string.Passwords_do_not_match),
+    USER_RENAME_SUCCESSFUL(R.string.user_rename_successful)
 }
 
 class UsersRepository(
@@ -70,10 +71,16 @@ class UsersRepository(
         }
     }
 
-    suspend fun renameUser(newName: String, oldName: String) {
-        withContext(Dispatchers.IO) {
-            usersDao.renameUser(newName,oldName)
-            appSettings.setUserName(newName)
+    suspend fun renameUser(newName: String, oldName: String): LoginResult {
+       return withContext(Dispatchers.IO) {
+            val userExist = checkUserExists(newName)
+            if(userExist){
+                return@withContext LoginResult.USER_ALREADY_EXISTS
+            } else{
+                usersDao.renameUser(newName,oldName)
+                appSettings.setUserName(newName)
+                return@withContext LoginResult.USER_RENAME_SUCCESSFUL
+            }
         }
     }
 

@@ -2,6 +2,7 @@ package com.example.myapplication.repository
 
 import android.app.AlarmManager
 import android.app.PendingIntent
+import android.app.PendingIntent.FLAG_UPDATE_CURRENT
 import android.content.Context
 import android.content.Intent
 import com.example.myapplication.models.Note
@@ -28,11 +29,11 @@ class NotificationRepository(private val context: Context, private val alarmMana
 
     private fun makeIntent(note: Note): PendingIntent {
         val intent = Intent(context, NotificationReceiver::class.java)
-        intent.action = ACTION
-        intent.putExtra(NOTIFICATION_KEY_NOTE_ID, note.id)
-        intent.putExtra(NOTIFICATION_KEY_NOTE_TEXT, note.title)
-        intent.putExtra(NOTIFICATION_KEY_NOTE_USER, note.userName)
-        return PendingIntent.getBroadcast(context, 0, intent, 0)
+        intent.action = NotificationReceiver.ACTION
+        intent.putExtra(NotificationReceiver.NOTIFICATION_KEY_NOTE_ID, note.id)
+        intent.putExtra(NotificationReceiver.NOTIFICATION_KEY_NOTE_TEXT, note.title)
+        intent.putExtra(NotificationReceiver.NOTIFICATION_KEY_NOTE_USER, note.userName)
+        return PendingIntent.getBroadcast(context, 0, intent, FLAG_UPDATE_CURRENT)
     }
 
     fun postponeNoteTimeByFiveMinutes(note: Note): Note{
@@ -44,12 +45,8 @@ class NotificationRepository(private val context: Context, private val alarmMana
     }
 
     companion object {
-        const val ACTION = "MY_NOTES_NOTIFICATION"
-        const val NOTIFICATION_KEY_NOTE_TEXT = "MY_NOTES_NOTIFICATION_TEXT"
-        const val NOTIFICATION_KEY_NOTE_USER = "MY_NOTES_NOTIFICATION_USER"
-        const val NOTIFICATION_KEY_NOTE_ID = "MY_NOTES_NOTIFICATION_KEY_NOTE_ID"
-        const val ACTION_DELETE = "MY_NOTES_NOTIFICATION_DELETE"
-        const val ACTION_POSTPONE = "MY_NOTES_NOTIFICATION_POSTPONE"
+
+
     }
 
 }

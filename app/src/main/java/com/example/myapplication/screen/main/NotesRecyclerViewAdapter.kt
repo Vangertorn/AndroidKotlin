@@ -15,7 +15,7 @@ import com.example.myapplication.models.Note
 
 class NotesRecyclerViewAdapter(
     private val onClick: (Note) -> Unit,
-    private val onDelete: (Note) -> Unit
+    private val onDelete: (Note) -> Unit,
 ) : ListAdapter<Note, NotesRecyclerViewAdapter.NoteViewHolder>(NoteAdapterDiffCallBack()) {
 
     override fun onCreateViewHolder(
@@ -50,6 +50,7 @@ class NotesRecyclerViewAdapter(
         private val ivCloud = itemView.findViewById<ImageView>(R.id.ivCloudIndicate)
         private val ivAlarm = itemView.findViewById<ImageView>(R.id.ivAlarm)
 
+
         init {
             itemView.setOnClickListener {
                 itemClick(adapterPosition)
@@ -68,6 +69,8 @@ class NotesRecyclerViewAdapter(
         }
     }
 }
+
+
 
 class NoteAdapterDiffCallBack : DiffUtil.ItemCallback<Note>() {
     override fun areItemsTheSame(oldItem: Note, newItem: Note): Boolean {

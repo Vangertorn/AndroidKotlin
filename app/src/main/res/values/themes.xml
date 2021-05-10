@@ -26,5 +26,15 @@
         <item name="colorControlNormal">@color/purple_500</item>
         <item name="colorControlActivated">@color/purple_500</item>
     </style>
+    <style name="MySwitch" parent="Theme.AppCompat.Light">
+        <!-- активное состояние (30% прозрачности для фона) -->
+        <item name="colorControlActivated">@color/purple_700</item>
+
+<!--        &lt;!&ndash; неактивное состояние ползунка &ndash;&gt;-->
+<!--        <item name="colorSwitchThumbNormal">@android:color/holo_orange_dark</item>-->
+
+        <!-- цвет дорожки для неактивного состояния (30% прозрачности) -->
+        <item name="android:colorForeground">@color/white</item>
+    </style>
 
 </resources>

@@ -37,7 +37,7 @@
             android:layout_height="wrap_content"
             android:background="@drawable/edit_text_background"
             android:hint="@string/enter_new_username"
-            android:imeOptions="actionNext"
+            android:imeOptions="actionDone"
             android:inputType="text"
             android:dropDownHeight="wrap_content"
             android:dropDownWidth="wrap_content"
@@ -55,6 +55,7 @@
         android:paddingBottom="10dp"
         app:boxBackgroundColor="@color/white"
         app:boxStrokeWidth="0dp"
+        android:visibility="invisible"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
@@ -80,6 +81,7 @@
         android:layout_height="wrap_content"
         app:boxBackgroundColor="@color/white"
         app:boxStrokeWidth="0dp"
+        android:visibility="invisible"
         app:boxStrokeWidthFocused="0dp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
@@ -108,5 +110,16 @@
         app:layout_constraintEnd_toEndOf="@+id/repeat_TextInputLayout_sing_up"
         app:layout_constraintStart_toStartOf="@+id/repeat_TextInputLayout_sing_up"
         app:layout_constraintTop_toBottomOf="@+id/repeat_TextInputLayout_sing_up" />
+    <androidx.appcompat.widget.AppCompatButton
+        android:id="@+id/btnBack"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_margin="20dp"
+        android:background="@drawable/button_background"
+        android:text="@string/back"
+        android:textAllCaps="false"
+        app:layout_constraintEnd_toEndOf="@+id/repeat_TextInputLayout_sing_up"
+        app:layout_constraintStart_toStartOf="@+id/repeat_TextInputLayout_sing_up"
+        app:layout_constraintTop_toBottomOf="@+id/btnRenameUser_rename" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>
