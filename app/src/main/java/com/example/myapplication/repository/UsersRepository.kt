@@ -3,26 +3,26 @@ package com.example.myapplication.repository
 import android.annotation.SuppressLint
 import android.content.Context
 import android.provider.Settings
+import com.example.myapplication.R
 import com.example.myapplication.database.dao.UsersDao
 import com.example.myapplication.datastore.AppSettings
 import com.example.myapplication.models.User
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.ExperimentalCoroutinesApi
-import kotlinx.coroutines.flow.Flow
-import kotlinx.coroutines.flow.flatMapLatest
-import kotlinx.coroutines.flow.flowOn
-import kotlinx.coroutines.flow.map
+import kotlinx.coroutines.flow.*
 import kotlinx.coroutines.withContext
 
-enum class LoginResult {
-    USER_NOT_EXIST,
-    WRONG_PASSWORD,
-    NONE,
-    EMPTY_FIELDS,
-    DELETE_COMPLETED,
-    LOGIN_COMPLETED_SUCCESSFULLY,
-    USER_ALREADY_EXISTS,
-    USER_CREATED_SUCCESSFUL
+enum class LoginResult(val toast: Int) {
+
+    USER_NOT_EXIST(R.string.User_not_exist),
+    WRONG_PASSWORD(R.string.Wrong_password),
+    NONE(0),
+    EMPTY_FIELDS(R.string.Empty_fields),
+    LOGIN_COMPLETED_SUCCESSFULLY(R.string.Login_completed_successfully),
+    USER_ALREADY_EXISTS(R.string.User_already_exists),
+    USER_CREATED_SUCCESSFUL(R.string.User_created_successful),
+    PASSWORDS_DO_NOT_MATCH(R.string.Passwords_do_not_match),
+    USER_RENAME_SUCCESSFUL(R.string.user_rename_successful)
 }
 
 class UsersRepository(
@@ -32,6 +32,7 @@ class UsersRepository(
 ) {
 
     val allUserName = usersDao.getAllUsersName()
+    val userName = appSettings.userNameFlow()
 
     suspend fun login(userName: String, password: String): LoginResult {
         return withContext(Dispatchers.IO) {
@@ -43,8 +44,7 @@ class UsersRepository(
             if (!userPassword) {
                 return@withContext LoginResult.WRONG_PASSWORD
             }
-            val userId = usersDao.getUserId(userName)
-            appSettings.setUserID(userId)
+            appSettings.setUserName(userName)
             return@withContext LoginResult.LOGIN_COMPLETED_SUCCESSFULLY
         }
     }
@@ -55,25 +55,31 @@ class UsersRepository(
             if (userExist) {
                 return@withContext LoginResult.USER_ALREADY_EXISTS
             } else {
-                val userId = usersDao.insertUser(User(name = userName, password = password))
-                appSettings.setUserID(userId)
+                appSettings.setUserName(userName)
+                usersDao.insertUser(User(password, userName))
                 return@withContext LoginResult.USER_CREATED_SUCCESSFUL
             }
         }
     }
 
-    suspend fun deleteUser(userName: String, password: String): LoginResult {
-        return withContext(Dispatchers.IO) {
-            val userExist = checkUserExists(userName)
-            if (!userExist) {
-                return@withContext LoginResult.USER_NOT_EXIST
+    suspend fun deleteUser() {
+        withContext(Dispatchers.IO) {
+
+            usersDao.deleteUser(usersDao.getUser(appSettings.userName()))
+            logout()
+        }
+    }
+
+    suspend fun renameUser(newName: String, oldName: String): LoginResult {
+       return withContext(Dispatchers.IO) {
+            val userExist = checkUserExists(newName)
+            if(userExist){
+                return@withContext LoginResult.USER_ALREADY_EXISTS
+            } else{
+                usersDao.renameUser(newName,oldName)
+                appSettings.setUserName(newName)
+                return@withContext LoginResult.USER_RENAME_SUCCESSFUL
             }
-            val userPassword = checkUserPassword(userName, password)
-            if (!userPassword) {
-                return@withContext LoginResult.WRONG_PASSWORD
-            }
-            usersDao.deleteUser(usersDao.getUser(userName, password))
-            return@withContext LoginResult.DELETE_COMPLETED
         }
     }
 
@@ -90,18 +96,20 @@ class UsersRepository(
     }
 
     fun checkUserLoggedIn(): Flow<Boolean> {
-        return appSettings.userIdFlow().map { it >= 0 }.flowOn(Dispatchers.IO)
+        return appSettings.userNameFlow().map { it }.map { it.isNotEmpty() }
+            .flowOn(Dispatchers.IO)
     }
 
     suspend fun logout() {
         withContext(Dispatchers.IO) {
-            appSettings.setUserID(-1)
+            appSettings.setUserName("")
         }
     }
 
+
     @ExperimentalCoroutinesApi
-    fun getCurrentUserFlow(): Flow<User> = appSettings.userIdFlow().flatMapLatest {
-        usersDao.getById(it)
+    fun getCurrentUserFlow(): Flow<User> = appSettings.userNameFlow().flatMapLatest {
+        usersDao.getByNameFlow(it)
     }
 
 

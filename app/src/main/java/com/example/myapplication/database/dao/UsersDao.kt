@@ -2,21 +2,28 @@ package com.example.myapplication.database.dao
 
 import androidx.room.*
 import com.example.myapplication.models.User
+import com.example.myapplication.models.UserInfo
 import kotlinx.coroutines.flow.Flow
 
 @Dao
 abstract class UsersDao {
     @Insert
-    abstract fun insertUser(user: User): Long
+    abstract fun insertUser(user: User)
 
-    @Update
+    @Update()
     abstract fun updateUser(user: User)
+
+    @Query("UPDATE table_users SET name =:newUserName WHERE name==:oldUserName")
+    abstract fun renameUser(newUserName: String, oldUserName: String)
 
     @Delete
     abstract fun deleteUser(user: User)
 
-    @Query("SELECT * FROM table_users WHERE id == :userId")
-    abstract fun getById(userId: Long): Flow<User>
+    @Query("SELECT * FROM table_users WHERE name == :userName")
+    abstract fun getByNameFlow(userName: String): Flow<User>
+
+    @Query("SELECT * FROM table_users WHERE name == :userName")
+    abstract fun getUser(userName: String): User
 
     @Query("SELECT * FROM table_users WHERE name==:userName and password==:password")
     abstract fun getUser(userName: String, password: String): User
@@ -33,7 +40,13 @@ abstract class UsersDao {
     @Query("SELECT COUNT(*) FROM table_users WHERE name == :userName")
     abstract fun getUsersCountFlow(userName: String): Flow<Int>
 
-    @Query("SELECT id FROM table_users WHERE name == :userName")
-    abstract fun getUserId(userName: String): Long
+    @Transaction
+    @Query("SELECT * from table_users WHERE name == :userName LIMIT 1")
+    abstract fun getUserInfoFlow(userName: String): Flow<UserInfo?>
+
+    @Transaction
+    @Query("SELECT * from table_users WHERE name == :userName LIMIT 1")
+    abstract fun getUserInfo(userName: String): UserInfo?
+
 
 }

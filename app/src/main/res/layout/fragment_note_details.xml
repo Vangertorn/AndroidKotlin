@@ -14,24 +14,44 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:title="Work with note"
-        app:titleTextColor="@color/white" />
+        app:navigationIcon="@drawable/ic_bac"
+        app:title="@string/Work_with_note"
+        app:titleTextColor="@color/white">
 
-    <DatePicker
-        android:id="@+id/tvDate"
+        <androidx.appcompat.widget.SwitchCompat
+            android:id="@+id/alarmSwitch"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="end"
+            android:checked="true"
+            android:text="@string/notify"
+            android:thumb="@drawable/switch_thumb"
+            android:theme="@style/MySwitch"
+            app:switchPadding="8dp" />
+    </androidx.appcompat.widget.Toolbar>
+
+    <com.github.florent37.singledateandtimepicker.SingleDateAndTimePicker
+        android:id="@+id/tvTime"
         android:layout_width="0dp"
         android:layout_height="0dp"
-        android:layout_margin="16dp"
-        android:elevation="4dp"
-        android:hint="DD.MM.YYYY"
-        android:padding="20dp"
-        app:layout_constraintBottom_toTopOf="@id/confirm"
+        android:layout_marginTop="30dp"
+        android:layout_marginStart="30dp"
+        android:layout_marginEnd="30dp"
+       android:layout_marginBottom="60dp"
+        app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@id/textNote"
-        app:layout_editor_absoluteX="100dp"
-        app:layout_editor_absoluteY="150dp" />
-
+        app:picker_curved="true"
+        app:picker_curvedMaxAngle="45"
+        app:picker_cyclic="true"
+        app:picker_dayCount="62"
+        app:picker_itemSpacing="6dp"
+        app:picker_mustBeOnFuture="true"
+        app:picker_selectorColor="@android:color/transparent"
+        app:picker_stepSizeHours="1"
+        app:picker_stepSizeMinutes="1"
+        app:picker_visibleItemCount="3" />
 
     <Button
         android:id="@+id/confirm"
@@ -60,7 +80,8 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/toolbar"
         app:layout_editor_absoluteX="128dp"
-        app:layout_editor_absoluteY="226dp" />
+        app:layout_editor_absoluteY="226dp"
+        />
 
 
 </androidx.constraintlayout.widget.ConstraintLayout>

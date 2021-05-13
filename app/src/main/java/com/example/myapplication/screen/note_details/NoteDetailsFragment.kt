@@ -1,12 +1,9 @@
 package com.example.myapplication.screen.note_details
-
-import android.icu.util.Calendar
 import android.os.Build
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.DatePicker
 import android.widget.Toast
 import androidx.annotation.RequiresApi
 import androidx.fragment.app.Fragment
@@ -15,17 +12,19 @@ import androidx.navigation.fragment.navArgs
 import com.example.myapplication.R
 import com.example.myapplication.databinding.FragmentNoteDetailsBinding
 import com.example.myapplication.models.Note
+import com.example.myapplication.support.hideKeyboard
 import org.koin.android.viewmodel.ext.android.viewModel
-
 import java.text.SimpleDateFormat
 import java.util.*
+
 
 class NoteDetailsFragment : Fragment() {
     private lateinit var viewBinding: FragmentNoteDetailsBinding
 
-    private val dateFormatter = SimpleDateFormat("dd.MM.yyyy", Locale.getDefault())
+    private val dateFormatter = SimpleDateFormat("dd.MM.yyyy HH:mm", Locale.getDefault())
     private val args: NoteDetailsFragmentArgs by navArgs()
     private val viewModel: NoteDetailsViewModel by viewModel()
+    private var noteDate = Date()
 
 
     override fun onCreateView(
@@ -41,9 +40,12 @@ class NoteDetailsFragment : Fragment() {
     }
 
     @RequiresApi(Build.VERSION_CODES.N)
+
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
 
-
+        viewBinding.toolbar.setNavigationOnClickListener {
+            findNavController().popBackStack()
+        }
         viewBinding.confirm.setOnClickListener {
             if (viewBinding.textNote.text.isNotBlank()) {
                 args.note?.let {
@@ -51,62 +53,45 @@ class NoteDetailsFragment : Fragment() {
                         Note(
                             id = it.id,
                             title = viewBinding.textNote.text.toString(),
-                            date = dateFormatter.format(viewBinding.tvDate.getSelectedDate()),
-                            userId = it.userId
+                            date = dateFormatter.format(noteDate),
+                            userName = it.userName,
+                            alarmEnabled = viewBinding.alarmSwitch.isChecked
                         )
                     )
                 } ?: kotlin.run {
                     viewModel.addNewNote(
                         Note(
                             title = viewBinding.textNote.text.toString(),
-                            date = dateFormatter.format(viewBinding.tvDate.getSelectedDate())
+                            date = dateFormatter.format(noteDate),
+                            userName = "",
+                            alarmEnabled = viewBinding.alarmSwitch.isChecked
                         )
                     )
                 }
-                findNavController().popBackStack(R.id.mainFragment,false)
+                hideKeyboard()
+                findNavController().popBackStack(R.id.mainFragment, false)
 
             } else {
-                Toast.makeText(requireContext(), "Could You enter note, please", Toast.LENGTH_LONG)
+                Toast.makeText(
+                    requireContext(),
+                    getString(R.string.could_you_enter_note_please),
+                    Toast.LENGTH_SHORT
+                )
                     .show()
             }
-
         }
 
         args.note?.let { note ->
+            viewBinding.alarmSwitch.isChecked = note.alarmEnabled
             viewBinding.textNote.setText(note.title)
-            viewBinding.tvDate.setSelectionDate(note.date)
+            noteDate = dateFormatter.parse(note.date) ?: Date()
+            viewBinding.tvTime.selectDate(
+                java.util.Calendar.getInstance().apply { this.time = noteDate })
         }
-    }
 
-    @RequiresApi(Build.VERSION_CODES.N)
-    private fun DatePicker.getSelectedDate(): Date {
-        val calendar = Calendar.getInstance(Locale.getDefault())
-        calendar.set(Calendar.YEAR, this.year)
-        calendar.set(Calendar.MONTH, this.month)
-        calendar.set(Calendar.DAY_OF_MONTH, this.dayOfMonth)
-        calendar.set(Calendar.HOUR, 0)
-        calendar.set(Calendar.MINUTE, 0)
-        calendar.set(Calendar.SECOND, 0)
-        calendar.set(Calendar.MILLISECOND, 0)
-        return calendar.time
-    }
-
-    @RequiresApi(Build.VERSION_CODES.N)
-    private fun DatePicker.setSelectionDate(date: String?) {
-        date?.let {
-            dateFormatter.parse(it)?.let { date ->
-                val calendar = Calendar.getInstance(Locale.getDefault())
-                calendar.time = date
-                val year = calendar.get(Calendar.YEAR)
-                val month = calendar.get(Calendar.MONTH)
-                val day = calendar.get(Calendar.DAY_OF_MONTH)
-                this.updateDate(year, month, day)
-            }
+        viewBinding.tvTime.addOnDateChangedListener { displayed, date ->
+            noteDate = date
         }
-    }
-
-    companion object {
-        const val NOTE = "NOTE"
     }
 
 }

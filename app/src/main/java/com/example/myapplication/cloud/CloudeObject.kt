@@ -3,12 +3,13 @@ package com.example.myapplication.cloud
 import com.google.gson.annotations.SerializedName
 
 class CloudNote(
-    @SerializedName("id")
-    val id: Long = -1,
+
     @SerializedName("title")
     val title: String,
     @SerializedName("date")
-    val date: String?
+    val date: String?,
+    @SerializedName("alarmEnabled")
+    val alarmEnabled: Boolean
 )
 
 class ExportNotesRequestBody(
@@ -21,8 +22,6 @@ class ExportNotesRequestBody(
 )
 
 class CloudUser(
-    @SerializedName("id")
-    val userId: Long,
     @SerializedName("name")
     val userName: String
 )

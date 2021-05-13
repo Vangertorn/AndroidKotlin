@@ -1,9 +1,7 @@
 package com.example.myapplication.database.dao
 
-import androidx.lifecycle.LiveData
 import androidx.room.*
 import com.example.myapplication.models.Note
-import kotlinx.coroutines.flow.Flow
 
 
 @Dao
@@ -11,6 +9,7 @@ abstract class NotesDao {
     @Insert
     abstract fun insertNote(note: Note): Long
 
+    @Insert
     abstract fun insertNotes(notes: List<Note>)
 
     @Update
@@ -19,12 +18,17 @@ abstract class NotesDao {
     @Delete
     abstract fun deleteNote(note: Note)
 
+    @Query("SELECT * FROM table_notes WHERE id==:noteId LIMIT 1")
+    abstract fun getNoteById(noteId: Long): Note?
 
-    @Query("SELECT * FROM table_notes WHERE userId == :userId ORDER BY id DESC")
-    abstract fun getALLNotesFlowByUserId(userId: Long): Flow<List<Note>>
+    @Query("DELETE FROM table_notes")
+    abstract fun clearTableNotes()
 
-    @Query("SELECT * FROM table_notes WHERE userId==:userId ORDER BY id DESC")
-    abstract fun getAllNotesByUserId(userId: Long): List<Note>
+    @Transaction
+    open fun updateTableNotes(notes: List<Note>) {
+        clearTableNotes()
+        insertNotes(notes)
+    }
 
     @Query("UPDATE table_notes SET cloud = 1")
     abstract fun setAllNotesSyncWithCloud()

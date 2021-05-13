@@ -5,6 +5,7 @@ import com.example.myapplication.cloud.CloudNote
 import com.example.myapplication.cloud.CloudUser
 import com.example.myapplication.cloud.ExportNotesRequestBody
 import com.example.myapplication.models.Note
+import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.flow.first
 
 class CloudRepository(
@@ -12,18 +13,18 @@ class CloudRepository(
     private val usersRepository: UsersRepository,
     private val notesRepository: NotesRepository
 ) {
+    @ExperimentalCoroutinesApi
     suspend fun exportNotes(): Boolean {
         val user = usersRepository.getCurrentUserFlow().first()
         val notes = notesRepository.getCurrentUserNote()
         val cloudUser = CloudUser(
-            userId = user.id,
             userName = user.name
         )
         val cloudNote = notes.map {
             CloudNote(
-                id = it.id,
                 title = it.title,
-                date = it.date
+                date = it.date,
+                alarmEnabled = it.alarmEnabled
             )
         }
         val exportRequestBody =
@@ -33,6 +34,32 @@ class CloudRepository(
         return exportResult
     }
 
+    @ExperimentalCoroutinesApi
+    suspend fun exportEmptyNotes(): Boolean {
+        try {
+            val user = usersRepository.getCurrentUserFlow().first()
+            val notes = listOf<Note>()
+            val cloudUser = CloudUser(
+                userName = user.name
+            )
+            val cloudNote = notes.map {
+                CloudNote(
+                    title = it.title,
+                    date = it.date,
+                    alarmEnabled = it.alarmEnabled
+                )
+            }
+            val exportRequestBody =
+                ExportNotesRequestBody(cloudUser, usersRepository.phoneId, cloudNote)
+            return cloudInterface.exportNotes(exportRequestBody).isSuccessful
+        } catch (e: Exception) {
+            e.printStackTrace()
+            return false
+        }
+    }
+
+
+    @ExperimentalCoroutinesApi
     suspend fun importNotes(): Boolean {
         val user = usersRepository.getCurrentUserFlow().first()
         val response = cloudInterface.importNotes(user.name, usersRepository.phoneId)
@@ -42,11 +69,12 @@ class CloudRepository(
                 Note(
                     title = it.title,
                     date = it.date,
-                    userId = user.id,
-                    cloud = true
+                    userName = user.name,
+                    cloud = true,
+                    alarmEnabled = it.alarmEnabled
                 )
             }
-        notesRepository.insertNotes(notes)
+        notesRepository.updateNotes(notes)
         return response.isSuccessful
     }
 }

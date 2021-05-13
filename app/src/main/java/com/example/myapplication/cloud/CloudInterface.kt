@@ -6,14 +6,13 @@ import okhttp3.logging.HttpLoggingInterceptor
 import retrofit2.Response
 import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
-import retrofit2.http.Body
-import retrofit2.http.GET
-import retrofit2.http.POST
-import retrofit2.http.Query
+import retrofit2.create
+import retrofit2.http.*
 
 interface CloudInterface {
     @GET("importNotes")
     suspend fun importNotes(
+
         @Query("userName") userName: String,
         @Query("phoneId") phoneId: String
     ): Response<List<CloudNote>>
@@ -34,7 +33,7 @@ interface CloudInterface {
                     }
                 }.build()
             )
-            .build().create(CloudInterface::class.java)
+            .build().create()
     }
 
 }

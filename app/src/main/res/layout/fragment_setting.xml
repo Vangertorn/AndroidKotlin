@@ -1,0 +1,84 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <androidx.appcompat.widget.Toolbar
+        android:id="@+id/setting_toolbar"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@color/purple_200"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:navigationIcon="@drawable/ic_bac"
+        app:title="@string/Setting"
+        app:titleTextColor="@color/white" />
+
+    <androidx.appcompat.widget.AppCompatButton
+        android:id="@+id/btnLogOut"
+        style="@style/Widget.AppCompat.Button"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_margin="6dp"
+        android:background="@drawable/button_background"
+        android:drawableStart="@drawable/ic_logout"
+        android:drawablePadding="10dp"
+        android:gravity="start|center_vertical"
+        android:padding="10dp"
+        android:text="@string/log_out"
+        android:textAllCaps="false"
+        android:textColor="@color/text_button_color"
+        android:textStyle="bold|italic"
+        app:layout_constraintTop_toBottomOf="@id/setting_toolbar"
+        tools:layout_editor_absoluteX="6dp" />
+    <androidx.appcompat.widget.AppCompatButton
+        android:id="@+id/btnRenameUser"
+        style="@style/Widget.AppCompat.Button"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_margin="6dp"
+        android:background="@drawable/button_background"
+        android:drawablePadding="10dp"
+        android:gravity="start|center_vertical"
+        android:padding="10dp"
+        android:textAllCaps="false"
+        android:textColor="@color/text_button_color"
+        android:textStyle="bold|italic"
+        app:layout_constraintTop_toBottomOf="@id/btnLogOut"
+        tools:layout_editor_absoluteX="6dp"
+        tools:text="@string/rename_username" />
+
+    <androidx.appcompat.widget.AppCompatButton
+        android:id="@+id/btnDeleteUser"
+        style="@style/Widget.AppCompat.Button"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_margin="6dp"
+        android:background="@drawable/button_delete_background"
+        android:drawableStart="@drawable/ic_delete"
+        android:drawablePadding="10dp"
+        android:gravity="start|center_vertical"
+        android:padding="10dp"
+        android:textAllCaps="false"
+        android:textColor="@color/text_button_color"
+        android:textStyle="bold|italic"
+        app:layout_constraintTop_toBottomOf="@id/btnRenameUser"
+        tools:layout_editor_absoluteX="6dp"
+        tools:text="@string/Delete_this_user" />
+
+    <com.google.android.material.progressindicator.LinearProgressIndicator
+        android:id="@+id/indicatorProgress"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:indeterminate="true"
+        android:visibility="gone"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/setting_toolbar"
+        tools:visibility="visible" />
+
+
+</androidx.constraintlayout.widget.ConstraintLayout>

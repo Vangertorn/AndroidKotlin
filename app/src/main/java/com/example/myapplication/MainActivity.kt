@@ -1,7 +1,13 @@
 package com.example.myapplication
 
+import android.os.Build
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import android.os.Handler
+import android.os.Looper
+import android.util.Log
+import android.widget.Toast
+import androidx.annotation.RequiresApi
 import androidx.navigation.NavController
 
 import androidx.navigation.fragment.NavHostFragment
@@ -13,6 +19,8 @@ class MainActivity : AppCompatActivity() {
     private lateinit var viewBinding: ActivityMainBinding
     private val navHostFragment by lazy { supportFragmentManager.findFragmentById(R.id.navHostFragment) as NavHostFragment }
     private val navController: NavController by lazy { navHostFragment.navController }
+    private val handler = Handler(Looper.getMainLooper())
+    private var doubleBackToExitPressedOnce = false
 
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -23,12 +31,21 @@ class MainActivity : AppCompatActivity() {
 
     }
 
+    override fun onDestroy() {
+        super.onDestroy()
+        handler.removeCallbacksAndMessages(null)
+    }
+
     override fun onBackPressed() {
-        if (navController.popBackStack()) {
-            super.onBackPressed()
-        } else {
-            finish()
-        }
+        if (navHostFragment.childFragmentManager.backStackEntryCount == 0) {
+            if (doubleBackToExitPressedOnce) {
+                finish()
+                return
+            }
+            this.doubleBackToExitPressedOnce = true
+            Toast.makeText(this, getString(R.string.Press_back), Toast.LENGTH_SHORT).show()
+            handler.postDelayed(Runnable { doubleBackToExitPressedOnce = false }, 2000)
+        } else navController.popBackStack()
     }
 }
 
