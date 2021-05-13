@@ -1,6 +1,5 @@
 package com.example.myapplication.screen.setting
 
-import android.annotation.SuppressLint
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
@@ -46,8 +45,8 @@ class SettingFragment : Fragment() {
 
         viewModel.userNameLiveDate.observe(this.viewLifecycleOwner) {
 
-            viewBinding.btnDeleteUser.text = getString(R.string.Delete_this_user) + "\t" + "$it\""
-            viewBinding.btnRenameUser.text = getString(R.string.rename_username) + "\t" + "$it\""
+            viewBinding.btnDeleteUser.text = getString(R.string.Delete_this_user) + "\t" + "\"$it\""
+            viewBinding.btnRenameUser.text = getString(R.string.rename_username) + "\t" + "\"$it\""
         }
         viewModel.userLiveDate.observe(this.viewLifecycleOwner) { user ->
             viewBinding.btnRenameUser.setOnClickListener {

@@ -86,6 +86,23 @@ class NotesRepository(
         }
     }
 
+    suspend fun  updateNoteById(noteId: Long, newText: String){
+        withContext(Dispatchers.IO){
+            notesDao.getNoteById(noteId)?.let {
+               notesDao.updateNote(
+                   Note(
+                       id = it.id,
+                       title = newText,
+                       date = it.date,
+                       userName = it.userName,
+                       cloud = it.cloud,
+                       alarmEnabled = it.alarmEnabled
+                   )
+               )
+            }
+        }
+    }
+
     suspend fun deleteNoteByID(noteId: Long) {
         withContext(Dispatchers.IO) {
             notesDao.getNoteById(noteId)?.let {

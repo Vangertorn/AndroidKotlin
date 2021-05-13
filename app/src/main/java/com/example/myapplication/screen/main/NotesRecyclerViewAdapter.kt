@@ -14,8 +14,7 @@ import com.example.myapplication.R
 import com.example.myapplication.models.Note
 
 class NotesRecyclerViewAdapter(
-    private val onClick: (Note) -> Unit,
-    private val onDelete: (Note) -> Unit,
+    private val onClick: (Note) -> Unit
 ) : ListAdapter<Note, NotesRecyclerViewAdapter.NoteViewHolder>(NoteAdapterDiffCallBack()) {
 
     override fun onCreateViewHolder(
@@ -24,7 +23,6 @@ class NotesRecyclerViewAdapter(
     ) = NoteViewHolder(
         LayoutInflater.from(parent.context).inflate(R.layout.note_list_item, parent, false),
         ::onItemClick,
-        ::onItemDelete
     )
 
     override fun onBindViewHolder(holder: NoteViewHolder, position: Int) {
@@ -35,18 +33,12 @@ class NotesRecyclerViewAdapter(
         onClick(getItem(position))
     }
 
-    private fun onItemDelete(position: Int) {
-        onDelete(getItem(position))
-    }
-
     inner class NoteViewHolder(
         itemView: View,
-        private val itemClick: (Int) -> Unit,
-        private val itemDelete: (Int) -> Unit
+        private val itemClick: (Int) -> Unit
     ) : RecyclerView.ViewHolder(itemView) {
         private val tvTitle = itemView.findViewById<TextView>(R.id.tvTitle)
         private val tvDate = itemView.findViewById<TextView>(R.id.tvDate)
-        private val ivDelete = itemView.findViewById<ImageView>(R.id.ivRemove)
         private val ivCloud = itemView.findViewById<ImageView>(R.id.ivCloudIndicate)
         private val ivAlarm = itemView.findViewById<ImageView>(R.id.ivAlarm)
 
@@ -54,9 +46,6 @@ class NotesRecyclerViewAdapter(
         init {
             itemView.setOnClickListener {
                 itemClick(adapterPosition)
-            }
-            ivDelete.setOnClickListener {
-                itemDelete(adapterPosition)
             }
         }
 

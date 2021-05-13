@@ -34,9 +34,6 @@ class MainFragment : Fragment() {
     private val adapter = NotesRecyclerViewAdapter(
         onClick = { note ->
             findNavController().navigateSafe(MainFragmentDirections.toNoteDetails(note))
-        },
-        onDelete = {
-            viewModel.deleteNote(it)
         })
 
     override fun onCreateView(
@@ -126,9 +123,9 @@ class MainFragment : Fragment() {
 
         Snackbar.make(
             viewBinding.recyclerView,
-            "Note was delete",
+            getString(R.string.note_was_delete),
             Snackbar.LENGTH_LONG
-        ).setAction("Undo") {
+        ).setAction(getString(R.string.undo)) {
             permissionDelete = viewModel.recoverNoteFromPosition(position, deleteNote!!)
             adapter.notifyItemInserted(position)
 
@@ -137,7 +134,7 @@ class MainFragment : Fragment() {
             if (permissionDelete) viewModel.deleteNote(
                 deleteNote!!
             )
-        }, 3500)
+        }, 2750)
     }
 
 

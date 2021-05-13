@@ -35,4 +35,16 @@
     <string name="User_already_exists">Пользователь уже существует</string>
     <string name="User_created_successful">Пользователь создан успешно</string>
     <string name="Passwords_do_not_match">Введенные пароли не совпадают</string>
+    <string name="rename_username">Изменить имя пользователя</string>
+    <string name="enter_new_username">Подтвердить новое имя</string>
+    <string name="rename">Изменение имени пользователя</string>
+    <string name="hi">Привет</string>
+    <string name="remind_you">Напоминание:</string>
+    <string name="delete">Удалить</string>
+    <string name="postpone">Отложить</string>
+    <string name="user_rename_successful">Имя пользователя изменено успешно</string>
+    <string name="back">Назад</string>
+    <string name="notify">Уведомление</string>
+    <string name="note_was_delete">Записка удалена</string>
+    <string name="undo">Отмена</string>
 </resources>

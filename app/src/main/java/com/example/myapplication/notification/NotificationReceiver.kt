@@ -11,15 +11,20 @@ import android.graphics.Color
 import android.media.AudioAttributes
 import android.media.RingtoneManager
 import android.os.Build
+import android.widget.RemoteViews
 import androidx.annotation.RequiresApi
 import androidx.core.app.NotificationCompat
+import androidx.core.app.RemoteInput
 import com.example.myapplication.R
+import org.koin.core.component.KoinApiExtension
 
 class NotificationReceiver : BroadcastReceiver() {
+    @KoinApiExtension
     override fun onReceive(context: Context, intent: Intent) {
         showNotification(context, intent)
     }
 
+    @KoinApiExtension
     private fun showNotification(context: Context, intent: Intent) {
         val contentIntent = PendingIntent.getActivity(
             context, 0,
@@ -43,9 +48,11 @@ class NotificationReceiver : BroadcastReceiver() {
                 .setContentTitle(context.getString(R.string.hi) + ", $noteUser")
                 .setContentText(context.getString(R.string.remind_you) + " $noteText")
                 .setContentIntent(contentIntent)
+                .setStyle(NotificationCompat.DecoratedCustomViewStyle())
                 .setPriority(NotificationCompat.PRIORITY_DEFAULT)
                 .addAction(makeDeleteAction(context, noteId))
                 .addAction(makePostponeAction(context, noteId))
+                .addAction(makeEditNoteAction(context, noteId, noteText))
                 .setSound(RingtoneManager.getDefaultUri(RingtoneManager.TYPE_NOTIFICATION))
                 .setDefaults(Notification.DEFAULT_ALL)
                 .setColor(Color.MAGENTA)
@@ -54,6 +61,7 @@ class NotificationReceiver : BroadcastReceiver() {
         mNotificationManager.notify(0, mBuilder.build())
     }
 
+    @KoinApiExtension
     private fun makeDeleteAction(context: Context, noteId: Long): NotificationCompat.Action {
         val deleteIntent = Intent(context.applicationContext, NotificationActionService::class.java)
         deleteIntent.action = ACTION_DELETE
@@ -71,6 +79,7 @@ class NotificationReceiver : BroadcastReceiver() {
         ).build()
     }
 
+    @KoinApiExtension
     private fun makePostponeAction(context: Context, noteId: Long): NotificationCompat.Action {
         val postponeIntent =
             Intent(context.applicationContext, NotificationActionService::class.java)
@@ -87,6 +96,32 @@ class NotificationReceiver : BroadcastReceiver() {
             context.getString(R.string.postpone),
             postponePendingIntent
         ).build()
+    }
+
+    @KoinApiExtension
+    private fun makeEditNoteAction(
+        context: Context,
+        noteId: Long,
+        noteText: String?
+    ): NotificationCompat.Action {
+        val remoteInput = RemoteInput.Builder(KEY_TEXT_REPLAY).setLabel("Something")
+            .setEditChoicesBeforeSending(RemoteInput.EDIT_CHOICES_BEFORE_SENDING_ENABLED).build()
+        val editNoteIntent =
+            Intent(context.applicationContext, NotificationActionService::class.java)
+        editNoteIntent.action = ACTION_EDIT_NOTE
+        editNoteIntent.putExtra(NOTIFICATION_KEY_NOTE_ID, noteId)
+        editNoteIntent.putExtra(NOTIFICATION_KEY_NOTE_TEXT, noteText)
+        val editTextPendingIntent = PendingIntent.getService(
+            context.applicationContext,
+            REQUEST_CODE_EDIT,
+            editNoteIntent,
+            PendingIntent.FLAG_UPDATE_CURRENT
+        )
+        return NotificationCompat.Action.Builder(
+            R.drawable.ic_pencil,
+            "Edit",
+            editTextPendingIntent
+        ).addRemoteInput(remoteInput).build()
     }
 
     @RequiresApi(Build.VERSION_CODES.O)
@@ -114,11 +149,14 @@ class NotificationReceiver : BroadcastReceiver() {
         private const val NOTIFICATION_CHANNEL = "MY_NOTES_NOTIFICATION_CHANNEL"
         const val ACTION_DELETE = "MY_NOTES_NOTIFICATION_DELETE"
         const val ACTION_POSTPONE = "MY_NOTES_NOTIFICATION_POSTPONE"
+        const val ACTION_EDIT_NOTE = "MY_NOTES_NOTIFICATION_EDIT"
         const val REQUEST_CODE_DELETE = 13423434
         const val REQUEST_CODE_POSTPONE = 423435554
+        const val REQUEST_CODE_EDIT = 23135323
         const val ACTION = "MY_NOTES_NOTIFICATION"
         const val NOTIFICATION_KEY_NOTE_TEXT = "MY_NOTES_NOTIFICATION_TEXT"
         const val NOTIFICATION_KEY_NOTE_USER = "MY_NOTES_NOTIFICATION_USER"
         const val NOTIFICATION_KEY_NOTE_ID = "MY_NOTES_NOTIFICATION_KEY_NOTE_ID"
+        const val KEY_TEXT_REPLAY = "TEXT_KEY_REPLAY"
     }
 }

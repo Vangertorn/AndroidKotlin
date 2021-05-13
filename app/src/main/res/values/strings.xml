@@ -45,4 +45,6 @@
     <string name="postpone">Postpone</string>
     <string name="user_rename_successful">User rename successful</string>
     <string name="back">Back</string>
+    <string name="note_was_delete">Note was delete</string>
+    <string name="undo">Undo</string>
 </resources>

@@ -39,7 +39,7 @@ class NotificationRepository(private val context: Context, private val alarmMana
     fun postponeNoteTimeByFiveMinutes(note: Note): Note{
         val time = dateFormatter.parse(note.date!!)
         val calendar = Calendar.getInstance()
-        calendar.time = time
+        calendar.time = time!!
         calendar.add(Calendar.MINUTE, 5)
         return note.copy(date = dateFormatter.format(calendar.time))
     }

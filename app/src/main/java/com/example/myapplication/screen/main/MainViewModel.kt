@@ -37,16 +37,13 @@ class MainViewModel(
 
     fun deleteNoteFromPosition(position: Int) {
         launch {
-            val note = notesLiveData.value?.get(position)
             notesLiveData.value?.removeAt(position)
-//            note?.let { notesRepository.deleteNote(it) }
         }
     }
 
     fun recoverNoteFromPosition(position: Int, note: Note): Boolean {
         launch {
             notesLiveData.value?.add(position, note)
-//            notesRepository.saveNote(note)
         }
         return false
     }
