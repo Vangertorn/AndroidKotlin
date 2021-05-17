@@ -3,17 +3,18 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    android:layout_height="match_parent">
+    android:layout_height="match_parent"
+    android:background="@drawable/ic_background_setting_fragment">
 
     <androidx.appcompat.widget.Toolbar
         android:id="@+id/setting_toolbar"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:background="@color/purple_200"
+        android:background="#999A3718"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:navigationIcon="@drawable/ic_bac"
+        app:navigationIcon="@drawable/ic_black_white"
         app:title="@string/Setting"
         app:titleTextColor="@color/white" />
 
@@ -25,15 +26,17 @@
         android:layout_margin="6dp"
         android:background="@drawable/button_background"
         android:drawableStart="@drawable/ic_logout"
+        android:drawableTint="@color/white"
         android:drawablePadding="10dp"
         android:gravity="start|center_vertical"
         android:padding="10dp"
         android:text="@string/log_out"
         android:textAllCaps="false"
-        android:textColor="@color/text_button_color"
+        android:textColor="@color/white"
         android:textStyle="bold|italic"
         app:layout_constraintTop_toBottomOf="@id/setting_toolbar"
         tools:layout_editor_absoluteX="6dp" />
+
     <androidx.appcompat.widget.AppCompatButton
         android:id="@+id/btnRenameUser"
         style="@style/Widget.AppCompat.Button"
@@ -45,7 +48,7 @@
         android:gravity="start|center_vertical"
         android:padding="10dp"
         android:textAllCaps="false"
-        android:textColor="@color/text_button_color"
+        android:textColor="@color/white"
         android:textStyle="bold|italic"
         app:layout_constraintTop_toBottomOf="@id/btnLogOut"
         tools:layout_editor_absoluteX="6dp"
@@ -59,11 +62,12 @@
         android:layout_margin="6dp"
         android:background="@drawable/button_delete_background"
         android:drawableStart="@drawable/ic_delete"
+        android:drawableTint="@color/white"
         android:drawablePadding="10dp"
         android:gravity="start|center_vertical"
         android:padding="10dp"
         android:textAllCaps="false"
-        android:textColor="@color/text_button_color"
+        android:textColor="@color/white"
         android:textStyle="bold|italic"
         app:layout_constraintTop_toBottomOf="@id/btnRenameUser"
         tools:layout_editor_absoluteX="6dp"

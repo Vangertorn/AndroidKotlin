@@ -44,9 +44,4 @@ class NotificationRepository(private val context: Context, private val alarmMana
         return note.copy(date = dateFormatter.format(calendar.time))
     }
 
-    companion object {
-
-
-    }
-
 }

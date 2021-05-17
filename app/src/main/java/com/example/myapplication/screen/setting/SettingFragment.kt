@@ -12,6 +12,7 @@ import com.example.myapplication.R
 import com.example.myapplication.databinding.FragmentSettingBinding
 import com.example.myapplication.support.navigateSafe
 import com.google.android.material.dialog.MaterialAlertDialogBuilder
+import kotlinx.coroutines.delay
 import kotlinx.coroutines.runBlocking
 import org.koin.android.viewmodel.ext.android.viewModel
 
@@ -36,8 +37,9 @@ class SettingFragment : Fragment() {
         viewBinding.btnLogOut.setOnClickListener {
             runBlocking {
                 viewModel.logout()
+                delay(50)
+                findNavController().navigateSafe(SettingFragmentDirections.actionSettingFragmentToStartFragment())
             }
-            findNavController().navigateSafe(SettingFragmentDirections.actionSettingFragmentToStartFragment())
         }
         viewBinding.settingToolbar.setNavigationOnClickListener {
             findNavController().popBackStack()

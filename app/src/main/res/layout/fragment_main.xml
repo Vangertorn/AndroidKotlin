@@ -4,13 +4,13 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="#fafafa">
+    android:background="@drawable/ic_background_main_fragment">
 
     <androidx.appcompat.widget.Toolbar
         android:id="@+id/toolbar"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:background="@color/purple_200"
+        android:background="#66237C74"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
@@ -20,11 +20,11 @@
 
         <ImageView
             android:id="@+id/ivSettings"
-            android:src="@drawable/ic_settings"
             android:layout_width="?attr/actionBarSize"
             android:layout_height="?attr/actionBarSize"
             android:layout_gravity="end"
-            android:scaleType="center" />
+            android:scaleType="center"
+            android:src="@drawable/ic_settings" />
 
         <ImageView
             android:id="@+id/ivCloud"
@@ -47,16 +47,15 @@
     </androidx.appcompat.widget.Toolbar>
 
     <com.google.android.material.progressindicator.LinearProgressIndicator
+        android:id="@+id/indicatorProgress"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:id="@+id/indicatorProgress"
         android:indeterminate="true"
         android:visibility="gone"
-        tools:visibility="visible"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/toolbar"
-        />
+        tools:visibility="visible" />
 
 
     <androidx.recyclerview.widget.RecyclerView

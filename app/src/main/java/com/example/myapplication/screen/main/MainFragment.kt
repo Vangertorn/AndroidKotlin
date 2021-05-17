@@ -35,6 +35,17 @@ class MainFragment : Fragment() {
         onClick = { note ->
             findNavController().navigateSafe(MainFragmentDirections.toNoteDetails(note))
         })
+    @ExperimentalCoroutinesApi
+    private val simpleCallback = MainSwipeCallback { position, direction ->
+        when (direction) {
+            ItemTouchHelper.LEFT -> {
+                deleteNote(position)
+            }
+            ItemTouchHelper.RIGHT -> {
+                deleteNote(position)
+            }
+        }
+    }
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -86,30 +97,7 @@ class MainFragment : Fragment() {
             }
             viewBinding.indicatorProgress.isVisible = false
         }
-        val simpleCallback =
-            object :
-                ItemTouchHelper.SimpleCallback(0, ItemTouchHelper.LEFT.or(ItemTouchHelper.RIGHT)) {
-                override fun onMove(
-                    recyclerView: RecyclerView,
-                    viewHolder: RecyclerView.ViewHolder,
-                    target: RecyclerView.ViewHolder
-                ): Boolean {
-                    return false
-                }
 
-                override fun onSwiped(viewHolder: RecyclerView.ViewHolder, direction: Int) {
-                    val position = viewHolder.adapterPosition
-                    when (direction) {
-                        ItemTouchHelper.LEFT -> {
-                            deleteNote(position)
-                        }
-                        ItemTouchHelper.RIGHT -> {
-                            deleteNote(position)
-                        }
-                    }
-                }
-
-            }
         val noteHelper = ItemTouchHelper(simpleCallback)
         noteHelper.attachToRecyclerView(viewBinding.recyclerView)
     }

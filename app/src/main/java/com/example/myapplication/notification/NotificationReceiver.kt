@@ -14,6 +14,7 @@ import android.os.Build
 import android.widget.RemoteViews
 import androidx.annotation.RequiresApi
 import androidx.core.app.NotificationCompat
+import androidx.core.app.NotificationManagerCompat
 import androidx.core.app.RemoteInput
 import com.example.myapplication.R
 import org.koin.core.component.KoinApiExtension
@@ -48,17 +49,17 @@ class NotificationReceiver : BroadcastReceiver() {
                 .setContentTitle(context.getString(R.string.hi) + ", $noteUser")
                 .setContentText(context.getString(R.string.remind_you) + " $noteText")
                 .setContentIntent(contentIntent)
-                .setStyle(NotificationCompat.DecoratedCustomViewStyle())
+
                 .setPriority(NotificationCompat.PRIORITY_DEFAULT)
                 .addAction(makeDeleteAction(context, noteId))
                 .addAction(makePostponeAction(context, noteId))
-                .addAction(makeEditNoteAction(context, noteId, noteText))
+                .addAction(makeEditNoteAction(context, noteId))
                 .setSound(RingtoneManager.getDefaultUri(RingtoneManager.TYPE_NOTIFICATION))
                 .setDefaults(Notification.DEFAULT_ALL)
                 .setColor(Color.MAGENTA)
                 .setAutoCancel(true)
 
-        mNotificationManager.notify(0, mBuilder.build())
+        mNotificationManager.notify("TAG", 0, mBuilder.build())
     }
 
     @KoinApiExtension
@@ -101,16 +102,14 @@ class NotificationReceiver : BroadcastReceiver() {
     @KoinApiExtension
     private fun makeEditNoteAction(
         context: Context,
-        noteId: Long,
-        noteText: String?
+        noteId: Long
     ): NotificationCompat.Action {
-        val remoteInput = RemoteInput.Builder(KEY_TEXT_REPLAY).setLabel("Something")
-            .setEditChoicesBeforeSending(RemoteInput.EDIT_CHOICES_BEFORE_SENDING_ENABLED).build()
+        val remoteInput = RemoteInput.Builder(KEY_TEXT_REPLAY)
+            .setLabel(context.getString(R.string.enter_your_comment)).build()
         val editNoteIntent =
             Intent(context.applicationContext, NotificationActionService::class.java)
         editNoteIntent.action = ACTION_EDIT_NOTE
         editNoteIntent.putExtra(NOTIFICATION_KEY_NOTE_ID, noteId)
-        editNoteIntent.putExtra(NOTIFICATION_KEY_NOTE_TEXT, noteText)
         val editTextPendingIntent = PendingIntent.getService(
             context.applicationContext,
             REQUEST_CODE_EDIT,
@@ -119,7 +118,7 @@ class NotificationReceiver : BroadcastReceiver() {
         )
         return NotificationCompat.Action.Builder(
             R.drawable.ic_pencil,
-            "Edit",
+            context.getString(R.string.edit),
             editTextPendingIntent
         ).addRemoteInput(remoteInput).build()
     }
@@ -141,6 +140,7 @@ class NotificationReceiver : BroadcastReceiver() {
                 RingtoneManager.getDefaultUri(RingtoneManager.TYPE_NOTIFICATION),
                 audioAttributes
             )
+            notificationChannel.enableVibration(true)
             mNotificationManager.createNotificationChannel(notificationChannel)
         }
     }

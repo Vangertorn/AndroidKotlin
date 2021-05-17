@@ -14,18 +14,21 @@ class SingUpViewModel(private val usersRepository: UsersRepository) : CoroutineV
 
     fun createNewUser(userName: String, password: String, repeatPassword: String) {
         launch {
-            if (password != repeatPassword) {
-                createNewUserResultLiveData.postValue(LoginResult.PASSWORDS_DO_NOT_MATCH)
-            } else if (userName.isNotBlank() && password.isNotBlank()) {
-                createNewUserResultLiveData.postValue(
+            val result = when {
+                password != repeatPassword -> {
+                    LoginResult.PASSWORDS_DO_NOT_MATCH
+                }
+                userName.isNotBlank() && password.isNotBlank() -> {
+
                     usersRepository.createNewUser(
                         userName,
                         password
                     )
-                )
-            } else {
-                createNewUserResultLiveData.postValue(LoginResult.EMPTY_FIELDS)
+
+                }
+                else -> LoginResult.EMPTY_FIELDS
             }
+            createNewUserResultLiveData.postValue(result)
         }
     }
 }

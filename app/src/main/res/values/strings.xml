@@ -47,4 +47,6 @@
     <string name="back">Back</string>
     <string name="note_was_delete">Note was delete</string>
     <string name="undo">Undo</string>
+    <string name="enter_your_comment">Enter your comment</string>
+    <string name="edit">Edit</string>
 </resources>
