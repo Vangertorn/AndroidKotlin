@@ -3,18 +3,16 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:background="@drawable/dialog_item_background"
+    android:layout_height="40dp"
+    android:layout_margin="10dp"
+    android:background="@drawable/edit_text_background"
     android:drawablePadding="8dp"
-    android:drawableTint="@color/purple_500"
-    android:ellipsize="marquee"
+    android:drawableTint="@color/white"
     android:gravity="center_vertical"
-    android:minHeight="?android:attr/listPreferredItemHeight"
     android:paddingStart="15dp"
     android:paddingEnd="15dp"
-    android:textColor="@color/black"
+    android:textColor="@color/white"
     app:drawableStartCompat="@drawable/ic_user"
-    app:layout_constraintCircleRadius="20dp"
     tools:text="gismo">
 
 </TextView>

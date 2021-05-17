@@ -2,7 +2,8 @@
 <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
-    android:layout_height="match_parent">
+    android:layout_height="match_parent"
+    android:background="@drawable/ic_background_sing_up_fragment">
 
     <TextView
         android:layout_width="wrap_content"
@@ -19,47 +20,51 @@
     <com.google.android.material.textfield.TextInputLayout
         android:id="@+id/editUserName_input_layout"
         android:layout_width="match_parent"
+        android:layout_height="wrap_content"
         android:layout_marginStart="20dp"
         android:layout_marginEnd="20dp"
-        android:layout_height="wrap_content"
         android:paddingBottom="10dp"
         app:boxBackgroundColor="@color/white"
         app:boxStrokeWidth="0dp"
+        app:boxStrokeWidthFocused="0dp"
+        app:hintTextColor="@color/white"
         app:layout_constraintBottom_toTopOf="@+id/password_inputLayout_sing_up"
         app:layout_constraintEnd_toEndOf="parent"
-        app:boxStrokeWidthFocused="0dp"
-        app:layout_constraintStart_toStartOf="parent"
-        >
+        app:layout_constraintStart_toStartOf="parent">
 
         <AutoCompleteTextView
             android:id="@+id/editUserName_sign_up"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:background="@drawable/edit_text_background"
-            android:hint="@string/enter_your_username_please"
+            android:dropDownAnchor="@id/editUserName_input_layout"
+            android:dropDownWidth="wrap_content"
+            android:dropDownHeight="wrap_content"
+            android:dropDownVerticalOffset="20dp"
             android:imeOptions="actionNext"
             android:inputType="text"
-            android:dropDownHeight="wrap_content"
-            android:dropDownWidth="wrap_content"
             android:lines="1"
             android:padding="20dp"
+            android:popupBackground="@android:color/transparent"
+            android:textColor="@color/white"
             android:textSize="16sp" />
     </com.google.android.material.textfield.TextInputLayout>
 
     <com.google.android.material.textfield.TextInputLayout
         android:id="@+id/password_inputLayout_sing_up"
-        android:layout_marginStart="20dp"
-        android:layout_marginEnd="20dp"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:layout_marginStart="20dp"
+        android:layout_marginEnd="20dp"
         android:paddingBottom="10dp"
         app:boxBackgroundColor="@color/white"
         app:boxStrokeWidth="0dp"
+        app:boxStrokeWidthFocused="0dp"
+        app:hintTextColor="@color/white"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:boxStrokeWidthFocused="0dp"
         app:passwordToggleEnabled="true">
 
         <EditText
@@ -67,20 +72,22 @@
             android:layout_width="match_parent"
             android:layout_height="50dp"
             android:background="@drawable/edit_text_background"
-            android:hint="@string/password"
             android:inputType="textPassword"
+            android:textColor="@color/white"
             android:textSize="16sp" />
     </com.google.android.material.textfield.TextInputLayout>
 
     <com.google.android.material.textfield.TextInputLayout
-        android:layout_marginStart="20dp"
-        android:layout_marginEnd="20dp"
+
         android:id="@+id/repeat_TextInputLayout_sing_up"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:layout_marginStart="20dp"
+        android:layout_marginEnd="20dp"
         app:boxBackgroundColor="@color/white"
         app:boxStrokeWidth="0dp"
         app:boxStrokeWidthFocused="0dp"
+        app:hintTextColor="@color/white"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/password_inputLayout_sing_up"
@@ -91,8 +98,8 @@
             android:layout_width="match_parent"
             android:layout_height="50dp"
             android:background="@drawable/edit_text_background"
-            android:hint="@string/repeat_password"
             android:inputType="textPassword"
+            android:textColor="@color/white"
             android:textSize="16sp" />
     </com.google.android.material.textfield.TextInputLayout>
 
@@ -104,9 +111,26 @@
         android:background="@drawable/button_background"
         android:text="@string/sing_up"
         android:textAllCaps="false"
+        android:textColor="@color/white"
+
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="@+id/repeat_TextInputLayout_sing_up"
         app:layout_constraintStart_toStartOf="@+id/repeat_TextInputLayout_sing_up"
         app:layout_constraintTop_toBottomOf="@+id/repeat_TextInputLayout_sing_up" />
+
+    <androidx.appcompat.widget.AppCompatButton
+        android:id="@+id/btnBack_sign_up"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_margin="20dp"
+        android:background="@drawable/button_back_background"
+        android:drawableStart="@drawable/ic_bac"
+        android:drawableTint="@color/white"
+        android:text="@string/back"
+        android:textAllCaps="false"
+        android:textColor="@color/white"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/btnRegisterNewUser_sign_up" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

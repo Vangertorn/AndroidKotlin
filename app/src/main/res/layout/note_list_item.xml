@@ -4,8 +4,8 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="150dp"
-    android:layout_margin="10dp"
-    app:cardBackgroundColor="@color/purple_200"
+    android:layout_margin="5dp"
+    app:cardBackgroundColor="#66237C74"
     app:cardCornerRadius="20dp"
     app:cardElevation="4dp">
 
@@ -18,16 +18,20 @@
             android:id="@+id/tvTitle"
             android:layout_width="0dp"
             android:layout_height="0dp"
-            android:layout_margin="12dp"
-            android:fontFamily="sans-serif-medium"
+            android:layout_marginStart="10dp"
+            android:layout_marginTop="10dp"
+            android:layout_marginEnd="10dp"
+            android:layout_marginBottom="30dp"
             android:gravity="center"
+            android:maxLength="100"
             android:textColor="@color/white"
-            android:textSize="18sp"
-            android:textStyle="bold"
+            android:textSize="16sp"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.0"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintVertical_bias="1.0"
             tools:text="Something text" />
 
         <TextView

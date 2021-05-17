@@ -94,4 +94,17 @@ class LoginFragment : Fragment() {
             viewBinding.editUserName.setAdapter(arrayAdapter)
         }
     }
+
+    override fun onResume() {
+        super.onResume()
+        viewBinding.editPassword1.setHint(R.string.password)
+        viewBinding.editUserNameInputLayout.setHint(R.string.enter_your_username_please)
+    }
+
+    override fun onDestroyView() {
+        super.onDestroyView()
+        viewModel.loginResultLiveData.postValue(LoginResult.NONE)
+    }
+
+
 }

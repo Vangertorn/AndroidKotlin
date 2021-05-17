@@ -12,10 +12,15 @@ import com.example.myapplication.databinding.FragmentSingUpBinding
 import com.example.myapplication.repository.LoginResult
 import com.example.myapplication.screen.enter.LoginFragmentDirections
 import com.example.myapplication.support.navigateSafe
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.GlobalScope
+import kotlinx.coroutines.delay
+import kotlinx.coroutines.launch
+import okhttp3.internal.wait
 import org.koin.android.viewmodel.ext.android.viewModel
 
 
-class SingUpFragment: Fragment() {
+class SingUpFragment : Fragment() {
     private lateinit var viewBinding: FragmentSingUpBinding
     private val viewModel: SingUpViewModel by viewModel()
 
@@ -24,20 +29,15 @@ class SingUpFragment: Fragment() {
         container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View {
-        viewBinding = FragmentSingUpBinding.bind(LayoutInflater.from(context).inflate(R.layout.fragment_sing_up,container,false))
+        viewBinding = FragmentSingUpBinding.bind(
+            LayoutInflater.from(context).inflate(R.layout.fragment_sing_up, container, false)
+        )
         return viewBinding.root
     }
 
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        viewModel.logGedIn.observe(this.viewLifecycleOwner) { loggedIn ->
-            if (loggedIn) {
-                findNavController().navigateSafe(SingUpFragmentDirections.actionSingUpFragmentToMainFragment())
-            } else {
-                viewBinding.root.alpha = 1f
-            }
-        }
         viewModel.createNewUserResultLiveData.observe(this.viewLifecycleOwner) { loginResult ->
             when (loginResult) {
                 LoginResult.PASSWORDS_DO_NOT_MATCH -> Toast.makeText(
@@ -63,6 +63,17 @@ class SingUpFragment: Fragment() {
                 ).show()
             }
         }
+        viewModel.logGedIn.observe(this.viewLifecycleOwner) { loggedIn ->
+            if (loggedIn) {
+                GlobalScope.launch(Dispatchers.Main) {
+                    delay(50)
+                    findNavController().navigateSafe(SingUpFragmentDirections.actionSingUpFragmentToMainFragment())
+                }
+
+            } else {
+                viewBinding.root.alpha = 1f
+            }
+        }
         viewBinding.btnRegisterNewUserSignUp.setOnClickListener {
             viewModel.createNewUser(
                 viewBinding.editUserNameSignUp.text.toString(),
@@ -70,5 +81,14 @@ class SingUpFragment: Fragment() {
                 viewBinding.repeatEditPasswordSingUp.text.toString()
             )
         }
+        viewBinding.btnBackSignUp.setOnClickListener {
+            findNavController().popBackStack()
+        }
+    }
+    override fun onResume() {
+        super.onResume()
+        viewBinding.passwordInputLayoutSingUp.setHint(R.string.password)
+        viewBinding.repeatTextInputLayoutSingUp.setHint(R.string.repeat_password)
+        viewBinding.editUserNameInputLayout.setHint(R.string.enter_your_username_please)
     }
 }

@@ -5,7 +5,7 @@
     <string name="ok">ОК</string>
     <string name="add_note">Добавить заметку</string>
     <string name="confirm">Создать</string>
-    <string name="enter_your_username_please">Введитепожалуйста имя пользователя</string>
+    <string name="enter_your_username_please">Введите пожалуйста имя пользователя</string>
     <string name="password">Пароль</string>
     <string name="repeat_password">Повторите пароль</string>
     <string name="sing_up">Зарегистрироваться</string>
@@ -47,4 +47,6 @@
     <string name="notify">Уведомление</string>
     <string name="note_was_delete">Записка удалена</string>
     <string name="undo">Отмена</string>
+    <string name="enter_your_comment">Введите коментарий</string>
+    <string name="edit">Прокоментировать</string>
 </resources>
