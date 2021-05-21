@@ -10,13 +10,12 @@ import androidx.navigation.fragment.findNavController
 import com.example.myapplication.R
 import com.example.myapplication.databinding.FragmentSingUpBinding
 import com.example.myapplication.repository.LoginResult
-import com.example.myapplication.screen.enter.LoginFragmentDirections
+import com.example.myapplication.support.hideKeyboard
 import com.example.myapplication.support.navigateSafe
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.GlobalScope
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
-import okhttp3.internal.wait
 import org.koin.android.viewmodel.ext.android.viewModel
 
 
@@ -61,6 +60,11 @@ class SingUpFragment : Fragment() {
                     loginResult.toast,
                     Toast.LENGTH_SHORT
                 ).show()
+                else -> Toast.makeText(
+                    requireContext(),
+                    "It was happen something terrible",
+                    Toast.LENGTH_SHORT
+                ).show()
             }
         }
         viewModel.logGedIn.observe(this.viewLifecycleOwner) { loggedIn ->
@@ -68,6 +72,7 @@ class SingUpFragment : Fragment() {
                 GlobalScope.launch(Dispatchers.Main) {
                     delay(50)
                     findNavController().navigateSafe(SingUpFragmentDirections.actionSingUpFragmentToMainFragment())
+                    hideKeyboard()
                 }
 
             } else {
@@ -85,6 +90,7 @@ class SingUpFragment : Fragment() {
             findNavController().popBackStack()
         }
     }
+
     override fun onResume() {
         super.onResume()
         viewBinding.passwordInputLayoutSingUp.setHint(R.string.password)

@@ -86,13 +86,14 @@ class NotesRepository(
         }
     }
 
-    suspend fun updateNoteById(noteId: Long, newText: String) {
+    suspend fun updateNoteById(noteId: Long, postscriptText: String) {
         withContext(Dispatchers.IO) {
             notesDao.getNoteById(noteId)?.let {
                 notesDao.updateNote(
                     Note(
                         id = it.id,
-                        title = newText,
+                        title = it.title,
+                        postscript = postscriptText,
                         date = it.date,
                         userName = it.userName,
                         cloud = it.cloud,

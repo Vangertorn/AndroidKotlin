@@ -18,7 +18,7 @@ import kotlinx.parcelize.Parcelize
         onUpdate = ForeignKey.CASCADE
     )]
 )
- data class Note(
+data class Note(
     @PrimaryKey(autoGenerate = true)
     val id: Long = 0L,
     val title: String,
@@ -26,5 +26,6 @@ import kotlinx.parcelize.Parcelize
     @ColumnInfo(index = true, name = "userName")
     val userName: String,
     val cloud: Boolean = false,
-    val alarmEnabled: Boolean = false
+    val alarmEnabled: Boolean = false,
+    val postscript: String? = null
 ) : Parcelable

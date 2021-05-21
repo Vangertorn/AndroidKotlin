@@ -12,6 +12,7 @@ import com.example.myapplication.R
 import com.example.myapplication.databinding.FragmentLoginBinding
 
 import com.example.myapplication.repository.LoginResult
+import com.example.myapplication.support.hideKeyboard
 import com.example.myapplication.support.navigateSafe
 import org.koin.android.viewmodel.ext.android.viewModel
 
@@ -66,12 +67,18 @@ class LoginFragment : Fragment() {
                     loginResult.toast,
                     Toast.LENGTH_SHORT
                 ).show()
+                else -> Toast.makeText(
+                    requireContext(),
+                    "It was happen something terrible",
+                    Toast.LENGTH_SHORT
+                ).show()
             }
         }
 
         viewModel.logGedIn.observe(this.viewLifecycleOwner) { loggedIn ->
             if (loggedIn) {
                 findNavController().navigateSafe(LoginFragmentDirections.actionLoginFragmentToMainFragment())
+                hideKeyboard()
             } else {
                 viewBinding.root.alpha = 1f
             }
@@ -84,6 +91,7 @@ class LoginFragment : Fragment() {
         }
         viewBinding.btnRegisterNewUser.setOnClickListener {
             findNavController().navigateSafe(LoginFragmentDirections.actionLoginFragmentToSingUpFragment())
+            hideKeyboard()
         }
         viewModel.autoCompleteUserNamesLiveData.observe(this.viewLifecycleOwner) { userNames ->
             val arrayAdapter: ArrayAdapter<String> = ArrayAdapter<String>(
@@ -93,6 +101,7 @@ class LoginFragment : Fragment() {
             )
             viewBinding.editUserName.setAdapter(arrayAdapter)
         }
+        viewBinding.editUserName.setDropDownBackgroundResource(android.R.color.transparent)
     }
 
     override fun onResume() {
