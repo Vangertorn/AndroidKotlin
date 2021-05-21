@@ -71,7 +71,8 @@ class NoteAdapterDiffCallBack : DiffUtil.ItemCallback<Note>() {
                 oldItem.title == newItem.title &&
                 oldItem.cloud == newItem.cloud &&
                 oldItem.alarmEnabled == newItem.alarmEnabled &&
-                oldItem.postscript == newItem.postscript
+                oldItem.postscript == newItem.postscript&&
+                oldItem.position==newItem.position
     }
 
 }

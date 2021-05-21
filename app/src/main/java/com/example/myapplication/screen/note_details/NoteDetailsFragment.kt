@@ -44,6 +44,7 @@ class NoteDetailsFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
 
         viewBinding.toolbar.setNavigationOnClickListener {
+            hideKeyboard()
             findNavController().popBackStack()
         }
         viewBinding.confirm.setOnClickListener {
@@ -55,7 +56,9 @@ class NoteDetailsFragment : Fragment() {
                             title = viewBinding.textNote.text.toString(),
                             date = dateFormatter.format(noteDate),
                             userName = it.userName,
-                            alarmEnabled = viewBinding.alarmSwitch.isChecked
+                            alarmEnabled = viewBinding.alarmSwitch.isChecked,
+                            postscript = it.postscript,
+                            position = it.position
                         )
                     )
                 } ?: kotlin.run {
@@ -86,7 +89,7 @@ class NoteDetailsFragment : Fragment() {
             viewBinding.textNote.setText(note.title)
             noteDate = dateFormatter.parse(note.date) ?: Date()
             viewBinding.tvTime.selectDate(
-                java.util.Calendar.getInstance().apply { this.time = noteDate })
+               Calendar.getInstance().apply { this.time = noteDate })
         }
 
         viewBinding.tvTime.addOnDateChangedListener { displayed, date ->

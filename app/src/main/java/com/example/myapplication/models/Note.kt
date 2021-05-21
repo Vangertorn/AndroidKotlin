@@ -6,6 +6,7 @@ import androidx.room.Entity
 import androidx.room.ForeignKey
 import androidx.room.PrimaryKey
 import kotlinx.parcelize.Parcelize
+import java.text.FieldPosition
 
 @Parcelize
 @Entity(
@@ -27,5 +28,6 @@ data class Note(
     val userName: String,
     val cloud: Boolean = false,
     val alarmEnabled: Boolean = false,
-    val postscript: String? = null
+    val postscript: String? = null,
+    val position: Int = 0
 ) : Parcelable

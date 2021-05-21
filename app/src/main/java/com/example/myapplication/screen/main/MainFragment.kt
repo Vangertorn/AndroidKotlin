@@ -28,13 +28,12 @@ class MainFragment : Fragment() {
     @ExperimentalCoroutinesApi
     private val viewModel: MainViewModel by viewModel()
 
-    private val handler = Handler(Looper.getMainLooper())
-
     @ExperimentalCoroutinesApi
     private val adapter = NotesRecyclerViewAdapter(
         onClick = { note ->
             findNavController().navigateSafe(MainFragmentDirections.toNoteDetails(note))
         })
+
     @ExperimentalCoroutinesApi
     private val simpleCallback = MainSwipeCallback { position, direction ->
         when (direction) {
@@ -67,9 +66,9 @@ class MainFragment : Fragment() {
         viewModel.notesLiveData.observe(this.viewLifecycleOwner) {
             adapter.submitList(it)
         }
-        viewBinding.recyclerView.postDelayed({
-            viewBinding.recyclerView.scrollToPosition(0)
-        }, 600)
+//        viewBinding.recyclerView.postDelayed({
+//            viewBinding.recyclerView.scrollToPosition(0)
+//        }, 600)
 
 
         viewBinding.btnAdd.setOnClickListener {
@@ -104,25 +103,17 @@ class MainFragment : Fragment() {
 
     @ExperimentalCoroutinesApi
     private fun deleteNote(position: Int) {
-        var permissionDelete = true
-        val deleteNote = viewModel.getNoteFromPosition(position)
-        viewModel.deleteNoteFromPosition(position)
-        adapter.notifyItemRemoved(position)
+        val note = viewModel.getNoteFromPosition(position)
+        viewModel.deleteNote(note!!)
+
 
         Snackbar.make(
             viewBinding.recyclerView,
             getString(R.string.note_was_delete),
             Snackbar.LENGTH_LONG
         ).setAction(getString(R.string.undo)) {
-            permissionDelete = viewModel.recoverNoteFromPosition(position, deleteNote!!)
-            adapter.notifyItemInserted(position)
-
+            viewModel.reSaveNote(note)
         }.show()
-        handler.postDelayed(Runnable {
-            if (permissionDelete) viewModel.deleteNote(
-                deleteNote!!
-            )
-        }, 2750)
     }
 
 
