@@ -1,20 +1,17 @@
 package com.example.myapplication
-
-import android.os.Build
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.os.Handler
 import android.os.Looper
-import android.util.Log
 import android.widget.Toast
-import androidx.annotation.RequiresApi
+import androidx.fragment.app.Fragment
 import androidx.navigation.NavController
-
 import androidx.navigation.fragment.NavHostFragment
-
 import com.example.myapplication.databinding.ActivityMainBinding
+import com.example.myapplication.support.SupportActivityInset
+import com.example.myapplication.support.setWindowTransparency
 
-class MainActivity : AppCompatActivity() {
+class MainActivity : SupportActivityInset<ActivityMainBinding>()  {
 
     private lateinit var viewBinding: ActivityMainBinding
     private val navHostFragment by lazy { supportFragmentManager.findFragmentById(R.id.navHostFragment) as NavHostFragment }
@@ -28,6 +25,7 @@ class MainActivity : AppCompatActivity() {
 
         viewBinding = ActivityMainBinding.inflate(layoutInflater)
         setContentView(viewBinding.root)
+        setWindowTransparency(this)
 
     }
 
@@ -46,6 +44,10 @@ class MainActivity : AppCompatActivity() {
             Toast.makeText(this, getString(R.string.Press_back), Toast.LENGTH_SHORT).show()
             handler.postDelayed(Runnable { doubleBackToExitPressedOnce = false }, 2000)
         } else navController.popBackStack()
+    }
+
+    override fun getActiveFragment(): Fragment? {
+        return navHostFragment.childFragmentManager.fragments[0]
     }
 }
 
