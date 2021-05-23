@@ -1,21 +1,21 @@
 package com.example.myapplication.screen.main
 
 
+
 import android.os.Bundle
-import android.os.Handler
-import android.os.Looper
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
+
 import androidx.core.view.isVisible
 import androidx.fragment.app.Fragment
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.ItemTouchHelper
-import androidx.recyclerview.widget.RecyclerView
 import com.example.myapplication.R
 import com.example.myapplication.databinding.FragmentMainBinding
 import com.example.myapplication.support.navigateSafe
+
 import com.google.android.material.dialog.MaterialAlertDialogBuilder
 import com.google.android.material.snackbar.Snackbar
 import kotlinx.coroutines.ExperimentalCoroutinesApi
@@ -66,9 +66,6 @@ class MainFragment : Fragment() {
         viewModel.notesLiveData.observe(this.viewLifecycleOwner) {
             adapter.submitList(it)
         }
-//        viewBinding.recyclerView.postDelayed({
-//            viewBinding.recyclerView.scrollToPosition(0)
-//        }, 600)
 
 
         viewBinding.btnAdd.setOnClickListener {
@@ -99,6 +96,11 @@ class MainFragment : Fragment() {
 
         val noteHelper = ItemTouchHelper(simpleCallback)
         noteHelper.attachToRecyclerView(viewBinding.recyclerView)
+
+//        val toolbar = viewBinding.toolbar
+//        if (activity is AppCompatActivity) {
+//            (activity as AppCompatActivity).setSupportActionBar(toolbar)
+//        }
     }
 
     @ExperimentalCoroutinesApi

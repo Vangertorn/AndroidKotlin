@@ -52,39 +52,43 @@ class NotesRepository(
     suspend fun saveNote(note: Note) {
         withContext(Dispatchers.IO) {
             notesDao.updateTableNotes(usersDao.getUserInfo(appSettings.userName())!!.notes.map {
-                if (note.position == 0) {
-                    Note(
-                        id = it.id,
-                        alarmEnabled = it.alarmEnabled,
-                        cloud = it.cloud,
-                        title = it.title,
-                        date = it.date,
-                        userName = it.userName,
-                        postscript = it.postscript,
-                        position = it.position + 1
-                    )
-                } else if (note.position > it.position) {
-                    Note(
-                        id = it.id,
-                        alarmEnabled = it.alarmEnabled,
-                        cloud = it.cloud,
-                        title = it.title,
-                        date = it.date,
-                        userName = it.userName,
-                        postscript = it.postscript,
-                        position = it.position
-                    )
-                } else {
-                    Note(
-                        id = it.id,
-                        alarmEnabled = it.alarmEnabled,
-                        cloud = it.cloud,
-                        title = it.title,
-                        date = it.date,
-                        userName = it.userName,
-                        postscript = it.postscript,
-                        position = it.position + 1
-                    )
+                when {
+                    note.position == 0 -> {
+                        Note(
+                            id = it.id,
+                            alarmEnabled = it.alarmEnabled,
+                            cloud = it.cloud,
+                            title = it.title,
+                            date = it.date,
+                            userName = it.userName,
+                            postscript = it.postscript,
+                            position = it.position + 1
+                        )
+                    }
+                    note.position > it.position -> {
+                        Note(
+                            id = it.id,
+                            alarmEnabled = it.alarmEnabled,
+                            cloud = it.cloud,
+                            title = it.title,
+                            date = it.date,
+                            userName = it.userName,
+                            postscript = it.postscript,
+                            position = it.position
+                        )
+                    }
+                    else -> {
+                        Note(
+                            id = it.id,
+                            alarmEnabled = it.alarmEnabled,
+                            cloud = it.cloud,
+                            title = it.title,
+                            date = it.date,
+                            userName = it.userName,
+                            postscript = it.postscript,
+                            position = it.position + 1
+                        )
+                    }
                 }
             })
 

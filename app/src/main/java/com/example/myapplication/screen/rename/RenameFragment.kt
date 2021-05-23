@@ -5,6 +5,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
+import androidx.core.widget.doOnTextChanged
 import androidx.fragment.app.Fragment
 import androidx.navigation.fragment.findNavController
 import androidx.navigation.fragment.navArgs
@@ -13,7 +14,6 @@ import com.example.myapplication.databinding.FragmentRenameBinding
 import com.example.myapplication.repository.LoginResult
 import com.example.myapplication.support.navigateSafe
 import org.koin.android.viewmodel.ext.android.viewModel
-import java.util.*
 
 class RenameFragment : Fragment() {
     private lateinit var viewBinding: FragmentRenameBinding
@@ -58,6 +58,11 @@ class RenameFragment : Fragment() {
                     loginResult.toast,
                     Toast.LENGTH_SHORT
                 ).show()
+                else -> Toast.makeText(
+                    requireContext(),
+                    "It was happen something terrible",
+                    Toast.LENGTH_SHORT
+                ).show()
             }
         }
         viewBinding.btnRenameUserRename.setOnClickListener {
@@ -65,6 +70,14 @@ class RenameFragment : Fragment() {
         }
         viewBinding.btnBack.setOnClickListener {
             findNavController().popBackStack()
+        }
+        viewBinding.editUserNameRename.doOnTextChanged { text, start, before, count ->
+            if (text!!.length in 1..2) {
+                viewBinding.editUserNameInputLayout.error =
+                    getString(R.string.the_name_is_too_short)
+            } else {
+                viewBinding.editUserNameInputLayout.error = null
+            }
         }
 
 

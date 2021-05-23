@@ -5,6 +5,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
+import androidx.core.widget.doOnTextChanged
 import androidx.fragment.app.Fragment
 import androidx.navigation.fragment.findNavController
 import com.example.myapplication.R
@@ -88,6 +89,14 @@ class SingUpFragment : Fragment() {
         }
         viewBinding.btnBackSignUp.setOnClickListener {
             findNavController().popBackStack()
+        }
+        viewBinding.editUserNameSignUp.doOnTextChanged { text, start, before, count ->
+            if (text!!.length in 1..2) {
+                viewBinding.editUserNameInputLayout.error =
+                    getString(R.string.the_name_is_too_short)
+            } else {
+                viewBinding.editUserNameInputLayout.error = null
+            }
         }
     }
 

@@ -83,6 +83,8 @@ class LoginFragment : Fragment() {
                 viewBinding.root.alpha = 1f
             }
         }
+
+
         viewBinding.btnLogin.setOnClickListener {
             viewModel.login(
                 viewBinding.editUserName.text.toString(),

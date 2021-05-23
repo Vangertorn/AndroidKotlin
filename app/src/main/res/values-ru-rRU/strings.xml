@@ -49,4 +49,5 @@
     <string name="undo">Отмена</string>
     <string name="enter_your_comment">Введите коментарий</string>
     <string name="edit">Прокоментировать</string>
+    <string name="the_name_is_too_short">Имя слишком короткое</string>
 </resources>
