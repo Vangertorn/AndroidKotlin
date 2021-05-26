@@ -20,6 +20,14 @@ data class VerticalInset(val top: Int, val bottom: Int, val hasKeyboard: Boolean
     }
 }
 
+fun Dialog.setWindowTransparency(
+    listener: OnSystemBarsSizeChangedListener
+) {
+    window?.decorView?.overrideSystemInsets(listener)
+    window?.navigationBarColor = Color.TRANSPARENT
+    window?.statusBarColor = Color.TRANSPARENT
+}
+
 fun Activity.setWindowTransparency(listener: OnSystemBarsSizeChangedListener) {
     window.decorView.overrideSystemInsets(listener)
     window.navigationBarColor = Color.TRANSPARENT
@@ -29,6 +37,7 @@ fun Activity.setWindowTransparency(listener: OnSystemBarsSizeChangedListener) {
 
 private fun View.overrideSystemInsets(listener: OnSystemBarsSizeChangedListener) {
     ViewCompat.setOnApplyWindowInsetsListener(this) { _, insets ->
+
         val desiredBottomInset = calculateDesiredBottomInset(
             this,
             insets.systemWindowInsetTop,

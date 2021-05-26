@@ -1,36 +1,24 @@
 package com.example.myapplication.screen.setting
 
 import android.os.Bundle
-import android.view.LayoutInflater
 import android.view.View
-import android.view.ViewGroup
 import android.widget.Toast
 import androidx.core.view.isVisible
-import androidx.fragment.app.Fragment
 import androidx.navigation.fragment.findNavController
+import by.kirich1409.viewbindingdelegate.viewBinding
 import com.example.myapplication.R
 import com.example.myapplication.databinding.FragmentSettingBinding
+import com.example.myapplication.support.SupportFragmentInset
 import com.example.myapplication.support.navigateSafe
+import com.example.myapplication.support.setVerticalMargin
 import com.google.android.material.dialog.MaterialAlertDialogBuilder
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.runBlocking
 import org.koin.android.viewmodel.ext.android.viewModel
 
-class SettingFragment : Fragment() {
-    private lateinit var viewBinding: FragmentSettingBinding
+class SettingFragment : SupportFragmentInset<FragmentSettingBinding>(R.layout.fragment_setting) {
+    override val viewBinding: FragmentSettingBinding by viewBinding()
     private val viewModel: SettingViewModel by viewModel()
-
-    override fun onCreateView(
-        inflater: LayoutInflater,
-        container: ViewGroup?,
-        savedInstanceState: Bundle?
-    ): View {
-        viewBinding = FragmentSettingBinding.bind(
-            LayoutInflater.from(context).inflate(R.layout.fragment_setting, container, false)
-        )
-        return viewBinding.root
-    }
-
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
@@ -96,5 +84,9 @@ class SettingFragment : Fragment() {
                 dialog.cancel()
             }.show()
 
+    }
+
+    override fun onInsetsReceived(top: Int, bottom: Int, hasKeyboard: Boolean) {
+        viewBinding.settingToolbar.setVerticalMargin(top)
     }
 }

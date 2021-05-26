@@ -1,43 +1,33 @@
 package com.example.myapplication.screen.note_details
+
 import android.os.Build
 import android.os.Bundle
-import android.view.LayoutInflater
 import android.view.View
-import android.view.ViewGroup
 import android.widget.Toast
 import androidx.annotation.RequiresApi
-import androidx.fragment.app.Fragment
 import androidx.navigation.fragment.findNavController
 import androidx.navigation.fragment.navArgs
+import by.kirich1409.viewbindingdelegate.viewBinding
 import com.example.myapplication.R
 import com.example.myapplication.databinding.FragmentNoteDetailsBinding
 import com.example.myapplication.models.Note
+import com.example.myapplication.support.SupportFragmentInset
 import com.example.myapplication.support.hideKeyboard
+import com.example.myapplication.support.setVerticalMargin
 import org.koin.android.viewmodel.ext.android.viewModel
 import java.text.SimpleDateFormat
 import java.util.*
 
 
-class NoteDetailsFragment : Fragment() {
-    private lateinit var viewBinding: FragmentNoteDetailsBinding
+class NoteDetailsFragment :
+    SupportFragmentInset<FragmentNoteDetailsBinding>(R.layout.fragment_note_details) {
+    override val viewBinding: FragmentNoteDetailsBinding by viewBinding()
 
     private val dateFormatter = SimpleDateFormat("dd.MM.yyyy HH:mm", Locale.getDefault())
     private val args: NoteDetailsFragmentArgs by navArgs()
     private val viewModel: NoteDetailsViewModel by viewModel()
     private var noteDate = Date()
 
-
-    override fun onCreateView(
-        inflater: LayoutInflater,
-        container: ViewGroup?,
-        savedInstanceState: Bundle?
-    ): View {
-        viewBinding = FragmentNoteDetailsBinding.bind(
-            LayoutInflater.from(context).inflate(R.layout.fragment_note_details, container, false)
-        )
-        return viewBinding.root
-
-    }
 
     @RequiresApi(Build.VERSION_CODES.N)
 
@@ -89,12 +79,17 @@ class NoteDetailsFragment : Fragment() {
             viewBinding.textNote.setText(note.title)
             noteDate = dateFormatter.parse(note.date) ?: Date()
             viewBinding.tvTime.selectDate(
-               Calendar.getInstance().apply { this.time = noteDate })
+                Calendar.getInstance().apply { this.time = noteDate })
         }
 
         viewBinding.tvTime.addOnDateChangedListener { displayed, date ->
             noteDate = date
         }
+    }
+
+    override fun onInsetsReceived(top: Int, bottom: Int, hasKeyboard: Boolean) {
+        viewBinding.toolbar.setVerticalMargin(top)
+        viewBinding.confirm.setVerticalMargin(0, bottom)
     }
 
 }

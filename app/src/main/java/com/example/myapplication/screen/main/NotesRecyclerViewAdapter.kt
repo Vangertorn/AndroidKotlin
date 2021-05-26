@@ -17,6 +17,7 @@ class NotesRecyclerViewAdapter(
     private val onClick: (Note) -> Unit
 ) : ListAdapter<Note, NotesRecyclerViewAdapter.NoteViewHolder>(NoteAdapterDiffCallBack()) {
 
+
     override fun onCreateViewHolder(
         parent: ViewGroup,
         viewType: Int

@@ -105,14 +105,10 @@
 
     <androidx.appcompat.widget.AppCompatButton
         android:id="@+id/btnRegisterNewUser_sign_up"
+        style="@style/MyButtonStyle"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_margin="20dp"
-        android:background="@drawable/button_background"
         android:text="@string/sing_up"
-        android:textAllCaps="false"
-        android:textColor="@color/white"
-
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="@+id/repeat_TextInputLayout_sing_up"
         app:layout_constraintStart_toStartOf="@+id/repeat_TextInputLayout_sing_up"
@@ -120,15 +116,11 @@
 
     <androidx.appcompat.widget.AppCompatButton
         android:id="@+id/btnBack_sign_up"
+        style="@style/MyButtonStyle"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_margin="20dp"
-        android:background="@drawable/button_back_background"
         android:drawableStart="@drawable/ic_bac"
-        android:drawableTint="@color/white"
         android:text="@string/back"
-        android:textAllCaps="false"
-        android:textColor="@color/white"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@id/btnRegisterNewUser_sign_up" />

@@ -1,7 +1,6 @@
 package com.example.myapplication.screen.main
 
 
-
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
@@ -9,12 +8,14 @@ import android.view.ViewGroup
 import android.widget.Toast
 
 import androidx.core.view.isVisible
-import androidx.fragment.app.Fragment
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.ItemTouchHelper
+import androidx.recyclerview.widget.RecyclerView
 import com.example.myapplication.R
 import com.example.myapplication.databinding.FragmentMainBinding
+import com.example.myapplication.support.SupportFragmentInset
 import com.example.myapplication.support.navigateSafe
+import com.example.myapplication.support.setVerticalMargin
 
 import com.google.android.material.dialog.MaterialAlertDialogBuilder
 import com.google.android.material.snackbar.Snackbar
@@ -22,8 +23,8 @@ import kotlinx.coroutines.ExperimentalCoroutinesApi
 import org.koin.androidx.viewmodel.ext.android.viewModel
 
 
-class MainFragment : Fragment() {
-    private lateinit var viewBinding: FragmentMainBinding
+class MainFragment : SupportFragmentInset<FragmentMainBinding>(R.layout.fragment_main) {
+    override lateinit var viewBinding: FragmentMainBinding
 
     @ExperimentalCoroutinesApi
     private val viewModel: MainViewModel by viewModel()
@@ -33,6 +34,13 @@ class MainFragment : Fragment() {
         onClick = { note ->
             findNavController().navigateSafe(MainFragmentDirections.toNoteDetails(note))
         })
+
+    private val dataObserver = object : RecyclerView.AdapterDataObserver() {
+        override fun onItemRangeInserted(positionStart: Int, itemCount: Int) {
+            super.onItemRangeInserted(positionStart, itemCount)
+            viewBinding.recyclerView.scrollToPosition(0)
+        }
+    }
 
     @ExperimentalCoroutinesApi
     private val simpleCallback = MainSwipeCallback { position, direction ->
@@ -97,10 +105,13 @@ class MainFragment : Fragment() {
         val noteHelper = ItemTouchHelper(simpleCallback)
         noteHelper.attachToRecyclerView(viewBinding.recyclerView)
 
-//        val toolbar = viewBinding.toolbar
-//        if (activity is AppCompatActivity) {
-//            (activity as AppCompatActivity).setSupportActionBar(toolbar)
-//        }
+        adapter.registerAdapterDataObserver(dataObserver)
+
+    }
+
+    override fun onDestroyView() {
+        adapter.unregisterAdapterDataObserver(dataObserver)
+        super.onDestroyView()
     }
 
     @ExperimentalCoroutinesApi
@@ -133,6 +144,11 @@ class MainFragment : Fragment() {
                 viewModel.exportNotes()
                 dialog.cancel()
             }.show()
+    }
+
+    override fun onInsetsReceived(top: Int, bottom: Int, hasKeyboard: Boolean) {
+        viewBinding.toolbar.setVerticalMargin(marginTop = top)
+        viewBinding.recyclerView.setPadding(0, 0, 0, bottom)
     }
 
 

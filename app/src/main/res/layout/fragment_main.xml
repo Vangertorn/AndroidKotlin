@@ -63,7 +63,7 @@
                     android:layout_height="?attr/actionBarSize"
                     android:layout_gravity="end"
                     android:scaleType="center"
-                    android:src="@drawable/ic_settings" />
+                    android:src="@drawable/ic_my_settings" />
 
                 <ImageView
                     android:id="@+id/ivCloud"

@@ -4,7 +4,8 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.Fragment
 import androidx.viewbinding.ViewBinding
 
-abstract class SupportActivityInset<T: ViewBinding>: AppCompatActivity(), OnSystemBarsSizeChangedListener {
+abstract class SupportActivityInset<T : ViewBinding> : AppCompatActivity(), ViewBindable<T>,
+    OnSystemBarsSizeChangedListener {
 
     override var insets: VerticalInset = VerticalInset.empty()
 
