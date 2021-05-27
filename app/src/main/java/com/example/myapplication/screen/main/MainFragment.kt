@@ -13,6 +13,7 @@ import androidx.recyclerview.widget.ItemTouchHelper
 import androidx.recyclerview.widget.RecyclerView
 import com.example.myapplication.R
 import com.example.myapplication.databinding.FragmentMainBinding
+import com.example.myapplication.support.CalendarView
 import com.example.myapplication.support.SupportFragmentInset
 import com.example.myapplication.support.navigateSafe
 import com.example.myapplication.support.setVerticalMargin
@@ -21,6 +22,8 @@ import com.google.android.material.dialog.MaterialAlertDialogBuilder
 import com.google.android.material.snackbar.Snackbar
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import org.koin.androidx.viewmodel.ext.android.viewModel
+import java.text.SimpleDateFormat
+import java.util.*
 
 
 class MainFragment : SupportFragmentInset<FragmentMainBinding>(R.layout.fragment_main) {
@@ -107,6 +110,13 @@ class MainFragment : SupportFragmentInset<FragmentMainBinding>(R.layout.fragment
 
         adapter.registerAdapterDataObserver(dataObserver)
 
+
+        viewBinding.calendarView.onDateChangedCallback = object : CalendarView.DateChangeListener {
+            override fun onDateChanged(date: Date) {
+                Toast.makeText(requireContext(), DayFormatter.format(date), Toast.LENGTH_LONG)
+                    .show()
+            }
+        }
     }
 
     override fun onDestroyView() {
@@ -149,6 +159,10 @@ class MainFragment : SupportFragmentInset<FragmentMainBinding>(R.layout.fragment
     override fun onInsetsReceived(top: Int, bottom: Int, hasKeyboard: Boolean) {
         viewBinding.toolbar.setVerticalMargin(marginTop = top)
         viewBinding.recyclerView.setPadding(0, 0, 0, bottom)
+    }
+
+    companion object {
+        val DayFormatter = SimpleDateFormat("dd EE MMM yyyy", Locale.getDefault())
     }
 
 

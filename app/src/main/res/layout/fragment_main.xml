@@ -40,10 +40,10 @@
                 android:id="@+id/user_name"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_gravity="start|bottom"
+                android:layout_gravity="center"
                 android:layout_margin="10dp"
                 android:textColor="@color/white"
-                android:textSize="36dp"
+                android:textSize="36sp"
                 android:textStyle="bold"
                 tools:text="User" />
 
@@ -75,6 +75,7 @@
 
 
             </androidx.appcompat.widget.Toolbar>
+
 
         </com.google.android.material.appbar.CollapsingToolbarLayout>
 
@@ -122,6 +123,14 @@
         app:layout_anchor="@id/appBarLayout"
         app:layout_anchorGravity="bottom|end|right"
         app:maxImageSize="28dp" />
+    <com.example.myapplication.support.CalendarView
+        android:id="@+id/calendarView"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_margin="20dp"
+        app:daysCount="10"
+        app:layout_anchor="@id/appBarLayout"
+        app:layout_anchorGravity="top"/>
 
 </androidx.coordinatorlayout.widget.CoordinatorLayout>
 
