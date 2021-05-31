@@ -17,6 +17,7 @@ class NotesRecyclerViewAdapter(
     private val onClick: (Note) -> Unit
 ) : ListAdapter<Note, NotesRecyclerViewAdapter.NoteViewHolder>(NoteAdapterDiffCallBack()) {
 
+
     override fun onCreateViewHolder(
         parent: ViewGroup,
         viewType: Int
@@ -41,6 +42,7 @@ class NotesRecyclerViewAdapter(
         private val tvDate = itemView.findViewById<TextView>(R.id.tvDate)
         private val ivCloud = itemView.findViewById<ImageView>(R.id.ivCloudIndicate)
         private val ivAlarm = itemView.findViewById<ImageView>(R.id.ivAlarm)
+        private val ivPostscript = itemView.findViewById<TextView>(R.id.tvPostscript)
 
 
         init {
@@ -54,11 +56,10 @@ class NotesRecyclerViewAdapter(
             tvDate.text = item.date
             ivCloud.isVisible = item.cloud
             ivAlarm.isVisible = item.alarmEnabled
-
+            ivPostscript.text = item.postscript
         }
     }
 }
-
 
 
 class NoteAdapterDiffCallBack : DiffUtil.ItemCallback<Note>() {
@@ -67,7 +68,12 @@ class NoteAdapterDiffCallBack : DiffUtil.ItemCallback<Note>() {
     }
 
     override fun areContentsTheSame(oldItem: Note, newItem: Note): Boolean {
-        return oldItem.date == newItem.date && oldItem.title == newItem.title && oldItem.cloud == newItem.cloud && oldItem.alarmEnabled == newItem.alarmEnabled
+        return oldItem.date == newItem.date &&
+                oldItem.title == newItem.title &&
+                oldItem.cloud == newItem.cloud &&
+                oldItem.alarmEnabled == newItem.alarmEnabled &&
+                oldItem.postscript == newItem.postscript&&
+                oldItem.position==newItem.position
     }
 
 }

@@ -11,10 +11,8 @@ import android.graphics.Color
 import android.media.AudioAttributes
 import android.media.RingtoneManager
 import android.os.Build
-import android.widget.RemoteViews
 import androidx.annotation.RequiresApi
 import androidx.core.app.NotificationCompat
-import androidx.core.app.NotificationManagerCompat
 import androidx.core.app.RemoteInput
 import com.example.myapplication.R
 import org.koin.core.component.KoinApiExtension
@@ -146,7 +144,7 @@ class NotificationReceiver : BroadcastReceiver() {
     }
 
     companion object {
-        private const val NOTIFICATION_CHANNEL = "MY_NOTES_NOTIFICATION_CHANNEL"
+        const val NOTIFICATION_CHANNEL = "MY_NOTES_NOTIFICATION_CHANNEL"
         const val ACTION_DELETE = "MY_NOTES_NOTIFICATION_DELETE"
         const val ACTION_POSTPONE = "MY_NOTES_NOTIFICATION_POSTPONE"
         const val ACTION_EDIT_NOTE = "MY_NOTES_NOTIFICATION_EDIT"

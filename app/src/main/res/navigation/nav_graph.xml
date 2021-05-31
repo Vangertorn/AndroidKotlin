@@ -52,9 +52,7 @@
     <fragment
         android:id="@+id/noteDetailsFragment"
         android:name="com.example.myapplication.screen.note_details.NoteDetailsFragment"
-        android:label="NoteDetailsFragment"
-        tools:layout="@layout/fragment_note_details">
-
+        android:label="NoteDetailsFragment">
         <argument
             android:name="note"
             app:argType="com.example.myapplication.models.Note"

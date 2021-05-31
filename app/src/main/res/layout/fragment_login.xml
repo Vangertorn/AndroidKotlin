@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@drawable/ic_background_login_fragment">
@@ -20,28 +21,35 @@
 
     <com.google.android.material.textfield.TextInputLayout
         android:id="@+id/editUserName_input_layout"
+        style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginStart="20dp"
         android:layout_marginEnd="20dp"
+        android:textColorHint="#807E7E"
         app:boxBackgroundColor="@color/white"
         app:boxStrokeWidth="0dp"
         app:boxStrokeWidthFocused="0dp"
+        app:counterEnabled="true"
+        app:counterMaxLength="20"
+        app:endIconMode="clear_text"
         app:hintTextColor="@color/white"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent">
+        app:layout_constraintTop_toTopOf="parent"
+        tools:hint="@string/enter_your_username_please">
 
         <AutoCompleteTextView
             android:id="@+id/editUserName"
             android:layout_width="match_parent"
-            android:layout_height="70dp"
+            android:layout_height="wrap_content"
             android:background="@drawable/edit_text_background"
             android:completionThreshold="1"
             android:imeOptions="actionNext"
             android:inputType="text"
             android:lines="1"
+            android:maxLength="20"
             android:padding="20dp"
             android:textColor="@color/white"
             android:textSize="16sp"
@@ -56,6 +64,8 @@
         android:layout_marginStart="20dp"
         android:layout_marginTop="10dp"
         android:layout_marginEnd="20dp"
+       tools:hint="@string/password"
+        android:textColorHint="#807E7E"
         app:boxBackgroundColor="@color/white"
         app:boxStrokeWidth="0dp"
         app:boxStrokeWidthFocused="0dp"
@@ -66,7 +76,7 @@
         <EditText
             android:id="@+id/editPassword"
             android:layout_width="match_parent"
-            android:layout_height="50dp"
+            android:layout_height="wrap_content"
             android:background="@drawable/edit_text_background"
             android:inputType="textPassword"
             android:textColor="@color/white"

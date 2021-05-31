@@ -8,6 +8,7 @@ import com.example.myapplication.repository.NotesRepository
 import com.example.myapplication.repository.UsersRepository
 import com.example.myapplication.support.CoroutineViewModel
 import kotlinx.coroutines.*
+import kotlinx.coroutines.flow.map
 import java.text.FieldPosition
 
 
@@ -23,7 +24,9 @@ class MainViewModel(
     val userNameLiveDate = usersRepository.userName.asLiveData()
 
     @ExperimentalCoroutinesApi
-    val notesLiveData = notesRepository.currentUserNotesFlow.asLiveData()
+    val notesLiveData = notesRepository.currentUserNotesFlow.map {
+        it.sortedBy {note ->  note.position }.toMutableList()
+    }.asLiveData()
 
     fun deleteNote(note: Note) {
         launch {
@@ -56,6 +59,9 @@ class MainViewModel(
     @ExperimentalCoroutinesApi
     fun importNotes() = launch {
         progressLiveDate.postValue(cloudRepository.importNotes())
+    }
+    fun reSaveNote(note: Note) {
+        launch { notesRepository.saveNote(note) }
     }
 }
 

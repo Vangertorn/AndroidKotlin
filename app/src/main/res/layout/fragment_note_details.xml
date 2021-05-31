@@ -26,8 +26,8 @@
             android:layout_height="wrap_content"
             android:layout_gravity="end"
             android:checked="true"
-            android:textColor="@color/white"
             android:text="@string/notify"
+            android:textColor="@color/white"
             android:theme="@style/MySwitch"
             android:thumb="@drawable/switch_thumb"
             app:switchPadding="8dp" />

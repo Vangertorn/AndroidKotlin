@@ -4,7 +4,9 @@ import android.app.NotificationManager
 import android.app.Service
 import android.content.Context
 import android.content.Intent
+import android.os.Build
 import android.os.IBinder
+import androidx.annotation.RequiresApi
 import com.example.myapplication.repository.NotesRepository
 import kotlinx.coroutines.GlobalScope
 import kotlinx.coroutines.launch
@@ -23,6 +25,7 @@ class NotificationActionService : Service(), KoinComponent {
         return null
     }
 
+    @RequiresApi(Build.VERSION_CODES.R)
     override fun onStartCommand(intent: Intent?, flags: Int, startId: Int): Int {
         val notificationBuilderManager =
             getSystemService(Context.NOTIFICATION_SERVICE) as NotificationManager
@@ -51,8 +54,7 @@ class NotificationActionService : Service(), KoinComponent {
                 NotificationReceiver.ACTION_EDIT_NOTE -> {
                     GlobalScope.launch {
                         notesRepository.updateNoteById(noteId, replyText.toString())
-                        notificationBuilderManager.cancel("TAG", 0)
-
+                        notificationBuilderManager.deleteNotificationChannel(NotificationReceiver.NOTIFICATION_CHANNEL)
                     }
 
 

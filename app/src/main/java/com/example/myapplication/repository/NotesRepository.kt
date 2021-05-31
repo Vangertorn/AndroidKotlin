@@ -20,7 +20,7 @@ class NotesRepository(
 ) {
 
     @ExperimentalCoroutinesApi
-    val currentUserNotesFlow: Flow<MutableList<Note>> =
+    val currentUserNotesFlow: Flow<List<Note>> =
         appSettings.userNameFlow()
             .flatMapLatest { userName ->
                 usersDao.getUserInfoFlow(userName).map { it?.notes ?: mutableListOf() }
@@ -51,19 +51,65 @@ class NotesRepository(
 
     suspend fun saveNote(note: Note) {
         withContext(Dispatchers.IO) {
-            val id = notesDao.insertNote(
-                Note(
-                    title = note.title,
-                    date = note.date,
-                    userName = appSettings.userName(),
-                    alarmEnabled = note.alarmEnabled
+            notesDao.updateTableNotes(usersDao.getUserInfo(appSettings.userName())!!.notes.map {
+                when {
+                    note.position == 0 -> {
+                        Note(
+                            id = it.id,
+                            alarmEnabled = it.alarmEnabled,
+                            cloud = it.cloud,
+                            title = it.title,
+                            date = it.date,
+                            userName = it.userName,
+                            postscript = it.postscript,
+                            position = it.position + 1
+                        )
+                    }
+                    note.position > it.position -> {
+                        Note(
+                            id = it.id,
+                            alarmEnabled = it.alarmEnabled,
+                            cloud = it.cloud,
+                            title = it.title,
+                            date = it.date,
+                            userName = it.userName,
+                            postscript = it.postscript,
+                            position = it.position
+                        )
+                    }
+                    else -> {
+                        Note(
+                            id = it.id,
+                            alarmEnabled = it.alarmEnabled,
+                            cloud = it.cloud,
+                            title = it.title,
+                            date = it.date,
+                            userName = it.userName,
+                            postscript = it.postscript,
+                            position = it.position + 1
+                        )
+                    }
+                }
+            })
+
+            if (note.id == 0L) {
+                val id = notesDao.insertNote(
+                    Note(
+                        title = note.title,
+                        date = note.date,
+                        userName = appSettings.userName(),
+                        alarmEnabled = note.alarmEnabled
+                    )
                 )
-            )
-            if (note.alarmEnabled) {
-                notificationRepository.setNotification(notesDao.getNoteById(id)!!)
+                if (note.alarmEnabled) {
+                    notificationRepository.setNotification(notesDao.getNoteById(id)!!)
+                }
+            } else {
+                reSaveNote(note)
             }
         }
     }
+
 
     suspend fun updateNote(note: Note) {
         withContext(Dispatchers.IO) {
@@ -83,16 +129,43 @@ class NotesRepository(
                 notificationRepository.unsetNotification(note)
             }
             notesDao.deleteNote(note)
+            notesDao.updateTableNotes(usersDao.getUserInfo(appSettings.userName())!!.notes.map {
+                if (it.position > note.position) {
+                    Note(
+                        id = it.id,
+                        alarmEnabled = it.alarmEnabled,
+                        cloud = it.cloud,
+                        title = it.title,
+                        date = it.date,
+                        userName = it.userName,
+                        postscript = it.postscript,
+                        position = it.position - 1
+                    )
+                } else {
+                    Note(
+                        id = it.id,
+                        alarmEnabled = it.alarmEnabled,
+                        cloud = it.cloud,
+                        title = it.title,
+                        date = it.date,
+                        userName = it.userName,
+                        postscript = it.postscript,
+                        position = it.position
+                    )
+                }
+
+            })
         }
     }
 
-    suspend fun updateNoteById(noteId: Long, newText: String) {
+    suspend fun updateNoteById(noteId: Long, postscriptText: String) {
         withContext(Dispatchers.IO) {
             notesDao.getNoteById(noteId)?.let {
                 notesDao.updateNote(
                     Note(
                         id = it.id,
-                        title = newText,
+                        title = it.title,
+                        postscript = postscriptText,
                         date = it.date,
                         userName = it.userName,
                         cloud = it.cloud,
@@ -121,6 +194,23 @@ class NotesRepository(
                 notificationRepository.setNotification(postponeNote)
 
             }
+        }
+    }
+
+    private suspend fun reSaveNote(note: Note) {
+        withContext(Dispatchers.IO) {
+            notesDao.insertNote(
+                Note(
+                    id = note.id,
+                    title = note.title,
+                    date = note.date,
+                    userName = appSettings.userName(),
+                    alarmEnabled = note.alarmEnabled,
+                    cloud = note.cloud,
+                    position = note.position,
+                    postscript = note.postscript
+                )
+            )
         }
     }
 }

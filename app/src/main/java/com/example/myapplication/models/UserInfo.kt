@@ -10,5 +10,5 @@ class UserInfo(
         parentColumn = "name",
         entityColumn = "userName"
     )
-    val notes: MutableList<Note>
+    val notes: List<Note>
 )

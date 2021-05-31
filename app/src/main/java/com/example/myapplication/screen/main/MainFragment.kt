@@ -2,39 +2,49 @@ package com.example.myapplication.screen.main
 
 
 import android.os.Bundle
-import android.os.Handler
-import android.os.Looper
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
+
 import androidx.core.view.isVisible
-import androidx.fragment.app.Fragment
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.ItemTouchHelper
 import androidx.recyclerview.widget.RecyclerView
 import com.example.myapplication.R
 import com.example.myapplication.databinding.FragmentMainBinding
+import com.example.myapplication.support.CalendarView
+import com.example.myapplication.support.SupportFragmentInset
 import com.example.myapplication.support.navigateSafe
+import com.example.myapplication.support.setVerticalMargin
+
 import com.google.android.material.dialog.MaterialAlertDialogBuilder
 import com.google.android.material.snackbar.Snackbar
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import org.koin.androidx.viewmodel.ext.android.viewModel
+import java.text.SimpleDateFormat
+import java.util.*
 
 
-class MainFragment : Fragment() {
-    private lateinit var viewBinding: FragmentMainBinding
+class MainFragment : SupportFragmentInset<FragmentMainBinding>(R.layout.fragment_main) {
+    override lateinit var viewBinding: FragmentMainBinding
 
     @ExperimentalCoroutinesApi
     private val viewModel: MainViewModel by viewModel()
-
-    private val handler = Handler(Looper.getMainLooper())
 
     @ExperimentalCoroutinesApi
     private val adapter = NotesRecyclerViewAdapter(
         onClick = { note ->
             findNavController().navigateSafe(MainFragmentDirections.toNoteDetails(note))
         })
+
+    private val dataObserver = object : RecyclerView.AdapterDataObserver() {
+        override fun onItemRangeInserted(positionStart: Int, itemCount: Int) {
+            super.onItemRangeInserted(positionStart, itemCount)
+            viewBinding.recyclerView.scrollToPosition(0)
+        }
+    }
+
     @ExperimentalCoroutinesApi
     private val simpleCallback = MainSwipeCallback { position, direction ->
         when (direction) {
@@ -67,9 +77,6 @@ class MainFragment : Fragment() {
         viewModel.notesLiveData.observe(this.viewLifecycleOwner) {
             adapter.submitList(it)
         }
-        viewBinding.recyclerView.postDelayed({
-            viewBinding.recyclerView.scrollToPosition(0)
-        }, 600)
 
 
         viewBinding.btnAdd.setOnClickListener {
@@ -100,29 +107,36 @@ class MainFragment : Fragment() {
 
         val noteHelper = ItemTouchHelper(simpleCallback)
         noteHelper.attachToRecyclerView(viewBinding.recyclerView)
+
+        adapter.registerAdapterDataObserver(dataObserver)
+
+
+        viewBinding.calendarView.onDateChangedCallback = object : CalendarView.DateChangeListener {
+            override fun onDateChanged(date: Date) {
+                Toast.makeText(requireContext(), DayFormatter.format(date), Toast.LENGTH_LONG)
+                    .show()
+            }
+        }
+    }
+
+    override fun onDestroyView() {
+        adapter.unregisterAdapterDataObserver(dataObserver)
+        super.onDestroyView()
     }
 
     @ExperimentalCoroutinesApi
     private fun deleteNote(position: Int) {
-        var permissionDelete = true
-        val deleteNote = viewModel.getNoteFromPosition(position)
-        viewModel.deleteNoteFromPosition(position)
-        adapter.notifyItemRemoved(position)
+        val note = viewModel.getNoteFromPosition(position)
+        viewModel.deleteNote(note!!)
+
 
         Snackbar.make(
             viewBinding.recyclerView,
             getString(R.string.note_was_delete),
             Snackbar.LENGTH_LONG
         ).setAction(getString(R.string.undo)) {
-            permissionDelete = viewModel.recoverNoteFromPosition(position, deleteNote!!)
-            adapter.notifyItemInserted(position)
-
+            viewModel.reSaveNote(note)
         }.show()
-        handler.postDelayed(Runnable {
-            if (permissionDelete) viewModel.deleteNote(
-                deleteNote!!
-            )
-        }, 2750)
     }
 
 
@@ -140,6 +154,15 @@ class MainFragment : Fragment() {
                 viewModel.exportNotes()
                 dialog.cancel()
             }.show()
+    }
+
+    override fun onInsetsReceived(top: Int, bottom: Int, hasKeyboard: Boolean) {
+        viewBinding.toolbar.setVerticalMargin(marginTop = top)
+        viewBinding.recyclerView.setPadding(0, 0, 0, bottom)
+    }
+
+    companion object {
+        val DayFormatter = SimpleDateFormat("dd EE MMM yyyy", Locale.getDefault())
     }
 
 

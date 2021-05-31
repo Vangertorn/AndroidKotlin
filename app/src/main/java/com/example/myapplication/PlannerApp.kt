@@ -25,6 +25,7 @@ import org.koin.dsl.module
 import org.koin.android.viewmodel.dsl.viewModel
 
 class PlannerApp : Application() {
+    @ExperimentalCoroutinesApi
     override fun onCreate() {
         super.onCreate()
         startKoin {

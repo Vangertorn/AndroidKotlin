@@ -6,6 +6,7 @@ import androidx.room.Entity
 import androidx.room.ForeignKey
 import androidx.room.PrimaryKey
 import kotlinx.parcelize.Parcelize
+import java.text.FieldPosition
 
 @Parcelize
 @Entity(
@@ -18,7 +19,7 @@ import kotlinx.parcelize.Parcelize
         onUpdate = ForeignKey.CASCADE
     )]
 )
- data class Note(
+data class Note(
     @PrimaryKey(autoGenerate = true)
     val id: Long = 0L,
     val title: String,
@@ -26,5 +27,7 @@ import kotlinx.parcelize.Parcelize
     @ColumnInfo(index = true, name = "userName")
     val userName: String,
     val cloud: Boolean = false,
-    val alarmEnabled: Boolean = false
+    val alarmEnabled: Boolean = false,
+    val postscript: String? = null,
+    val position: Int = 0
 ) : Parcelable

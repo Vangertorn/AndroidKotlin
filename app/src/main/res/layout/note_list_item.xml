@@ -1,76 +1,82 @@
 <?xml version="1.0" encoding="utf-8"?>
-<com.google.android.material.card.MaterialCardView xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="150dp"
     android:layout_margin="5dp"
-    app:cardBackgroundColor="#66237C74"
-    app:cardCornerRadius="20dp"
-    app:cardElevation="4dp">
+    android:background="@drawable/card_background">
 
-    <androidx.constraintlayout.widget.ConstraintLayout
-        android:id="@+id/content"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent">
+    <TextView
+        android:id="@+id/tvTitle"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:layout_marginStart="10dp"
+        android:layout_marginTop="10dp"
+        android:layout_marginEnd="10dp"
+        android:layout_marginBottom="30dp"
+        android:gravity="center"
+        android:maxLength="100"
+        android:textColor="@color/white"
+        android:textSize="16sp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="1.0"
+        tools:text="Something text" />
 
-        <TextView
-            android:id="@+id/tvTitle"
-            android:layout_width="0dp"
-            android:layout_height="0dp"
-            android:layout_marginStart="10dp"
-            android:layout_marginTop="10dp"
-            android:layout_marginEnd="10dp"
-            android:layout_marginBottom="30dp"
-            android:gravity="center"
-            android:maxLength="100"
-            android:textColor="@color/white"
-            android:textSize="16sp"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintHorizontal_bias="0.0"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent"
-            app:layout_constraintVertical_bias="1.0"
-            tools:text="Something text" />
+    <TextView
+        android:id="@+id/tvDate"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_margin="8dp"
+        android:fontFamily="sans-serif"
+        android:textColor="@color/white"
+        android:textSize="12sp"
+        android:textStyle="bold"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        tools:text="Something date" />
 
-        <TextView
-            android:id="@+id/tvDate"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_margin="8dp"
-            android:fontFamily="sans-serif"
-            android:textColor="@color/white"
-            android:textSize="12sp"
-            android:textStyle="bold"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"
-            tools:text="Something date" />
+    <TextView
+        android:id="@+id/tvPostscript"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_margin="8dp"
+        android:fontFamily="sans-serif"
+        android:lines="1"
+        android:maxLength="40"
+        android:textColor="@color/white"
+        android:textSize="12sp"
+        android:textStyle="bold"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        tools:text="Something postscript" />
 
-        <ImageView
-            android:id="@+id/ivCloudIndicate"
-            android:layout_width="16dp"
-            android:layout_height="16dp"
-            android:layout_marginEnd="10dp"
-            android:src="@drawable/ic_cloud"
-            app:layout_constraintBottom_toBottomOf="@+id/tvDate"
-            app:layout_constraintEnd_toStartOf="@+id/tvDate"
-            app:layout_constraintTop_toTopOf="@+id/tvDate"
-            app:tint="@color/purple_700" />
+    <ImageView
+        android:id="@+id/ivCloudIndicate"
+        android:layout_width="16dp"
+        android:layout_height="16dp"
+        android:layout_marginEnd="10dp"
+        android:src="@drawable/ic_cloud"
+        app:layout_constraintBottom_toBottomOf="@+id/tvDate"
+        app:layout_constraintEnd_toStartOf="@+id/tvDate"
+        app:layout_constraintTop_toTopOf="@+id/tvDate"
+        app:tint="@color/purple_700" />
 
-        <ImageView
-            android:id="@+id/ivAlarm"
-            android:layout_width="16dp"
-            android:layout_height="16dp"
-            android:layout_marginEnd="4dp"
-            android:padding="2dp"
-            android:src="@drawable/ic_alarm"
-            android:visibility="invisible"
-            app:layout_constraintBottom_toBottomOf="@+id/tvDate"
-            app:layout_constraintEnd_toStartOf="@+id/ivCloudIndicate"
-            app:layout_constraintTop_toTopOf="@+id/tvDate"
-            app:tint="@color/purple_700"
-            tools:visibility="visible" />
-
-    </androidx.constraintlayout.widget.ConstraintLayout>
-</com.google.android.material.card.MaterialCardView>
+    <ImageView
+        android:id="@+id/ivAlarm"
+        android:layout_width="16dp"
+        android:layout_height="16dp"
+        android:layout_marginEnd="4dp"
+        android:padding="2dp"
+        android:src="@drawable/ic_alarm"
+        android:visibility="invisible"
+        app:layout_constraintBottom_toBottomOf="@+id/tvDate"
+        app:layout_constraintEnd_toStartOf="@+id/ivCloudIndicate"
+        app:layout_constraintTop_toTopOf="@+id/tvDate"
+        app:tint="@color/purple_700"
+        tools:visibility="visible" />
+</androidx.constraintlayout.widget.ConstraintLayout>
